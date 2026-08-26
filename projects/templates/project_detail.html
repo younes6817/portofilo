@@ -1,0 +1,350 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="relative w-full bg-[#030305] min-h-screen text-gray-200 font-sans selection:bg-purple-500/30 pb-32">
+
+    <!-- Background Ambient Glows -->
+    <div class="fixed top-1/4 left-10 w-96 h-96 bg-purple-900/10 blur-[140px] rounded-full pointer-events-none z-0"></div>
+    <div class="fixed bottom-10 right-10 w-[500px] h-[500px] bg-blue-900/10 blur-[160px] rounded-full pointer-events-none z-0"></div>
+
+    <!-- Hero Banner Section -->
+    <section class="relative w-full h-[55vh] min-h-[420px] overflow-hidden flex items-end border-b border-white/5">
+        {% if project.image_default %}
+            <div class="absolute inset-0 bg-black">
+                <img src="{{ project.image_default.url }}" alt="{{ project.title }}" class="w-full h-full object-cover opacity-25 filter grayscale-[40%] contrast-125 scale-105 animate-[pulse_10s_infinite]">
+            </div>
+        {% endif %}
+
+        <div class="absolute inset-0 bg-gradient-to-t from-[#030305] via-[#030305]/70 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#030305] via-transparent to-[#030305]/80"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#030305]/50 to-[#030305]"></div>
+
+        <div class="container mx-auto px-6 relative z-10 pb-10 w-full max-w-7xl">
+            <a href="{% url 'project:projects' %}" class="inline-flex items-center text-purple-400 hover:text-purple-300 font-mono text-xs tracking-widest mb-6 transition-all duration-300 group">
+                <span class="mr-2 transform group-hover:-translate-x-1.5 transition-transform">←</span>
+                RETURN_TO_ARCHIVE
+            </a>
+
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+                <div>
+                    <div class="font-mono text-xs text-gray-400 mb-3 flex items-center gap-2">
+                        <span class="text-purple-500">~/projects/active_node/</span>
+                        <span class="text-white font-bold">{{ project.title|slugify }}</span>
+                        <span class="inline-block w-2 h-4 bg-purple-500 animate-pulse"></span>
+                    </div>
+                    <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter mb-4 drop-shadow-2xl">
+                        {{ project.title }}
+                    </h1>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-4 bg-[#09090b]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl">
+                    <div class="text-left pr-2">
+                        <div class="font-mono text-[10px] text-gray-500 tracking-wider mb-1">SYSTEM STATUS</div>
+                        <div class="font-mono text-sm font-bold text-emerald-400 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            {{ project.status }}
+                        </div>
+                    </div>
+                    <div class="w-px h-8 bg-white/10"></div>
+                    <div class="text-left pr-2">
+                        <div class="font-mono text-[10px] text-gray-500 tracking-wider mb-1">COMPLETION</div>
+                        <div class="font-mono text-sm font-bold text-purple-400">{{ project.status_percent }}%</div>
+                    </div>
+                    {% if project.important > 1 %}
+                    <div class="w-px h-8 bg-white/10"></div>
+                    <div class="text-left">
+                        <div class="font-mono text-[10px] text-gray-500 tracking-wider mb-1">PRIORITY</div>
+                        <div class="font-mono text-sm font-bold text-amber-400">LEVEL {{ project.important }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-6 max-w-7xl relative z-20 mt-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+            <!-- LEFT COLUMN -->
+            <div class="lg:col-span-2 space-y-10">
+
+                <!-- Detailed Description -->
+                <section class="bg-[#09090b] rounded-2xl border border-white/5 p-8 relative overflow-hidden shadow-2xl group hover:border-white/10 transition-all">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 opacity-60"></div>
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
+                        <h2 class="font-mono text-base text-white flex items-center tracking-wide">
+                            <span class="text-purple-500 mr-2.5">></span> SYSTEM_OVERVIEW.md
+                        </h2>
+                        <span class="font-mono text-[10px] text-gray-600 uppercase">UTF-8 ENCODED</span>
+                    </div>
+                    <div class="prose prose-invert max-w-none text-gray-300 font-sans leading-relaxed text-base space-y-4">
+                        {{ project.description|linebreaks }}
+                    </div>
+                </section>
+
+                <!-- Core Capabilities -->
+                {% if project.features.all %}
+                <section class="bg-[#09090b] rounded-2xl border border-white/5 p-8 shadow-2xl">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
+                        <h2 class="font-mono text-base text-white flex items-center tracking-wide">
+                            <span class="text-purple-500 mr-2.5">></span> MODULE_CAPABILITIES
+                        </h2>
+                        <span class="font-mono text-[10px] text-purple-400/80">{{ project.features.count }} MODULES LOADED</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {% for feature in project.features.all %}
+                        <div class="bg-black/40 border border-white/5 rounded-xl p-4 flex items-start space-x-3 space-x-reverse hover:border-purple-500/30 hover:bg-purple-950/10 transition-all group">
+                            <div class="p-2 mr-2.5 bg-purple-500/10 border border-purple-500/20 rounded-lg text-purple-400 group-hover:scale-110 transition-transform">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-mono text-sm font-bold text-gray-200 group-hover:text-purple-300 transition-colors">
+                                    {{ feature.feature }}
+                                </h3>
+                                <p class="font-mono text-[11px] text-gray-500 mt-0.5">Active Component</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+                {% endif %}
+            </div>
+
+            <!-- RIGHT COLUMN: Sidebar -->
+            <div class="space-y-8">
+
+                {% if project.tech_stacks.all %}
+                <div class="bg-[#09090b] rounded-2xl border border-white/5 p-6 shadow-2xl">
+                    <h3 class="font-mono text-xs text-gray-500 mb-4 pb-2 border-b border-white/5 tracking-wider uppercase flex justify-between items-center">
+                        <span>TECH_STACK</span>
+                        <span class="text-purple-500 font-bold">{{ project.tech_stacks.count }}</span>
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        {% for tech in project.tech_stacks.all %}
+                        <div class="flex items-center gap-1.5 font-mono text-xs px-3 py-1.5 bg-white/[0.03] text-gray-300 border border-white/10 rounded-lg hover:border-purple-500/50 hover:bg-purple-950/20 hover:text-purple-300 transition-all duration-300">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+                            {{ tech.title }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="bg-[#09090b] rounded-2xl border border-white/5 p-6 shadow-2xl">
+                    <h3 class="font-mono text-xs text-gray-500 mb-6 pb-2 border-b border-white/5 tracking-wider uppercase">
+                        DEVELOPMENT_METRICS
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between font-mono text-xs mb-2">
+                                <span class="text-gray-400">DEPLOYMENT STATUS</span>
+                                <span class="text-purple-400 font-bold progress-num" data-target="{{ project.status_percent }}">0%</span>
+                            </div>
+                            <div class="h-2 w-full bg-black rounded-full overflow-hidden border border-white/5">
+                                <div class="progress-bar-fill h-full bg-gradient-to-r from-purple-700 via-purple-500 to-emerald-400 w-0 shadow-[0_0_12px_rgba(168,85,247,0.6)]" data-target="{{ project.status_percent }}"></div>
+                            </div>
+                        </div>
+                        <div class="bg-black/60 border border-white/5 rounded-xl p-4 font-mono text-xs space-y-2">
+                            <div class="flex justify-between text-gray-500">
+                                <span>Active State:</span>
+                                <span class="{% if project.is_active %}text-emerald-400{% else %}text-red-400{% endif %}">
+                                    {% if project.is_active %}TRUE{% else %}FALSE{% endif %}
+                                </span>
+                            </div>
+                            <div class="flex justify-between text-gray-500">
+                                <span>Priority Weight:</span>
+                                <span class="text-gray-300">{{ project.important }} / 5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#09090b] rounded-2xl border border-white/5 p-6 shadow-2xl space-y-3">
+                    <a href="{% url 'project:projects' %}" class="block w-full text-center font-mono text-xs text-gray-300 border border-white/10 bg-white/[0.02] py-3 rounded-xl hover:bg-white/5 hover:border-white/20 transition-all">
+                        ← BACK TO ALL PROJECTS
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- NEW: COLLAPSIBLE SCREENSHOT BARS (MOBILE / DESKTOP)          -->
+        <!-- ============================================================ -->
+        <section class="mt-16 space-y-4">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="font-mono text-base text-white flex items-center tracking-wide">
+                    <span class="text-purple-500 mr-2.5">></span> SCREEN_CAPTURES
+                </h2>
+                <span class="font-mono text-[10px] text-gray-600">CLICK_TO_EXPAND // SCROLL →</span>
+            </div>
+
+            <!-- ▸ FOR MOBILE BAR -->
+            <div class="bg-[#09090b] rounded-2xl border border-white/5 shadow-2xl overflow-hidden hover:border-white/10 transition-all">
+                <button type="button" class="collapse-toggle group w-full flex items-center justify-between p-5 md:p-6 text-left"
+                        aria-expanded="false" aria-controls="mobile-gallery">
+                    <span class="flex items-center gap-3">
+                        <span class="p-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                            </svg>
+                        </span>
+                        <span>
+                            <span class="block font-mono text-sm font-bold text-gray-100 group-hover:text-emerald-300 transition-colors">FOR MOBILE</span>
+                            <span class="block font-mono text-[10px] text-gray-500 mt-0.5">MOBILE_INTERFACE_SHOTS // {{ mobile_images.count }} FILES</span>
+                        </span>
+                    </span>
+                    <span class="chevron text-gray-500 group-hover:text-white">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </span>
+                </button>
+
+                <div id="mobile-gallery" class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-out">
+                    <div class="overflow-hidden">
+                        <div class="h-scroll flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 pt-1 px-5 md:px-6">
+                            {% for img in mobile_images %}
+                            <figure onclick="openLightbox('{{ img.image.url }}', '{{ img.image_name|default:project.title }} — MOBILE_{{ forloop.counter|stringformat:'02d' }}')"
+                                    class="group relative snap-start shrink-0 w-52 md:w-60 aspect-[9/16] bg-black rounded-xl overflow-hidden border border-white/5 hover:border-emerald-500/40 transition-all duration-500 cursor-zoom-in">
+                                <img src="{{ img.image.url }}" alt="{{ img.image_name|default:project.title }} mobile screenshot"
+                                     loading="lazy" decoding="async"
+                                     class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                                <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-3 font-mono text-[10px] text-emerald-300 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    CAPTURE_{{ forloop.counter|stringformat:"02d" }}
+                                </figcaption>
+                            </figure>
+                            {% empty %}
+                            <p class="font-mono text-xs text-gray-600 py-8 px-1">// NO_MOBILE_ASSETS_REGISTERED</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ▸ FOR DESKTOP BAR -->
+            <div class="bg-[#09090b] rounded-2xl border border-white/5 shadow-2xl overflow-hidden hover:border-white/10 transition-all">
+                <button type="button" class="collapse-toggle group w-full flex items-center justify-between p-5 md:p-6 text-left"
+                        aria-expanded="false" aria-controls="desktop-gallery">
+                    <span class="flex items-center gap-3">
+                        <span class="p-2 bg-purple-500/10 border border-purple-500/20 rounded-lg text-purple-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </span>
+                        <span>
+                            <span class="block font-mono text-sm font-bold text-gray-100 group-hover:text-purple-300 transition-colors">FOR DESKTOP</span>
+                            <span class="block font-mono text-[10px] text-gray-500 mt-0.5">DESKTOP_INTERFACE_SHOTS // {{ desktop_images.count }} FILES</span>
+                        </span>
+                    </span>
+                    <span class="chevron text-gray-500 group-hover:text-white">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </span>
+                </button>
+
+                <div id="desktop-gallery" class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-out">
+                    <div class="overflow-hidden">
+                        <div class="h-scroll flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 pt-1 px-5 md:px-6">
+                            {% for img in desktop_images %}
+                            <figure onclick="openLightbox('{{ img.image.url }}', '{{ img.image_name|default:project.title }} — DESKTOP_{{ forloop.counter|stringformat:'02d' }}')"
+                                    class="group relative snap-start shrink-0 w-72 md:w-96 aspect-video bg-black rounded-xl overflow-hidden border border-white/5 hover:border-purple-500/40 transition-all duration-500 cursor-zoom-in">
+                                <img src="{{ img.image.url }}" alt="{{ img.image_name|default:project.title }} desktop screenshot"
+                                     loading="lazy" decoding="async"
+                                     class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                                <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-3 font-mono text-[10px] text-purple-300 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    CAPTURE_{{ forloop.counter|stringformat:"02d" }}
+                                </figcaption>
+                            </figure>
+                            {% empty %}
+                            <p class="font-mono text-xs text-gray-600 py-8 px-1">// NO_DESKTOP_ASSETS_REGISTERED</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl hidden items-center justify-center p-6"
+         role="dialog" aria-modal="true" onclick="closeLightbox()">
+        <button type="button" class="absolute top-5 right-6 text-3xl text-gray-400 hover:text-white transition-colors" aria-label="Close">×</button>
+        <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()"
+             class="max-w-full max-h-[85vh] rounded-xl shadow-2xl border border-white/10">
+        <p id="lightbox-caption" class="absolute bottom-6 inset-x-0 text-center font-mono text-xs text-gray-300"></p>
+    </div>
+</main>
+
+<style>
+    /* اسکرول‌بار افقی هماهنگ با تم */
+    .h-scroll { scrollbar-width: thin; scrollbar-color: rgba(168,85,247,.4) rgba(255,255,255,.05); }
+    .h-scroll::-webkit-scrollbar { height: 6px; }
+    .h-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,.03); border-radius: 3px; }
+    .h-scroll::-webkit-scrollbar-thumb { background: rgba(168,85,247,.4); border-radius: 3px; }
+    .h-scroll::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,.7); }
+
+    /* چرخش فلش نوارها */
+    .chevron { transition: transform .3s ease; }
+    .collapse-toggle[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. نوارهای پنهان (آکاردئونی)
+    document.querySelectorAll('.collapse-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const body = document.getElementById(btn.getAttribute('aria-controls'));
+            const isOpen = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', String(!isOpen));
+            body.classList.toggle('grid-rows-[1fr]', !isOpen);
+            body.classList.toggle('grid-rows-[0fr]', isOpen);
+        });
+    });
+
+    // 2. Progress Bar
+    setTimeout(() => {
+        const bar = document.querySelector('.progress-bar-fill');
+        if (bar) {
+            bar.style.transition = 'width 1.5s cubic-bezier(0.16, 1, 0.3, 1)';
+            bar.style.width = bar.getAttribute('data-target') + '%';
+        }
+    }, 200);
+
+    // 3. Count-up Number
+    const numElem = document.querySelector('.progress-num');
+    if (numElem) {
+        const target = parseInt(numElem.getAttribute('data-target'));
+        const duration = 1200, startTime = Date.now();
+        (function countUp() {
+            const elapsed = Date.now() - startTime;
+            if (elapsed < duration) {
+                const eased = 1 - Math.pow(1 - elapsed / duration, 3);
+                numElem.innerText = Math.floor(eased * target) + '%';
+                requestAnimationFrame(countUp);
+            } else {
+                numElem.innerText = target + '%';
+            }
+        })();
+    }
+});
+
+// 4. Lightbox
+function openLightbox(url, caption) {
+    document.getElementById('lightbox-img').src = url;
+    document.getElementById('lightbox-caption').textContent = caption;
+    const lb = document.getElementById('lightbox');
+    lb.classList.remove('hidden');
+    lb.classList.add('flex');
+}
+function closeLightbox() {
+    const lb = document.getElementById('lightbox');
+    lb.classList.add('hidden');
+    lb.classList.remove('flex');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+{% endblock %}

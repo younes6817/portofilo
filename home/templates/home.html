@@ -1,0 +1,1232 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- HERO -->
+<section id="hero" class="relative min-h-screen overflow-hidden flex flex-col justify-center">
+    <!-- Atmosphere -->
+    <div class="hero-atmosphere pointer-events-none absolute inset-0" aria-hidden="true">
+        <div class="hero-grid"></div>
+        <div class="hero-orb hero-orb--left"></div>
+        <div class="hero-orb hero-orb--right"></div>
+        <div class="hero-noise"></div>
+    </div>
+
+    <!-- Main Container -->
+    <!-- تغییر: افزایش فاصله بین ستون‌ها (gap) در دسکتاپ تا متن و عکس از هم دورتر شوند -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 items-center min-h-[calc(100vh-80px)] md:gap-12 lg:gap-20">
+        
+        <!-- Visual Section (تصویر) -->
+        <!-- تغییر: Opacity موبایل از ۳۵ به ۵۰ درصد افزایش یافت تا عکس کامل دیده شود -->
+       <div class="hero-visual absolute inset-x-0 top-0 h-[55vh] z-0 flex items-center justify-center opacity-50 pointer-events-none md:relative md:inset-auto md:h-auto md:opacity-100 md:order-2 overflow-visible md:pointer-events-auto md:justify-end">
+            <div class="hero-photo-glow pointer-events-none absolute inset-[12%] rounded-full" aria-hidden="true"></div>
+            <img
+                id="hero-photo"
+                src="/media/younes.png?v=3"
+                alt="Younes"
+                class="hero-photo relative w-full h-full object-cover md:object-contain lg:object-cover xl:object-cover md:h-auto md:max-w-none md:w-[130%] lg:w-[145%] md:-mr-24 lg:-mr-32 md:-ml-8
+                [mask-image:radial-gradient(ellipse_90%_75%_at_50%_45%,black_35%,transparent_100%)]
+                md:[mask-image:radial-gradient(ellipse_85%_75%_at_65%_50%,black_35%,transparent_100%),linear-gradient(to_right,transparent_0%,black_20%)]
+                md:[mask-composite:intersect]"
+            >
+        </div>
+
+        <!-- Copy Section (متن) -->
+        <!-- تغییر: اضافه شدن md:-ml-4 lg:-ml-12 برای کشیدن متن به سمت چپ در دسکتاپ -->
+        <div class="hero-copy relative z-10 flex flex-col items-center text-center md:items-start md:text-left md:order-1 pt-12 md:pt-0 md:-ml-4 lg:-ml-12">
+            <p class="hero-boot mono mb-4 md:mb-6 text-[10px] lg:text-[11px] tracking-[0.3em] md:tracking-[0.28em] text-purple-200/90 md:text-purple-400/60 uppercase opacity-0">
+                <span class="hero-boot-dot"></span>
+                system online
+            </p>
+
+            <h1 class="hero-name inter text-[clamp(4.2rem,17vw,9.5rem)] md:text-[clamp(3.2rem,8vw,8rem)] lg:text-[clamp(4.5rem,10vw,9.5rem)] font-bold leading-[0.9] tracking-tight text-white md:text-purple-300 drop-shadow-xl md:drop-shadow-none whitespace-nowrap" aria-label="YOUNES">
+                <span class="hero-letter" style="--i:0">Y</span><span class="hero-letter" style="--i:1">O</span><span class="hero-letter" style="--i:2">U</span><span class="hero-letter" style="--i:3">N</span><span class="hero-letter" style="--i:4">E</span><span class="hero-letter" style="--i:5">S</span>
+            </h1>
+
+            <p class="mono mt-4 md:mt-6 text-[clamp(1.1rem,4.5vw,1.85rem)] md:text-[clamp(1rem,2vw,1.85rem)] text-purple-50 md:text-purple-200/85 drop-shadow-md md:drop-shadow-none">
+                <span id="hero-type" data-text="full-stack Developer"></span><span id="hero-cursor" class="hero-cursor" aria-hidden="true"></span>
+            </p>
+
+            <div class="hero-cta-row mt-8 lg:mt-10 flex items-center justify-center md:justify-start gap-6 opacity-0">
+                <a href="#projects-showcase" class="hero-cta mono inline-flex items-center gap-2 text-sm tracking-wide text-purple-100 md:text-purple-300 transition-colors hover:text-white md:hover:text-purple-100 drop-shadow-md md:drop-shadow-none">
+                    Explore projects
+                    <span class="hero-cta-arrow" aria-hidden="true">→</span>
+                </a>
+                <span class="hidden h-px w-16 bg-gradient-to-r from-purple-500/50 to-transparent sm:block" aria-hidden="true"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scroll Indicator -->
+    <a href="#what-i-build" class="hero-scroll mono absolute bottom-6 md:bottom-8 left-1/2 z-20 -translate-x-1/2 text-[10px] tracking-[0.4em] text-purple-200/80 md:text-purple-400/50 uppercase transition-colors hover:text-white md:hover:text-purple-300 text-center">
+        scroll
+        <span class="hero-scroll-line mx-auto mt-2 block h-6 md:h-8 w-px bg-gradient-to-b from-purple-200/90 md:from-purple-400/60 to-transparent" aria-hidden="true"></span>
+    </a>
+</section>
+
+<section id="what-i-build" class="mx-auto max-w-7xl px-6 py-16 md:px-8 md:py-32">
+    <h2 class="section-title">
+        What I Build
+    </h2>
+
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div class="build-card min-w-0 w-full">
+            <h3 class="mono mb-4 text-2xl font-bold text-green-800">
+                Django
+            </h3>
+            <div class="floating-wrapper floating-anim w-full">
+                <div class="build-panel relative h-[320px] w-full overflow-hidden rounded-xl border border-[#30363D] bg-[#0D1117] text-[#E6EDF3]">
+                    <div class="flex h-full w-full items-start">
+                        <div class="build-line-nums flex w-10 shrink-0 select-none flex-col border-r border-[#21262D] px-2 py-4 text-right font-mono text-[11px] leading-5 text-[#6E7681]">
+                            <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>
+                            <div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div><div>15</div>
+                        </div>
+                        <pre class="m-0 h-full w-0 min-w-0 flex-1 overflow-hidden whitespace-pre-wrap break-words px-4 py-4 font-mono text-[11px] leading-5 text-[#9CDCFE]"><span class="build-terminal" data-text="from django.db import models||class Project(models.Model):|    title = models.CharField(max_length=120)|    description = models.TextField()|    created_at = models.DateTimeField(auto_now_add=True)|    is_active = models.BooleanField(default=True)||    def __str__(self):|        return self.title"></span><span class="build-cursor inline-block w-1.5 h-3.5 bg-emerald-400 ml-0.5 align-middle animate-pulse"></span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="build-card min-w-0 w-full">
+            <h3 class="mono mb-4 text-2xl font-bold text-blue-700">
+                REST API
+            </h3>
+            <div class="floating-wrapper floating-anim w-full" style="animation-delay: -1.3s;">
+                <div class="build-panel flex h-[260px] w-full items-center justify-center overflow-hidden rounded-xl border border-[#30363D] bg-[#0D1117] p-6 font-mono text-sm text-[#E6EDF3]">
+                    <div class="api-reveal-list w-full max-w-[240px] space-y-2.5">
+                        <p class="api-line">
+                            <span class="text-[#C586C0]">GET</span>
+                            <span class="text-[#9CDCFE]"> /api/projects/</span>
+                        </p>
+                        <p class="api-line">
+                            <span class="text-[#4EC9B0]">200 OK</span>
+                        </p>
+                        <p class="api-line text-[#6E7681]">
+                            {"projects": [...]}
+                        </p>
+                        <p class="api-line">
+                            <span class="text-[#C586C0]">POST</span>
+                            <span class="text-[#9CDCFE]"> /api/projects/</span>
+                        </p>
+                        <p class="api-line">
+                            <span class="text-[#B5CEA8]">201 CREATED</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="build-card min-w-0 w-full">
+            <h3 class="mono mb-4 text-2xl font-bold text-purple-700">
+                Web Apps
+            </h3>
+            <div class="floating-wrapper floating-anim w-full" style="animation-delay: -2.4s;">
+                <div class="build-panel relative flex h-[260px] w-full flex-col overflow-hidden rounded-xl border border-[#30363D] bg-[#0D1117] p-4">
+                    <div class="webapp-chrome mb-3 flex shrink-0 items-center gap-2 rounded-lg border border-[#30363D] bg-[#161B22] px-3 py-2 opacity-0">
+                        <div class="flex gap-1.5">
+                            <span class="h-2.5 w-2.5 rounded-full bg-[#F85149]"></span>
+                            <span class="h-2.5 w-2.5 rounded-full bg-[#D29922]"></span>
+                            <span class="h-2.5 w-2.5 rounded-full bg-[#3FB950]"></span>
+                        </div>
+                        <div class="ml-2 h-5 flex-1 rounded bg-[#0D1117] px-2 font-mono text-[10px] leading-5 text-[#6E7681]">
+                            app.younes.dev
+                        </div>
+                        <span class="webapp-live items-center gap-1 font-mono text-[10px] font-bold text-emerald-400">
+                            <span class="webapp-live-dot h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+                            LIVE
+                        </span>
+                    </div>
+
+                    <div class="webapp-stage relative min-h-0 flex-1 space-y-3">
+                        <div class="webapp-block h-3 w-3/4 origin-left rounded bg-[#30363D]"></div>
+                        <div class="webapp-block h-3 w-1/2 origin-left rounded bg-[#21262D]"></div>
+                        <div class="mt-4 grid grid-cols-2 gap-3">
+                            <div class="webapp-block h-16 rounded-lg border border-[#30363D] bg-[#161B22]"></div>
+                            <div class="webapp-block h-16 rounded-lg border border-[#30363D] bg-[#161B22]"></div>
+                        </div>
+                        <div class="webapp-block h-8 w-full rounded-lg border border-purple-900/40 bg-purple-950/30"></div>
+                        <div class="webapp-scan pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-purple-400/80 opacity-0 shadow-[0_0_12px_2px_rgba(168,85,247,0.7)]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tech-stack" class="mx-auto max-w-7xl px-6 py-12 md:px-8 md:py-20">
+    <h2 class="section-title">
+        Tech Stack
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 text-white inter gap-6 md:gap-10">
+        {% for tech_stack in tech_stacks %}
+            <div class="tech-row flex items-center gap-4" data-percent="{{ tech_stack.percent }}">
+                <span class="w-24 mono text-sm">{{ tech_stack.title }}</span>
+
+                <div class="h-2 flex-1 overflow-hidden rounded-full bg-[#21262D]">
+                    <div class="tech-progress-bar h-full w-0 rounded-full bg-[{{ tech_stack.color }}]"></div>
+                </div>
+
+                <span class="tech-progress-text mono text-sm text-[#8B949E]">00%</span>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- PROJECTS SHOWCASE -->
+<section id="projects-showcase" class="relative w-full bg-black min-h-screen border-t border-[#21262D]">
+
+    <!-- Scroll Track: 300vh for 3 cards -->
+    <div id="projects-track" class="relative h-[300vh]">
+        
+        <!-- Sticky Container: Stays fixed on screen while scrolling the track -->
+        <div class="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
+            
+            <!-- Sticky section header -->
+            <div class="absolute top-0 left-0 z-50 w-full px-6 md:px-8 pt-6 md:pt-10 pointer-events-none">
+                <div class="relative mx-auto flex max-w-7xl items-start justify-between">
+                    <div class="w-28"></div>
+                    <h2 class="absolute left-6 md:left-0 md:relative section-title section-title--sticky mb-0">
+                        Projects
+                    </h2>
+                    <a href="{% url 'project:projects' %}" class="pointer-events-auto mono mt-2 text-xs md:text-sm text-purple-400/80 transition-colors hover:text-purple-300">
+                        View all →
+                    </a>
+                </div>
+            </div>
+
+            <!-- PROJECT 1: KHOR MARKET -->
+            <div class="project-card absolute w-[90%] max-w-[950px] opacity-0 z-10 pointer-events-none" data-index="0" data-percent="85">
+                <div class="floating-wrapper floating-anim">
+                    <div class="project-bg relative w-full bg-gradient-to-br from-[#064e3b] via-[#022c22] to-black rounded-3xl p-5 md:p-8 border border-emerald-800/50 shadow-[0_0_80px_-20px_rgba(16,185,129,0.2)] overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 h-auto md:h-[500px] min-h-[440px] md:min-h-[500px]">
+                        
+                        <!-- Left: Info & Terminal -->
+                        <div class="card-content flex-1 flex flex-col justify-between z-10">
+                            <div>
+                                <h3 class="text-4xl md:text-6xl font-black text-emerald-400 mb-1 md:mb-2 leading-none">KHUR<br>MARKET</h3>
+                                <p class="font-mono text-emerald-500/70 text-xs md:text-sm mb-4 md:mb-8">Multi-vendor marketplace</p>
+                                
+                                <!-- Terminal Box -->
+                                <div class="bg-black/50 border border-emerald-900/50 rounded-lg p-3 md:p-4 font-mono text-xs md:text-sm text-emerald-400 h-28 md:h-32 relative">
+                                    <div class="absolute top-2 right-2 flex gap-1">
+                                        <div class="w-2 h-2 rounded-full bg-emerald-700"></div>
+                                        <div class="w-2 h-2 rounded-full bg-emerald-700"></div>
+                                    </div>
+                                    <div class="terminal-text-container">
+                                        <!-- JS will inject typing here -->
+                                        <span class="terminal-text" data-text="init khor_market.py|loading dependencies...|stack: [Django, DRF, Stripe]|status: Ready."></span><span class="terminal-cursor inline-block w-2 h-4 bg-emerald-400 ml-1 align-middle animate-pulse"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 md:mt-8">
+                                <div class="flex justify-between font-mono text-[10px] md:text-xs mb-2">
+                                    <span class="text-emerald-600">Completion</span>
+                                    <span class="progress-text text-emerald-400 font-bold">00%</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-emerald-950 rounded-full overflow-hidden mb-4 md:mb-6">
+                                    <div class="progress-bar h-full bg-emerald-500 rounded-full w-0 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></div>
+                                </div>
+                                <a href="{% url 'project:project_detail' 2 %}" class="expand-btn inline-block font-mono text-xs md:text-sm text-emerald-300 border border-emerald-700 bg-emerald-900/30 px-5 md:px-6 py-2 md:py-2.5 rounded hover:bg-emerald-800/50 transition-colors">
+                                    VIEW FULL PROJECT →
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Right: Massive Icon -->
+                        <div class="absolute -bottom-6 -right-6 md:bottom-0 md:right-0 w-[120px] md:w-[150px] lg:w-[300px] opacity-10 md:opacity-100 pointer-events-none">
+                            <div class="card-content flex-1 flex items-center justify-center relative">
+                                <div class="absolute inset-0 bg-emerald-500/10 blur-3xl rounded-full"></div>
+                                <svg class="w-32 h-32 md:w-64 md:h-64 text-emerald-500/20 drop-shadow-[0_0_30px_rgba(16,185,129,0.3)] transform -rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECT 2: DIGITAL MENU -->
+            <div class="project-card absolute w-[90%] max-w-[700px] opacity-0 z-10 pointer-events-none" data-index="1" data-percent="100">
+                <div class="floating-wrapper floating-anim" style="animation-delay: -1s;">
+                    <div class="project-bg relative w-full bg-[#020617] rounded-3xl p-5 md:p-10 border-2 border-blue-900/50 shadow-[0_0_100px_-20px_rgba(30,58,138,0.4)] overflow-hidden flex flex-col items-center text-center h-auto md:h-[500px] min-h-[440px] md:min-h-[500px]">
+                        
+                        <div class="card-content w-full z-10">
+                            <!-- Massive QR -->
+                            <div class="relative inline-block bg-blue-950/40 p-3 md:p-4 rounded-2xl border border-blue-500/30 mb-4 md:mb-8 mt-2 md:mt-4">
+                                <div class="grid grid-cols-5 gap-1.5 md:grid-cols-5 md:gap-2 w-24 h-24 md:w-32 md:h-32 opacity-80">
+                                    <div class="bg-blue-500 rounded-sm"></div><div class="bg-blue-400"></div><div class="bg-transparent"></div><div class="bg-blue-600 rounded-sm"></div><div class="bg-blue-500"></div>
+                                    <div class="bg-transparent"></div><div class="bg-blue-500"></div><div class="bg-blue-400 rounded-sm"></div><div class="bg-transparent"></div><div class="bg-blue-500"></div>
+                                    <div class="bg-blue-600 rounded-sm"></div><div class="bg-transparent"></div><div class="bg-blue-500"></div><div class="bg-blue-400"></div><div class="bg-transparent"></div>
+                                    <div class="bg-transparent"></div><div class="bg-blue-400"></div><div class="bg-transparent"></div><div class="bg-blue-500 rounded-sm"></div><div class="bg-blue-400"></div>
+                                    <div class="bg-blue-500 rounded-sm"></div><div class="bg-transparent"></div><div class="bg-blue-600"></div><div class="bg-transparent"></div><div class="bg-blue-500 rounded-sm"></div>
+                                </div>
+                                <div class="absolute left-0 right-0 h-[3px] bg-blue-400 shadow-[0_0_15px_3px_rgba(96,165,250,0.8)] scanner-anim z-20"></div>
+                            </div>
+
+                            <h3 class="text-3xl md:text-4xl font-black text-blue-100 tracking-[0.2em] mb-1">DIGITAL MENU</h3>
+                            <p class="font-mono text-blue-500/70 text-[10px] md:text-xs tracking-widest mb-4 md:mb-8">QR-BASED ORDERING SYSTEM</p>
+                            
+                            <!-- Terminal Box -->
+                            <div class="text-left font-mono text-xs text-blue-300 mb-4 md:mb-8 h-16 w-full max-w-sm mx-auto">
+                                <div class="terminal-text-container">
+                                    <span class="terminal-text" data-text="> generating dynamic QR...|> stack: [WebSockets, Redis]|> real-time sync active."></span><span class="terminal-cursor inline-block w-2 h-3 bg-blue-400 ml-1 align-middle animate-pulse"></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Bottom Action -->
+                            <div class="w-full max-w-md mx-auto grid grid-cols-[1fr_auto] gap-4 items-center border-t border-blue-900/50 pt-4 md:pt-6">
+                                <div>
+                                    <div class="flex justify-between font-mono text-[9px] md:text-[10px] mb-2">
+                                        <span class="text-blue-600">SYNC PROGRESS</span>
+                                        <span class="progress-text text-blue-400 font-bold">00%</span>
+                                    </div>
+                                    <div class="h-1 w-full bg-blue-950 rounded-full overflow-hidden">
+                                        <div class="progress-bar h-full bg-blue-500 w-0"></div>
+                                    </div>
+                                </div>
+                                <a href="{% url 'project:project_detail' 3 %}" class="expand-btn bg-blue-600 text-white font-mono text-xs px-5 md:px-6 py-2.5 md:py-3 rounded hover:bg-blue-500 transition-colors">
+                                    LAUNCH →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECT 3: MONOPOLY WALLET -->
+            <div class="project-card absolute w-[90%] max-w-[850px] opacity-0 z-10 pointer-events-none" data-index="2" data-percent="60">
+                <div class="floating-wrapper floating-anim" style="animation-delay: -2s;">
+                    <div class="project-bg relative w-full bg-[#1c0e05] rounded-3xl p-5 md:p-8 border border-orange-900/40 shadow-[0_0_80px_-20px_rgba(245,158,11,0.15)] overflow-hidden h-auto md:h-[500px] min-h-[440px] md:min-h-[500px] flex flex-col">
+                        
+                        <div class="card-content flex-1 z-10">
+                            <!-- Top: Credit Card Visual & Title -->
+                            <div class="flex flex-col-reverse md:flex-row justify-between items-center md:items-start md:gap-8 md:mb-10 mb-4">
+                                <div class="text-center md:text-left">
+                                    <h3 class="text-3xl md:text-5xl font-black text-orange-400 mb-1 md:mb-2">MONOPOLY</h3>
+                                    <h3 class="text-2xl md:text-4xl font-bold text-orange-300 mb-1 md:mb-2">WALLET</h3>
+                                    <p class="font-mono text-orange-600 text-xs md:text-sm">Gamified financial dashboard</p>
+                                </div>
+                                
+                                <!-- Physical Card Mockup -->
+                                <div class="w-36 h-22 md:w-40 md:h-24 lg:w-64 lg:h-40 bg-gradient-to-tr from-yellow-700 via-yellow-500 to-orange-400 rounded-xl p-3 md:p-5 shadow-2xl relative overflow-hidden transform md:rotate-3 mb-4 md:mb-0">
+                                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-30"></div>
+                                    <div class="flex justify-between items-start relative z-10">
+                                        <div class="w-4 h-2.5 md:w-10 md:h-7 bg-yellow-200/40 rounded flex items-center justify-center">
+                                            <div class="md:w-6 md:h-4 w-2.5 h-1 border border-yellow-100/50 rounded-sm"></div>
+                                        </div>
+                                        <div class="font-mono text-orange-900 font-bold text-[6px] md:text-xs">M-PASS</div>
+                                    </div>
+                                    <div class="md:mt-8 mt-2.5 font-mono md:text-lg text-xs text-white tracking-widest relative z-10 drop-shadow-md">**** 4092</div>
+                                    <div class="mt-1 flex justify-between font-mono text-[8px] md:text-[10px] text-white/80 relative z-10">
+                                        <span>PLAYER ONE</span>
+                                        <span>12/25</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bottom Grid: Terminal + Progress -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-end">
+                                <!-- Terminal box styled like an ATM/System readout -->
+                                <div class="bg-black border-l-2 border-orange-500 p-3 md:p-4 font-mono text-xs md:text-sm h-24 md:h-28 flex flex-col justify-end">
+                                    <div class="terminal-text-container text-orange-300">
+                                        <span class="terminal-text" data-text="connection secured.|> fetching portfolio...| > stack: [Django, Pandas]|> analytics generated."></span><span class="terminal-cursor inline-block w-2 h-4 bg-orange-500 ml-1 align-middle animate-pulse"></span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="bg-[#2a1306] p-3 md:p-4 rounded-lg border border-orange-900/30 mb-3 md:mb-4">
+                                        <div class="flex justify-between font-mono text-[10px] md:text-xs mb-2 text-orange-400">
+                                            <span>DEVELOPMENT PHASE</span>
+                                            <span class="progress-text font-bold text-yellow-500">00%</span>
+                                        </div>
+                                        <div class="h-2 w-full bg-black rounded-full overflow-hidden">
+                                            <div class="progress-bar h-full bg-gradient-to-r from-orange-600 to-yellow-400 rounded-full w-0"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <a href="{% url 'project:project_detail' 4 %}" class="expand-btn block w-full text-center font-mono text-xs md:text-sm text-[#1c0e05] bg-orange-400 font-bold px-5 md:px-6 py-2.5 md:py-3 rounded hover:bg-yellow-400 transition-colors">
+                                        ACCESS DASHBOARD →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER / CONTACT -->
+<footer id="contact" class="relative overflow-hidden border-t border-[#21262D] bg-black">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(126,34,206,0.18),transparent_55%)]"></div>
+
+    <div class="relative mx-auto max-w-7xl px-6 py-16 md:px-8 md:py-28">
+        <p class="mono mb-4 text-center text-xs tracking-[0.35em] text-purple-400/70 uppercase">
+            Next step
+        </p>
+        <h2 class="section-title mb-6">
+            Let's Build
+        </h2>
+        <p class="mx-auto mb-8 md:mb-12 max-w-xl text-center font-mono text-xs md:text-sm leading-relaxed text-[#8B949E]">
+            Have an idea, a product, or a messy backend that needs clarity?<br class="hidden sm:block">
+            I’m open to collaborations and full-stack builds.
+        </p>
+
+        <div class="mx-auto mb-10 md:mb-16 flex max-w-md flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <a href="mailto:hello@younes.dev" class="inline-flex w-full items-center justify-center rounded border border-purple-700/60 bg-purple-900/30 px-8 py-3 font-mono text-sm text-purple-200 transition-colors hover:bg-purple-800/40 sm:w-auto">
+                Say hello →
+            </a>
+            <a href="#projects-showcase" class="inline-flex w-full items-center justify-center px-6 py-3 font-mono text-sm text-[#8B949E] transition-colors hover:text-purple-300 sm:w-auto">
+                Back to projects
+            </a>
+        </div>
+
+        <div class="mx-auto max-w-lg overflow-hidden rounded-xl border border-[#30363D] bg-[#0D1117] px-5 py-4 font-mono text-xs text-[#7ee787]">
+            <span id="footer-type" data-text="> available for new projects| > stack ready.| > awaiting your message_"></span><span class="hero-cursor hero-cursor--sm ml-1 align-middle" aria-hidden="true"></span>
+        </div>
+
+        <div class="mt-20 flex flex-col items-center justify-between gap-4 border-t border-[#21262D] pt-8 sm:flex-row">
+            <p class="mono text-[11px] tracking-widest text-[#6E7681]">
+                © <span id="footer-year"></span> YOUNES
+            </p>
+            <div class="flex gap-6 font-mono text-[11px] tracking-wider text-[#6E7681]">
+                <a href="#what-i-build" class="transition-colors hover:text-purple-400">Build</a>
+                <a href="#tech-stack" class="transition-colors hover:text-purple-400">Stack</a>
+                <a href="#projects-showcase" class="transition-colors hover:text-purple-400">Projects</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Scoped Styles for Animations -->
+<style>
+    /* ===== HERO ===== */
+    .hero-atmosphere {
+        background: radial-gradient(ellipse 80% 60% at 20% 40%, rgba(88, 28, 135, 0.22), transparent 55%),
+                    radial-gradient(ellipse 70% 50% at 85% 55%, rgba(59, 7, 100, 0.28), transparent 50%);
+    }
+
+    .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(168, 85, 247, 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(168, 85, 247, 0.04) 1px, transparent 1px);
+        background-size: 64px 64px;
+        mask-image: radial-gradient(ellipse at 40% 45%, black 20%, transparent 70%);
+        animation: heroGridDrift 28s linear infinite;
+    }
+
+    @keyframes heroGridDrift {
+        from { background-position: 0 0; }
+        to { background-position: 64px 64px; }
+    }
+
+    .hero-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.55;
+    }
+
+    .hero-orb--left {
+        width: 42vw;
+        height: 42vw;
+        left: -8%;
+        top: 10%;
+        background: rgba(126, 34, 206, 0.35);
+        animation: heroOrbFloat 9s ease-in-out infinite;
+    }
+
+    .hero-orb--right {
+        width: 36vw;
+        height: 36vw;
+        right: -5%;
+        bottom: 5%;
+        background: rgba(76, 29, 149, 0.4);
+        animation: heroOrbFloat 11s ease-in-out infinite reverse;
+    }
+
+    @keyframes heroOrbFloat {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(2%, -3%) scale(1.06); }
+    }
+
+    .hero-noise {
+        position: absolute;
+        inset: 0;
+        opacity: 0.035;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .hero-boot {
+        transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateY(8px);
+    }
+
+    .hero-boot.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .hero-boot-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        margin-right: 8px;
+        border-radius: 50%;
+        background: #4ade80;
+        box-shadow: 0 0 10px rgba(74, 222, 128, 0.7);
+        animation: livePulse 1.6s ease-in-out infinite;
+        vertical-align: 1px;
+    }
+
+    .hero-letter {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(0.35em) rotateX(40deg);
+        filter: blur(10px);
+        background: linear-gradient(180deg, #e9d5ff 0%, #c084fc 45%, #7e22ce 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        
+        will-change: transform, opacity, filter;
+        transform-style: preserve-3d;
+    }
+
+    .hero-name.is-ready .hero-letter {
+        animation: blurReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation-delay: calc(var(--i) * 70ms + 120ms);
+    }
+
+    @keyframes blurReveal {
+        0% {
+            opacity: 0;
+            transform: translateY(0.35em) rotateX(40deg) translateZ(0);
+            filter: blur(10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) rotateX(0) translateZ(0);
+            filter: blur(0px);
+        }
+    }
+
+    .hero-name.is-ready .hero-letter {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+        filter: blur(0);
+    }
+
+    .hero-cursor {
+        display: inline-block;
+        width: 0.55em;
+        height: 1em;
+        margin-left: 0.12em;
+        vertical-align: -0.08em;
+        background: currentColor;
+        animation: heroBlink 1.05s steps(1, end) infinite;
+    }
+
+    .hero-cursor--sm {
+        width: 0.45em;
+        height: 0.9em;
+        vertical-align: -0.12em;
+    }
+
+    @keyframes heroBlink {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: 0; }
+    }
+
+    .hero-cta-row {
+        transition: opacity 0.9s ease 1.8s, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.8s;
+        transform: translateY(10px);
+    }
+
+    .hero-cta-row.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .hero-cta-arrow {
+        display: inline-block;
+        transition: transform 0.3s ease;
+    }
+
+    .hero-cta:hover .hero-cta-arrow {
+        transform: translateX(4px);
+    }
+
+    .hero-photo-glow {
+        background: radial-gradient(circle, rgba(168, 85, 247, 0.35), transparent 70%);
+        filter: blur(40px);
+        animation: heroOrbFloat 10s ease-in-out infinite;
+    }
+
+    .hero-photo {
+        opacity: 0;
+        transform: translateY(28px) scale(1.04);
+        transition:
+            opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s,
+            transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
+        will-change: opacity, transform;
+    }
+
+    .hero-photo.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    .hero-scroll {
+        opacity: 0;
+        animation: heroScrollIn 0.8s ease 2.4s forwards;
+    }
+
+    .hero-scroll-line {
+        animation: heroScrollBob 2s ease-in-out infinite;
+    }
+
+    @keyframes heroScrollIn {
+        from { opacity: 0; transform: translate(-50%, 8px); }
+        to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    @keyframes heroScrollBob {
+        0%, 100% { transform: scaleY(1); opacity: 0.6; }
+        50% { transform: scaleY(0.65); opacity: 1; }
+    }
+
+    /* Shared section titles */
+    .section-title {
+        font-family: 'Inter', sans-serif;
+        margin-bottom: 5rem;
+        text-align: center;
+        font-size: clamp(1.75rem, 3vw, 2.35rem);
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #7e22ce;
+        line-height: 1.15;
+    }
+
+    .section-title--sticky {
+        margin-bottom: 0;
+        text-shadow: 0 0 40px rgba(126, 34, 206, 0.25);
+    }
+
+    /* Floating Animation */
+    @keyframes floatSoft {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-12px); }
+    }
+    .floating-anim {
+        animation: floatSoft 4s ease-in-out infinite;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* QR Scanner line animation */
+    @keyframes scan {
+        0%, 100% { top: 0%; opacity: 0; }
+        10%, 90% { opacity: 1; }
+        50% { top: 100%; }
+    }
+    .scanner-anim {
+        position: absolute;
+        width: 100%;
+        animation: scan 2.5s linear infinite;
+    }
+
+    body.project-expanding {
+        overflow: hidden;
+    }
+
+    .project-expand-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9998;
+        background: rgba(0, 0, 0, 0);
+        pointer-events: none;
+        transition: background 0.7s ease;
+    }
+
+    .project-expand-overlay.is-active {
+        background: rgba(0, 0, 0, 0.45);
+    }
+
+    .project-bg.is-expanding {
+        will-change: top, left, width, height, border-radius;
+    }
+
+    .project-bg.is-expanding .card-content {
+        transition: opacity 0.28s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        opacity: 0;
+        transform: translateY(8px) scale(0.985);
+        pointer-events: none;
+    }
+
+    /* Tech Stack reveal — same cinematic language as project cards */
+    .tech-row {
+        opacity: 0;
+        transform: perspective(1200px) translateY(40px) scale(0.92) rotateX(8deg);
+        filter: blur(8px);
+        transition:
+            opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+            filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform, filter;
+    }
+
+    .tech-row.is-visible {
+        opacity: 1;
+        transform: perspective(1200px) translateY(0) scale(1) rotateX(0deg);
+        filter: blur(0);
+    }
+
+    /* Fixed-size build panels — never resize with content */
+    .build-panel {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .build-card .floating-wrapper {
+        width: 100%;
+    }
+
+    /* REST API lines — same language as tech-stack rows */
+    .api-line {
+        opacity: 0;
+        transform: perspective(800px) translateY(24px) scale(0.94) rotateX(8deg);
+        filter: blur(6px);
+        transition:
+            opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+            filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .api-line.is-visible {
+        opacity: 1;
+        transform: perspective(800px) translateY(0) scale(1) rotateX(0deg);
+        filter: blur(0);
+    }
+
+    /* Web Apps assemble */
+    .webapp-chrome {
+        transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateY(-6px);
+    }
+
+    .webapp-chrome.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .webapp-block {
+        opacity: 0;
+        transform: scaleX(0.2) translateY(8px);
+        filter: blur(4px);
+        transition:
+            opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+            filter 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .webapp-block.is-visible {
+        opacity: 1;
+        transform: scaleX(1) translateY(0);
+        filter: blur(0);
+    }
+
+    .webapp-live {
+        display: none;
+    }
+
+    .webapp-live.is-on {
+        display: inline-flex;
+        animation: livePulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes livePulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.45; }
+    }
+
+    @keyframes webappScan {
+        0% { top: 0%; opacity: 0; }
+        12% { opacity: 1; }
+        88% { opacity: 1; }
+        100% { top: 100%; opacity: 0; }
+    }
+
+    .webapp-scan.is-running {
+        opacity: 1;
+        animation: webappScan 1.6s linear 1;
+    }
+</style>
+
+<!-- Scroll & Interaction Logic -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const track = document.getElementById('projects-track');
+    const cards = document.querySelectorAll('.project-card');
+    let activeIndex = -1;
+    let typeTimeouts = [];
+
+    // --- HERO: atmosphere entrance + typing + photo fade ---
+    const heroSection = document.getElementById('hero');
+    const heroName = document.querySelector('.hero-name');
+    const heroBoot = document.querySelector('.hero-boot');
+    const heroCtaRow = document.querySelector('.hero-cta-row');
+    const heroType = document.getElementById('hero-type');
+    const heroPhoto = document.getElementById('hero-photo');
+    const footerYear = document.getElementById('footer-year');
+    const footerType = document.getElementById('footer-type');
+
+    if (footerYear) footerYear.textContent = String(new Date().getFullYear());
+
+    requestAnimationFrame(() => {
+        if (heroBoot) heroBoot.classList.add('is-visible');
+        if (heroName) heroName.classList.add('is-ready');
+        if (heroPhoto) heroPhoto.classList.add('is-visible');
+        if (heroCtaRow) heroCtaRow.classList.add('is-visible');
+    });
+
+    // Soft parallax between copy and photo
+    if (heroSection && heroPhoto) {
+        const heroCopy = heroSection.querySelector('.hero-copy');
+        window.addEventListener('scroll', () => {
+            const y = Math.min(window.scrollY, window.innerHeight);
+            const p = y / window.innerHeight;
+            if (heroCopy) heroCopy.style.transform = `translateY(${p * -18}px)`;
+            heroPhoto.style.transform = `translateY(${p * 28}px) scale(1)`;
+        }, { passive: true });
+    }
+
+    function typeNatural(el, { startDelay = 400, minDelay = 55, maxDelay = 120, pauseOnSpace = 90, splitLines = false } = {}) {
+        if (!el) return;
+        const raw = el.getAttribute('data-text') || '';
+        const full = splitLines ? raw.replace(/\|/g, '\n') : raw;
+        el.textContent = '';
+        let i = 0;
+
+        function tick() {
+            if (i >= full.length) return;
+            const ch = full.charAt(i);
+            if (ch === '\n') {
+                el.appendChild(document.createElement('br'));
+            } else {
+                el.appendChild(document.createTextNode(ch));
+            }
+            i++;
+            let wait = minDelay + Math.random() * (maxDelay - minDelay);
+            if (ch === ' ') wait += pauseOnSpace;
+            if (ch === '.' || ch === ',' || ch === '\n') wait += 200;
+            setTimeout(tick, wait);
+        }
+
+        setTimeout(tick, startDelay);
+    }
+
+    typeNatural(heroType, { startDelay: 900, minDelay: 70, maxDelay: 140, pauseOnSpace: 110 });
+
+    // Footer terminal (fires when visible)
+    if (footerType) {
+        const footerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    typeNatural(footerType, {
+                        startDelay: 200,
+                        minDelay: 35,
+                        maxDelay: 80,
+                        pauseOnSpace: 60,
+                        splitLines: true
+                    });
+                    footerObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.35 });
+        footerObserver.observe(footerType.closest('footer') || footerType);
+    }
+
+    // --- WHAT I BUILD ---
+    const buildSection = document.getElementById('what-i-build');
+    let buildAnimated = false;
+    const buildTypeTimeouts = [];
+
+    function typeDjangoTerminal(terminal) {
+        const lines = terminal.getAttribute('data-text').split('|');
+        terminal.textContent = '';
+
+        let lineIdx = 0;
+        let charIdx = 0;
+
+        function typeChar() {
+            if (lineIdx >= lines.length) return;
+
+            if (charIdx === 0 && lineIdx > 0) {
+                terminal.appendChild(document.createElement('br'));
+            }
+
+            const currentLine = lines[lineIdx];
+
+            if (charIdx < currentLine.length) {
+                terminal.appendChild(document.createTextNode(currentLine.charAt(charIdx)));
+                charIdx++;
+                buildTypeTimeouts.push(setTimeout(typeChar, 6 + Math.random() * 12));
+            } else {
+                lineIdx++;
+                charIdx = 0;
+                buildTypeTimeouts.push(setTimeout(typeChar, 70));
+            }
+        }
+
+        buildTypeTimeouts.push(setTimeout(typeChar, 150));
+    }
+
+    function revealApiLines() {
+        document.querySelectorAll('.api-line').forEach((line, idx) => {
+            setTimeout(() => line.classList.add('is-visible'), 120 + idx * 160);
+        });
+    }
+
+    function assembleWebApp() {
+        const chrome = document.querySelector('.webapp-chrome');
+        const blocks = document.querySelectorAll('.webapp-block');
+        const scan = document.querySelector('.webapp-scan');
+        const live = document.querySelector('.webapp-live');
+
+        if (chrome) {
+            setTimeout(() => chrome.classList.add('is-visible'), 80);
+        }
+
+        blocks.forEach((block, idx) => {
+            setTimeout(() => block.classList.add('is-visible'), 220 + idx * 140);
+        });
+
+        setTimeout(() => {
+            if (scan) {
+                scan.classList.add('is-running');
+                scan.addEventListener('animationend', () => {
+                    scan.classList.remove('is-running');
+                }, { once: true });
+            }
+            if (live) live.classList.add('is-on');
+        }, 220 + blocks.length * 140 + 200);
+    }
+
+    function startBuildAnimations() {
+        if (buildAnimated) return;
+        buildAnimated = true;
+
+        const djangoTerminal = document.querySelector('.build-terminal');
+        if (djangoTerminal) typeDjangoTerminal(djangoTerminal);
+
+        setTimeout(revealApiLines, 200);
+        setTimeout(assembleWebApp, 350);
+    }
+
+    if (buildSection) {
+        const buildObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startBuildAnimations();
+                    buildObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.25 });
+
+        buildObserver.observe(buildSection);
+    }
+
+    // --- TECH STACK LINE-BY-LINE REVEAL ---
+    const techSection = document.getElementById('tech-stack');
+    const techRows = document.querySelectorAll('.tech-row');
+    let techAnimated = false;
+
+    function runTechProgress(row) {
+        const targetPercent = parseInt(row.getAttribute('data-percent'), 10) || 0;
+        const bar = row.querySelector('.tech-progress-bar');
+        const text = row.querySelector('.tech-progress-text');
+        if (!bar || !text) return;
+
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+        text.innerText = '00%';
+
+        void bar.offsetWidth;
+
+        bar.style.transition = 'width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+        bar.style.width = targetPercent + '%';
+
+        const startTime = Date.now();
+        const duration = 1200;
+
+        function scrambleText() {
+            const elapsed = Date.now() - startTime;
+            if (elapsed < duration) {
+                const randomVal = Math.floor(Math.random() * 100);
+                text.innerText = randomVal.toString().padStart(2, '0') + '%';
+                requestAnimationFrame(scrambleText);
+            } else {
+                text.innerText = targetPercent.toString().padStart(2, '0') + '%';
+            }
+        }
+        requestAnimationFrame(scrambleText);
+    }
+
+    function revealTechStack() {
+        if (techAnimated) return;
+        techAnimated = true;
+
+        techRows.forEach((row, idx) => {
+            setTimeout(() => {
+                row.classList.add('is-visible');
+                runTechProgress(row);
+            }, idx * 180);
+        });
+    }
+
+    if (techSection && techRows.length) {
+        const techObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    revealTechStack();
+                    techObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.25 });
+
+        techObserver.observe(techSection);
+    }
+
+    // اعمال یک Transition اختصاصی و سینمایی به همه کارت‌ها
+    cards.forEach(card => {
+        card.style.transition = 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+    });
+
+    // --- TERMINAL TYPING LOGIC ---
+    function typeTerminal(card) {
+        const terminal = card.querySelector('.terminal-text');
+        if (!terminal) return;
+        
+        typeTimeouts.forEach(t => clearTimeout(t));
+        typeTimeouts = [];
+        
+        const lines = terminal.getAttribute('data-text').split('|');
+        terminal.innerHTML = '';
+        
+        let lineIdx = 0;
+        let charIdx = 0;
+
+        function typeChar() {
+            if (lineIdx >= lines.length) return; 
+
+            if (charIdx === 0 && lineIdx > 0) {
+                terminal.appendChild(document.createElement('br'));
+            }
+
+            const currentLine = lines[lineIdx];
+
+            if (charIdx < currentLine.length) {
+                terminal.appendChild(document.createTextNode(currentLine.charAt(charIdx)));
+                charIdx++;
+                typeTimeouts.push(setTimeout(typeChar, 20 + Math.random() * 40));
+            } else {
+                lineIdx++;
+                charIdx = 0;
+                typeTimeouts.push(setTimeout(typeChar, 300));
+            }
+        }
+        
+        typeTimeouts.push(setTimeout(typeChar, 400));
+    }
+
+    // --- PROGRESS LOGIC ---
+    function runProgress(card) {
+        const targetPercent = parseInt(card.getAttribute('data-percent'));
+        const bar = card.querySelector('.progress-bar');
+        const text = card.querySelector('.progress-text');
+        
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+        text.innerText = '00%';
+
+        void bar.offsetWidth;
+
+        bar.style.transition = 'width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+        bar.style.width = targetPercent + '%';
+
+        const startTime = Date.now();
+        const duration = 1200;
+
+        function scrambleText() {
+            const elapsed = Date.now() - startTime;
+            if (elapsed < duration) {
+                const randomVal = Math.floor(Math.random() * 100);
+                text.innerText = randomVal.toString().padStart(2, '0') + '%';
+                requestAnimationFrame(scrambleText);
+            } else {
+                text.innerText = targetPercent.toString().padStart(2, '0') + '%';
+            }
+        }
+        requestAnimationFrame(scrambleText);
+    }
+
+    // --- SCROLL TRACKING LOGIC ---
+    let snapTimeout;
+    
+    function updateCards() {
+        const trackRect = track.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        let scrollPos = -trackRect.top;
+        const maxScroll = track.offsetHeight - windowHeight;
+        
+        if (scrollPos < 0) scrollPos = 0;
+        if (scrollPos > maxScroll) scrollPos = maxScroll;
+        
+        let progress = scrollPos / maxScroll;
+        
+        let newIndex = 0;
+        if (progress > 0.33 && progress <= 0.66) newIndex = 1;
+        if (progress > 0.66) newIndex = 2;
+
+        if (newIndex !== activeIndex) {
+            activeIndex = newIndex;
+            
+            cards.forEach((card, idx) => {
+                if (idx === activeIndex) {
+                    // ENTER: کارت به وسط صفحه می‌آید، واضح و با اندازه طبیعی
+                    card.style.opacity = '1';
+                    card.style.transform = 'perspective(1200px) translateY(0px) scale(1) rotateX(0deg)';
+                    card.style.pointerEvents = 'auto';
+                    card.style.zIndex = '20';
+                    card.style.filter = 'blur(0px)';
+                    
+                    typeTerminal(card);
+                    runProgress(card);
+                } else {
+                    // EXIT: کارت‌های غیرفعال خیلی بیشتر جابجا می‌شوند، کوچک می‌شوند، می‌چرخند و تار می‌شوند
+                    card.style.opacity = '0';
+                    const isAbove = idx < activeIndex;
+                    
+                    // تنظیم انیمیشن اغراق‌شده‌تر برای ورود و خروج
+                    const yOffset = isAbove ? '-250px' : '250px';
+                    const rotateX = isAbove ? '10deg' : '-10deg';
+                    
+                    card.style.transform = `perspective(1200px) translateY(${yOffset}) scale(0.8) rotateX(${rotateX})`;
+                    card.style.pointerEvents = 'none';
+                    card.style.zIndex = '10';
+                    card.style.filter = 'blur(10px)'; // افکت تار شدن سینمایی
+                }
+            });
+        }
+
+        // --- SNAP SCROLL ---
+        clearTimeout(snapTimeout);
+        snapTimeout = setTimeout(() => {
+            if (trackRect.top < windowHeight && trackRect.bottom > 0) {
+                const snapPoints = [0, windowHeight, windowHeight * 2];
+                const closestPoint = snapPoints.reduce((prev, curr) => 
+                    Math.abs(curr - scrollPos) < Math.abs(prev - scrollPos) ? curr : prev
+                );
+                
+                if (Math.abs(scrollPos - closestPoint) > 5) {
+                    const targetY = window.scrollY + (closestPoint - scrollPos);
+                    window.scrollTo({ top: targetY, behavior: 'smooth' });
+                }
+            }
+        }, 400);
+    }
+
+    window.addEventListener('scroll', updateCards);
+    updateCards();
+
+    // --- FULLSCREEN EXPANSION LOGIC ---
+    document.querySelectorAll('.expand-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (document.body.classList.contains('project-expanding')) return;
+
+            const targetUrl = btn.getAttribute('href');
+            const cardParent = btn.closest('.project-card');
+            const bgBox = cardParent.querySelector('.project-bg');
+            const floater = cardParent.querySelector('.floating-wrapper');
+
+            // Capture visual position BEFORE any layout changes
+            const rect = bgBox.getBoundingClientRect();
+
+            document.body.classList.add('project-expanding');
+
+            const overlay = document.createElement('div');
+            overlay.className = 'project-expand-overlay';
+            document.body.appendChild(overlay);
+
+            // Pin card exactly where it was on screen first (avoids jump)
+            bgBox.classList.add('is-expanding');
+            bgBox.style.position = 'fixed';
+            bgBox.style.top = `${rect.top}px`;
+            bgBox.style.left = `${rect.left}px`;
+            bgBox.style.width = `${rect.width}px`;
+            bgBox.style.height = `${rect.height}px`;
+            bgBox.style.margin = '0';
+            bgBox.style.zIndex = '9999';
+            bgBox.style.boxSizing = 'border-box';
+            bgBox.style.maxWidth = 'none';
+
+            // Now safe to freeze floating + scroll transforms
+            floater.classList.remove('floating-anim');
+            floater.style.animation = 'none';
+            floater.style.transform = 'none';
+
+            cardParent.style.transition = 'none';
+            cardParent.style.transform = 'none';
+            cardParent.style.filter = 'none';
+            cardParent.style.opacity = '1';
+            cardParent.style.pointerEvents = 'none';
+            cardParent.style.zIndex = '30';
+
+            void bgBox.offsetWidth;
+
+            requestAnimationFrame(() => {
+                overlay.classList.add('is-active');
+
+                const ease = 'cubic-bezier(0.22, 1, 0.36, 1)';
+                bgBox.style.transition = [
+                    `top 0.75s ${ease}`,
+                    `left 0.75s ${ease}`,
+                    `width 0.75s ${ease}`,
+                    `height 0.75s ${ease}`,
+                    `border-radius 0.7s ${ease}`,
+                    'border-color 0.45s ease',
+                    'box-shadow 0.6s ease',
+                    'padding 0.75s ease'
+                ].join(', ');
+
+                bgBox.style.top = '0';
+                bgBox.style.left = '0';
+                bgBox.style.width = '100vw';
+                bgBox.style.height = '100dvh';
+                bgBox.style.borderRadius = '0';
+                bgBox.style.borderColor = 'transparent';
+                bgBox.style.boxShadow = 'none';
+                bgBox.style.padding = '0';
+            });
+
+            setTimeout(() => {
+                if (targetUrl && targetUrl !== '#') {
+                    window.location.href = targetUrl;
+                }
+            }, 780);
+        });
+    });
+});
+</script>
+{% endblock %}
