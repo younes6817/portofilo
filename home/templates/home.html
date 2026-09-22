@@ -1,4 +1,16 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+    <!-- The hero photo is the LCP element: start it as early as possible, but send phones
+         the small WebP variant instead of the 4.9 MB original PNG. -->
+    <link rel="preload" as="image" type="image/webp"
+          href="{% static 'img/younes-1400.webp' %}"
+          imagesrcset="{% static 'img/younes-900.webp' %} 900w, {% static 'img/younes-1400.webp' %} 1400w, {% static 'img/younes-2560.webp' %} 2560w"
+          imagesizes="100vw"
+          media="(max-width: 767px)">
+    <link rel="preload" as="image" type="image/png" href="/media/younes.png?v=3" media="(min-width: 768px)">
+{% endblock %}
 
 {% block content %}
 
@@ -6,7 +18,7 @@
 <section id="hero" class="relative min-h-screen overflow-hidden flex flex-col justify-center">
     <!-- Atmosphere -->
     <div class="hero-atmosphere pointer-events-none absolute inset-0" aria-hidden="true">
-        <div class="hero-grid"></div>
+        <div class="hero-grid"><div class="hero-grid-layer"></div></div>
         <div class="hero-orb hero-orb--left"></div>
         <div class="hero-orb hero-orb--right"></div>
         <div class="hero-noise"></div>
@@ -23,7 +35,13 @@
             <img
                 id="hero-photo"
                 src="/media/younes.png?v=3"
+                srcset="{% static 'img/younes-900.webp' %} 900w, {% static 'img/younes-1400.webp' %} 1400w, {% static 'img/younes-2560.webp' %} 2560w, /media/younes.png?v=3 4253w"
+                sizes="(max-width: 767px) 100vw, 4253px"
+                width="4253"
+                height="5434"
                 alt="Younes"
+                fetchpriority="high"
+                decoding="async"
                 class="hero-photo relative w-full h-full object-cover md:object-contain lg:object-cover xl:object-cover md:h-auto md:max-w-none md:w-[130%] lg:w-[145%] md:-mr-24 lg:-mr-32 md:-ml-8
                 [mask-image:radial-gradient(ellipse_90%_75%_at_50%_45%,black_35%,transparent_100%)]
                 md:[mask-image:radial-gradient(ellipse_85%_75%_at_65%_50%,black_35%,transparent_100%),linear-gradient(to_right,transparent_0%,black_20%)]
@@ -164,7 +182,9 @@
                 <span class="w-24 mono text-sm">{{ tech_stack.title }}</span>
 
                 <div class="h-2 flex-1 overflow-hidden rounded-full bg-[#21262D]">
-                    <div class="tech-progress-bar h-full w-0 rounded-full bg-[{{ tech_stack.color }}]"></div>
+                    <!-- در رنگ نوار، هم کلاس تیلویند و هم style درون‌خطی ست می‌شود تا رنگ‌های
+                         دلخواه ادمین حتی بدون ری‌بیلد CSS هم صد درصد کار کنند. -->
+                    <div class="tech-progress-bar h-full w-0 rounded-full bg-[{{ tech_stack.color }}]" style="background-color: {{ tech_stack.color }}"></div>
                 </div>
 
                 <span class="tech-progress-text mono text-sm text-[#8B949E]">00%</span>
@@ -409,20 +429,30 @@
                     radial-gradient(ellipse 70% 50% at 85% 55%, rgba(59, 7, 100, 0.28), transparent 50%);
     }
 
+    /* The mask stays on the static wrapper so the drifting grid can run on its own
+       compositor layer: identical 64px / 28s / linear motion, but no full-viewport
+       repaint on every frame (this was the main scroll/entry jank on phones). */
     .hero-grid {
         position: absolute;
         inset: 0;
+        overflow: hidden;
+        mask-image: radial-gradient(ellipse at 40% 45%, black 20%, transparent 70%);
+    }
+
+    .hero-grid-layer {
+        position: absolute;
+        inset: -64px;
         background-image:
             linear-gradient(rgba(168, 85, 247, 0.04) 1px, transparent 1px),
             linear-gradient(90deg, rgba(168, 85, 247, 0.04) 1px, transparent 1px);
         background-size: 64px 64px;
-        mask-image: radial-gradient(ellipse at 40% 45%, black 20%, transparent 70%);
+        will-change: transform;
         animation: heroGridDrift 28s linear infinite;
     }
 
     @keyframes heroGridDrift {
-        from { background-position: 0 0; }
-        to { background-position: 64px 64px; }
+        from { transform: translate3d(0, 0, 0); }
+        to { transform: translate3d(64px, 64px, 0); }
     }
 
     .hero-orb {
@@ -798,15 +828,27 @@ document.addEventListener("DOMContentLoaded", () => {
         if (heroCtaRow) heroCtaRow.classList.add('is-visible');
     });
 
-    // Soft parallax between copy and photo
-    if (heroSection && heroPhoto) {
-        const heroCopy = heroSection.querySelector('.hero-copy');
-        window.addEventListener('scroll', () => {
-            const y = Math.min(window.scrollY, window.innerHeight);
-            const p = y / window.innerHeight;
-            if (heroCopy) heroCopy.style.transform = `translateY(${p * -18}px)`;
-            heroPhoto.style.transform = `translateY(${p * 28}px) scale(1)`;
-        }, { passive: true });
+    // Soft parallax between copy and photo.
+    // The maths are untouched; it is now driven by the single rAF-throttled scroll
+    // pipeline registered near the bottom of this script (one listener, at most one
+    // style write per frame) and it stops while the hero is off-screen.
+    const heroCopy = heroSection ? heroSection.querySelector('.hero-copy') : null;
+    let heroInView = true;
+
+    function applyHeroParallax() {
+        if (!heroPhoto || !heroInView) return;
+        const viewportHeight = window.innerHeight;
+        const y = Math.min(window.scrollY, viewportHeight);
+        const p = y / viewportHeight;
+        if (heroCopy) heroCopy.style.transform = `translateY(${p * -18}px)`;
+        heroPhoto.style.transform = `translateY(${p * 28}px) scale(1)`;
+    }
+
+    if (heroSection) {
+        const heroViewObserver = new IntersectionObserver(entries => {
+            heroInView = entries[0].isIntersecting;
+        });
+        heroViewObserver.observe(heroSection);
     }
 
     function typeNatural(el, { startDelay = 400, minDelay = 55, maxDelay = 120, pauseOnSpace = 90, splitLines = false } = {}) {
@@ -1081,13 +1123,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- SCROLL TRACKING LOGIC ---
     let snapTimeout;
-    
+    let trackHeight = 0; // the 300vh track never resizes with its content: measure on resize only
+
+    function measureTrack() {
+        trackHeight = track ? track.offsetHeight : 0;
+    }
+
     function updateCards() {
         const trackRect = track.getBoundingClientRect();
         const windowHeight = window.innerHeight;
-        
+
+        // Skip all work (and the forced layout read) while the track is fully off-screen.
+        if (trackRect.bottom < 0 || trackRect.top > windowHeight) return;
+
+        if (!trackHeight) measureTrack();
+
         let scrollPos = -trackRect.top;
-        const maxScroll = track.offsetHeight - windowHeight;
+        const maxScroll = trackHeight - windowHeight;
         
         if (scrollPos < 0) scrollPos = 0;
         if (scrollPos > maxScroll) scrollPos = maxScroll;
@@ -1146,7 +1198,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 400);
     }
 
-    window.addEventListener('scroll', updateCards);
+    // --- SINGLE SCROLL PIPELINE ---
+    // One listener + one rAF for everything scroll-driven (hero parallax + project
+    // track). Previously each of them registered its own listener and wrote styles
+    // straight from the scroll event, which is what made phones stutter on entry.
+    let scrollFrameQueued = false;
+
+    function onScrollFrame() {
+        scrollFrameQueued = false;
+        applyHeroParallax();
+        updateCards();
+    }
+
+    function requestScrollFrame() {
+        if (scrollFrameQueued) return;
+        scrollFrameQueued = true;
+        requestAnimationFrame(onScrollFrame);
+    }
+
+    window.addEventListener('scroll', requestScrollFrame, { passive: true });
+    window.addEventListener('resize', () => {
+        measureTrack();
+        requestScrollFrame();
+    }, { passive: true });
+
+    measureTrack();
     updateCards();
 
     // --- FULLSCREEN EXPANSION LOGIC ---

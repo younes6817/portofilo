@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Younes Portfolio</title>
     {% load static %}
-    <script src="{% static 'js/tailwind.js' %}"></script>
+    <!-- Precompiled Tailwind (build with: npm run build:css) instead of the blocking
+         ~400KB Play-CDN runtime compiler. Same Tailwind 3.4.17 engine => same output. -->
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
     <link rel="icon" href="{{ MEDIA_URL }}logo/logoy.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    {% block extra_head %}{% endblock %}
 
     <style>
         .inter {

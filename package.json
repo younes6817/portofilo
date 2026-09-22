@@ -1,0 +1,13 @@
+{
+  "name": "portofilo-assets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Build step that compiles the Tailwind CSS used by the Django templates (replaces the runtime Play CDN).",
+  "scripts": {
+    "build:css": "tailwindcss -i ./assets/css/tailwind.input.css -o ./static/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./assets/css/tailwind.input.css -o ./static/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

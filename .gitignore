@@ -221,5 +221,8 @@ __marimo__/
 venv.backup/
 *.sqlite-backup
 
+# Node (only used to build static/css/tailwind.css)
+node_modules/
+
 *.mybackup
 *_data.json
