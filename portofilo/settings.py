@@ -28,15 +28,15 @@ SECRET_KEY = 'django-insecure-9qa@#6_@*7(l8!)+m=2gugpc=vq9y5s__gq5zi=42gbpkbg4*=
 DEBUG = True
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://younes.cam",
+    "https://www.younes.cam",
+    "http://younes.cam",
+    "http://www.younes.cam",
     "https://younes.spice.ir",
     "https://www.younes.spice.ir",
 ]
 
-ALLOWED_HOSTS = [
-    "younes.spice.ir",
-    "www.younes.spice.ir",
-    "127.0.0.1"
-]
+ALLOWED_HOSTS = ['younes.cam', 'www.younes.cam', 'younes.spice.ir', '127.0.0.1', 'localhost', '37.255.212.62']
 
 # Application definition
 
