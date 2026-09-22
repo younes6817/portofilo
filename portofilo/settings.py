@@ -17,6 +17,9 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Read .env before anything that uses os.environ (DEBUG, database, ...).
+load_dotenv(BASE_DIR / '.env')
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -25,7 +28,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9qa@#6_@*7(l8!)+m=2gugpc=vq9y5s__gq5zi=42gbpkbg4*='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# Defaults to False, so production keeps behaving exactly as before.
+# For local work put `DEBUG=True` in .env (git-ignored): that is what makes
+# `runserver` serve /static/ and /media/. Without it every stylesheet, script and
+# image a template points at 404s locally, which looks like "Tailwind is not
+# linked" and "my photo is gone" even though the files are on disk.
+DEBUG = os.environ.get('DEBUG', '').strip().lower() in ('1', 'true', 'yes', 'on')
 
 CSRF_TRUSTED_ORIGINS = [
     "https://younes.cam",
@@ -86,7 +94,7 @@ WSGI_APPLICATION = 'portofilo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-load_dotenv()
+# .env was already loaded at the top of this file (BASE_DIR / '.env').
 
 DATABASES = {
     'default': {

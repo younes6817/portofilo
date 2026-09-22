@@ -25,6 +25,29 @@ After a rebuild, refresh what the web server serves:
 python manage.py collectstatic --noinput
 ```
 
+### Running locally
+
+`DEBUG` is read from `.env` and defaults to `False`. Put `DEBUG=True` in `.env`
+(git-ignored, **local only**) before `python manage.py runserver`: without it Django serves
+neither `/static/` nor `/media/`, so every stylesheet, script and image a template points at
+404s and the page looks unstyled with a missing photo. `runserver --insecure` is the
+no-config alternative, but it only covers `/static/`, not `/media/`.
+
+### Deploying
+
+The precompiled CSS and the hero WebP variants are static files, so they have to reach the
+server as well:
+
+```bash
+git pull
+python manage.py collectstatic --noinput
+```
+
+If `static/css/tailwind.css` or `static/img/younes-*.webp` are missing there, the page
+still renders correctly: `templates/base.html` falls back to the old runtime compiler when
+the precompiled stylesheet fails to load, and the hero `<img>` falls back to the original
+PNG when no WebP variant can be loaded. Both fallbacks are inert on a healthy deploy.
+
 Hero photo variants (WebP for phones) can be regenerated from `media/younes.png` with:
 
 ```bash

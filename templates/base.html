@@ -6,8 +6,12 @@
     <title>Younes Portfolio</title>
     {% load static %}
     <!-- Precompiled Tailwind (build with: npm run build:css) instead of the blocking
-         ~400KB Play-CDN runtime compiler. Same Tailwind 3.4.17 engine => same output. -->
-    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+         ~400KB Play-CDN runtime compiler. Same Tailwind 3.4.17 engine => same output.
+         Safety net: if this file is not on the server yet (static files not deployed /
+         collected), fall back to the old runtime compiler instead of rendering an
+         unstyled page. Never fires when the precompiled file is present. -->
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}"
+          onerror="this.onerror=null;var t=document.createElement('script');t.src='{% static 'js/tailwind.js' %}';document.head.appendChild(t);">
     <link rel="icon" href="{{ MEDIA_URL }}logo/logoy.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
