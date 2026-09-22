@@ -5,11 +5,11 @@
     <!-- The hero photo is the LCP element: start it as early as possible, but send phones
          the small WebP variant instead of the 4.9 MB original PNG. -->
     <link rel="preload" as="image" type="image/webp"
-          href="{% static 'img/younes-1400.webp' %}"
+          href="{% static 'img/younes.webp' %}"
           imagesrcset="{% static 'img/younes-900.webp' %} 900w, {% static 'img/younes-1400.webp' %} 1400w, {% static 'img/younes-2560.webp' %} 2560w"
           imagesizes="100vw"
           media="(max-width: 767px)">
-    <link rel="preload" as="image" type="image/png" href="/media/younes.png?v=3" media="(min-width: 768px)">
+    <link rel="preload" as="image" type="image/png" href="/media/younes.webp?v=3" media="(min-width: 768px)">
 {% endblock %}
 
 {% block content %}
@@ -34,15 +34,15 @@
             <div class="hero-photo-glow pointer-events-none absolute inset-[12%] rounded-full" aria-hidden="true"></div>
             <img
                 id="hero-photo"
-                src="/media/younes.png?v=3"
-                srcset="{% static 'img/younes-900.webp' %} 900w, {% static 'img/younes-1400.webp' %} 1400w, {% static 'img/younes-2560.webp' %} 2560w, /media/younes.png?v=3 4253w"
+                src="/media/younes.webp?v=3"
+                srcset="{% static 'img/younes-900.webp' %} 900w, {% static 'img/younes-1400.webp' %} 1400w, {% static 'img/younes-2560.webp' %} 2560w, /media/younes.webp?v=3 4253w"
                 sizes="(max-width: 767px) 100vw, 4253px"
                 width="4253"
                 height="5434"
                 alt="Younes"
                 fetchpriority="high"
                 decoding="async"
-                onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.removeAttribute('srcset');this.removeAttribute('sizes');this.src='/media/younes.png?v=3&amp;fallback=1';}"
+                onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.removeAttribute('srcset');this.removeAttribute('sizes');this.src='/media/younes.webp?v=3&amp;fallback=1';}"
                 class="hero-photo relative w-full h-full object-cover md:object-contain lg:object-cover xl:object-cover md:h-auto md:max-w-none md:w-[130%] lg:w-[145%] md:-mr-24 lg:-mr-32 md:-ml-8
                 [mask-image:radial-gradient(ellipse_90%_75%_at_50%_45%,black_35%,transparent_100%)]
                 md:[mask-image:radial-gradient(ellipse_85%_75%_at_65%_50%,black_35%,transparent_100%),linear-gradient(to_right,transparent_0%,black_20%)]
