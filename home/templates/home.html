@@ -2,8 +2,6 @@
 {% load static %}
 
 {% block extra_head %}
-    <!-- The hero photo is the LCP element: start it as early as possible, but send phones
-         the small WebP variant instead of the 4.9 MB original PNG. -->
     <link rel="preload" as="image" type="image/webp"
           href="{% static 'img/younes.webp' %}"
           imagesrcset="{% static 'img/younes-900.webp' %} 900w, {% static 'img/younes-1400.webp' %} 1400w, {% static 'img/younes-2560.webp' %} 2560w"
@@ -14,9 +12,8 @@
 
 {% block content %}
 
-<!-- HERO -->
 <section id="hero" class="relative min-h-screen overflow-hidden flex flex-col justify-center">
-    <!-- Atmosphere -->
+    
     <div class="hero-atmosphere pointer-events-none absolute inset-0" aria-hidden="true">
         <div class="hero-grid"><div class="hero-grid-layer"></div></div>
         <div class="hero-orb hero-orb--left"></div>
@@ -24,12 +21,10 @@
         <div class="hero-noise"></div>
     </div>
 
-    <!-- Main Container -->
-    <!-- تغییر: افزایش فاصله بین ستون‌ها (gap) در دسکتاپ تا متن و عکس از هم دورتر شوند -->
+    
     <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 items-center min-h-[calc(100vh-80px)] md:gap-12 lg:gap-20">
+
         
-        <!-- Visual Section (تصویر) -->
-        <!-- تغییر: Opacity موبایل از ۳۵ به ۵۰ درصد افزایش یافت تا عکس کامل دیده شود -->
        <div class="hero-visual absolute inset-x-0 top-0 h-[55vh] z-0 flex items-center justify-center opacity-50 pointer-events-none md:relative md:inset-auto md:h-auto md:opacity-100 md:order-2 overflow-visible md:pointer-events-auto md:justify-end">
             <div class="hero-photo-glow pointer-events-none absolute inset-[12%] rounded-full" aria-hidden="true"></div>
             <img
@@ -50,8 +45,7 @@
             >
         </div>
 
-        <!-- Copy Section (متن) -->
-        <!-- تغییر: اضافه شدن md:-ml-4 lg:-ml-12 برای کشیدن متن به سمت چپ در دسکتاپ -->
+        
         <div class="hero-copy relative z-10 flex flex-col items-center text-center md:items-start md:text-left md:order-1 pt-12 md:pt-0 md:-ml-4 lg:-ml-12">
             <p class="hero-boot mono mb-4 md:mb-6 text-[10px] lg:text-[11px] tracking-[0.3em] md:tracking-[0.28em] text-purple-200/90 md:text-purple-400/60 uppercase opacity-0">
                 <span class="hero-boot-dot"></span>
@@ -66,7 +60,12 @@
                 <span id="hero-type" data-text="full-stack Developer"></span><span id="hero-cursor" class="hero-cursor" aria-hidden="true"></span>
             </p>
 
-            <div class="hero-cta-row mt-8 lg:mt-10 flex items-center justify-center md:justify-start gap-6 opacity-0">
+            <div class="hero-cta-row mt-8 lg:mt-10 flex items-center justify-center md:justify-start gap-4 md:gap-6 opacity-0">
+                <a id="hero-say-hello" href="#contact" class="hero-say-hello mono inline-flex items-center gap-2 text-sm font-bold tracking-wide rounded-full px-6 py-3 border transition-all duration-300">
+                    <span class="hero-say-hello-glow" aria-hidden="true"></span>
+                    <span class="hero-say-hello-label">say hello | تماس</span>
+                    <span class="hero-cta-arrow" aria-hidden="true">→</span>
+                </a>
                 <a href="#projects-showcase" class="hero-cta mono inline-flex items-center gap-2 text-sm tracking-wide text-purple-100 md:text-purple-300 transition-colors hover:text-white md:hover:text-purple-100 drop-shadow-md md:drop-shadow-none">
                     Explore projects
                     <span class="hero-cta-arrow" aria-hidden="true">→</span>
@@ -77,7 +76,6 @@
 
     </div>
 
-    <!-- Scroll Indicator -->
     <a href="#what-i-build" class="hero-scroll mono absolute bottom-6 md:bottom-8 left-1/2 z-20 -translate-x-1/2 text-[10px] tracking-[0.4em] text-purple-200/80 md:text-purple-400/50 uppercase transition-colors hover:text-white md:hover:text-purple-300 text-center">
         scroll
         <span class="hero-scroll-line mx-auto mt-2 block h-6 md:h-8 w-px bg-gradient-to-b from-purple-200/90 md:from-purple-400/60 to-transparent" aria-hidden="true"></span>
@@ -99,7 +97,7 @@
                     <div class="flex h-full w-full items-start">
                         <div class="build-line-nums flex w-10 shrink-0 select-none flex-col border-r border-[#21262D] px-2 py-4 text-right font-mono text-[11px] leading-5 text-[#6E7681]">
                             <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>
-                            <div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div><div>15</div>
+                            <div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div>
                         </div>
                         <pre class="m-0 h-full w-0 min-w-0 flex-1 overflow-hidden whitespace-pre-wrap break-words px-4 py-4 font-mono text-[11px] leading-5 text-[#9CDCFE]"><span class="build-terminal" data-text="from django.db import models||class Project(models.Model):|    title = models.CharField(max_length=120)|    description = models.TextField()|    created_at = models.DateTimeField(auto_now_add=True)|    is_active = models.BooleanField(default=True)||    def __str__(self):|        return self.title"></span><span class="build-cursor inline-block w-1.5 h-3.5 bg-emerald-400 ml-0.5 align-middle animate-pulse"></span></pre>
                     </div>
@@ -183,8 +181,7 @@
                 <span class="w-24 mono text-sm">{{ tech_stack.title }}</span>
 
                 <div class="h-2 flex-1 overflow-hidden rounded-full bg-[#21262D]">
-                    <!-- در رنگ نوار، هم کلاس تیلویند و هم style درون‌خطی ست می‌شود تا رنگ‌های
-                         دلخواه ادمین حتی بدون ری‌بیلد CSS هم صد درصد کار کنند. -->
+                    
                     <div class="tech-progress-bar h-full w-0 rounded-full bg-[{{ tech_stack.color }}]" style="background-color: {{ tech_stack.color }}"></div>
                 </div>
 
@@ -194,16 +191,12 @@
     </div>
 </section>
 
-<!-- PROJECTS SHOWCASE -->
 <section id="projects-showcase" class="relative w-full bg-black min-h-screen border-t border-[#21262D]">
 
-    <!-- Scroll Track: 300vh for 3 cards -->
     <div id="projects-track" class="relative h-[300vh]">
-        
-        <!-- Sticky Container: Stays fixed on screen while scrolling the track -->
+
         <div class="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
-            
-            <!-- Sticky section header -->
+
             <div class="absolute top-0 left-0 z-50 w-full px-6 md:px-8 pt-6 md:pt-10 pointer-events-none">
                 <div class="relative mx-auto flex max-w-7xl items-start justify-between">
                     <div class="w-28"></div>
@@ -216,25 +209,22 @@
                 </div>
             </div>
 
-            <!-- PROJECT 1: KHOR MARKET -->
             <div class="project-card absolute w-[90%] max-w-[950px] opacity-0 z-10 pointer-events-none" data-index="0" data-percent="85">
                 <div class="floating-wrapper floating-anim">
                     <div class="project-bg relative w-full bg-gradient-to-br from-[#064e3b] via-[#022c22] to-black rounded-3xl p-5 md:p-8 border border-emerald-800/50 shadow-[0_0_80px_-20px_rgba(16,185,129,0.2)] overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 h-auto md:h-[500px] min-h-[440px] md:min-h-[500px]">
-                        
-                        <!-- Left: Info & Terminal -->
+
                         <div class="card-content flex-1 flex flex-col justify-between z-10">
                             <div>
                                 <h3 class="text-4xl md:text-6xl font-black text-emerald-400 mb-1 md:mb-2 leading-none">KHUR<br>MARKET</h3>
                                 <p class="font-mono text-emerald-500/70 text-xs md:text-sm mb-4 md:mb-8">Multi-vendor marketplace</p>
-                                
-                                <!-- Terminal Box -->
+
                                 <div class="bg-black/50 border border-emerald-900/50 rounded-lg p-3 md:p-4 font-mono text-xs md:text-sm text-emerald-400 h-28 md:h-32 relative">
                                     <div class="absolute top-2 right-2 flex gap-1">
                                         <div class="w-2 h-2 rounded-full bg-emerald-700"></div>
                                         <div class="w-2 h-2 rounded-full bg-emerald-700"></div>
                                     </div>
                                     <div class="terminal-text-container">
-                                        <!-- JS will inject typing here -->
+                                        
                                         <span class="terminal-text" data-text="init khor_market.py|loading dependencies...|stack: [Django, DRF, Stripe]|status: Ready."></span><span class="terminal-cursor inline-block w-2 h-4 bg-emerald-400 ml-1 align-middle animate-pulse"></span>
                                     </div>
                                 </div>
@@ -254,7 +244,6 @@
                             </div>
                         </div>
 
-                        <!-- Right: Massive Icon -->
                         <div class="absolute -bottom-6 -right-6 md:bottom-0 md:right-0 w-[120px] md:w-[150px] lg:w-[300px] opacity-10 md:opacity-100 pointer-events-none">
                             <div class="card-content flex-1 flex items-center justify-center relative">
                                 <div class="absolute inset-0 bg-emerald-500/10 blur-3xl rounded-full"></div>
@@ -267,13 +256,12 @@
                 </div>
             </div>
 
-            <!-- PROJECT 2: DIGITAL MENU -->
             <div class="project-card absolute w-[90%] max-w-[700px] opacity-0 z-10 pointer-events-none" data-index="1" data-percent="100">
                 <div class="floating-wrapper floating-anim" style="animation-delay: -1s;">
                     <div class="project-bg relative w-full bg-[#020617] rounded-3xl p-5 md:p-10 border-2 border-blue-900/50 shadow-[0_0_100px_-20px_rgba(30,58,138,0.4)] overflow-hidden flex flex-col items-center text-center h-auto md:h-[500px] min-h-[440px] md:min-h-[500px]">
                         
                         <div class="card-content w-full z-10">
-                            <!-- Massive QR -->
+                            
                             <div class="relative inline-block bg-blue-950/40 p-3 md:p-4 rounded-2xl border border-blue-500/30 mb-4 md:mb-8 mt-2 md:mt-4">
                                 <div class="grid grid-cols-5 gap-1.5 md:grid-cols-5 md:gap-2 w-24 h-24 md:w-32 md:h-32 opacity-80">
                                     <div class="bg-blue-500 rounded-sm"></div><div class="bg-blue-400"></div><div class="bg-transparent"></div><div class="bg-blue-600 rounded-sm"></div><div class="bg-blue-500"></div>
@@ -287,15 +275,13 @@
 
                             <h3 class="text-3xl md:text-4xl font-black text-blue-100 tracking-[0.2em] mb-1">DIGITAL MENU</h3>
                             <p class="font-mono text-blue-500/70 text-[10px] md:text-xs tracking-widest mb-4 md:mb-8">QR-BASED ORDERING SYSTEM</p>
-                            
-                            <!-- Terminal Box -->
+
                             <div class="text-left font-mono text-xs text-blue-300 mb-4 md:mb-8 h-16 w-full max-w-sm mx-auto">
                                 <div class="terminal-text-container">
                                     <span class="terminal-text" data-text="> generating dynamic QR...|> stack: [WebSockets, Redis]|> real-time sync active."></span><span class="terminal-cursor inline-block w-2 h-3 bg-blue-400 ml-1 align-middle animate-pulse"></span>
                                 </div>
                             </div>
-                            
-                            <!-- Bottom Action -->
+
                             <div class="w-full max-w-md mx-auto grid grid-cols-[1fr_auto] gap-4 items-center border-t border-blue-900/50 pt-4 md:pt-6">
                                 <div>
                                     <div class="flex justify-between font-mono text-[9px] md:text-[10px] mb-2">
@@ -315,21 +301,19 @@
                 </div>
             </div>
 
-            <!-- PROJECT 3: MONOPOLY WALLET -->
             <div class="project-card absolute w-[90%] max-w-[850px] opacity-0 z-10 pointer-events-none" data-index="2" data-percent="60">
                 <div class="floating-wrapper floating-anim" style="animation-delay: -2s;">
                     <div class="project-bg relative w-full bg-[#1c0e05] rounded-3xl p-5 md:p-8 border border-orange-900/40 shadow-[0_0_80px_-20px_rgba(245,158,11,0.15)] overflow-hidden h-auto md:h-[500px] min-h-[440px] md:min-h-[500px] flex flex-col">
                         
                         <div class="card-content flex-1 z-10">
-                            <!-- Top: Credit Card Visual & Title -->
+                            
                             <div class="flex flex-col-reverse md:flex-row justify-between items-center md:items-start md:gap-8 md:mb-10 mb-4">
                                 <div class="text-center md:text-left">
                                     <h3 class="text-3xl md:text-5xl font-black text-orange-400 mb-1 md:mb-2">MONOPOLY</h3>
                                     <h3 class="text-2xl md:text-4xl font-bold text-orange-300 mb-1 md:mb-2">WALLET</h3>
                                     <p class="font-mono text-orange-600 text-xs md:text-sm">Gamified financial dashboard</p>
                                 </div>
-                                
-                                <!-- Physical Card Mockup -->
+
                                 <div class="w-36 h-22 md:w-40 md:h-24 lg:w-64 lg:h-40 bg-gradient-to-tr from-yellow-700 via-yellow-500 to-orange-400 rounded-xl p-3 md:p-5 shadow-2xl relative overflow-hidden transform md:rotate-3 mb-4 md:mb-0">
                                     <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-30"></div>
                                     <div class="flex justify-between items-start relative z-10">
@@ -345,10 +329,9 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- Bottom Grid: Terminal + Progress -->
+
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-end">
-                                <!-- Terminal box styled like an ATM/System readout -->
+                                
                                 <div class="bg-black border-l-2 border-orange-500 p-3 md:p-4 font-mono text-xs md:text-sm h-24 md:h-28 flex flex-col justify-end">
                                     <div class="terminal-text-container text-orange-300">
                                         <span class="terminal-text" data-text="connection secured.|> fetching portfolio...| > stack: [Django, Pandas]|> analytics generated."></span><span class="terminal-cursor inline-block w-2 h-4 bg-orange-500 ml-1 align-middle animate-pulse"></span>
@@ -380,7 +363,6 @@
     </div>
 </section>
 
-<!-- FOOTER / CONTACT -->
 <footer id="contact" class="relative overflow-hidden border-t border-[#21262D] bg-black">
     <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(126,34,206,0.18),transparent_55%)]"></div>
 
@@ -396,12 +378,46 @@
             I’m open to collaborations and full-stack builds.
         </p>
 
-        <div class="mx-auto mb-10 md:mb-16 flex max-w-md flex-col items-center gap-4 sm:flex-row sm:justify-center">
+        <div class="mx-auto mb-8 md:mb-10 flex max-w-md flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a href="mailto:hello@younes.dev" class="inline-flex w-full items-center justify-center rounded border border-purple-700/60 bg-purple-900/30 px-8 py-3 font-mono text-sm text-purple-200 transition-colors hover:bg-purple-800/40 sm:w-auto">
                 Say hello →
             </a>
             <a href="#projects-showcase" class="inline-flex w-full items-center justify-center px-6 py-3 font-mono text-sm text-[#8B949E] transition-colors hover:text-purple-300 sm:w-auto">
                 Back to projects
+            </a>
+        </div>
+
+        <div class="social-row">
+            <a class="social-card social-card--telegram"
+               href="https://t.me/sed_y_m_code"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Telegram — sed_y_m_code">
+                <span class="social-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor" role="img">
+                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161l-2.02 9.53c-.152.679-.556.845-1.126.526l-3.115-2.297-1.503 1.447c-.166.166-.306.306-.627.306l.222-3.164 5.76-5.203c.25-.222-.055-.346-.387-.124l-7.119 4.482-3.067-.958c-.667-.208-.68-.667.14-.987l11.99-4.622c.555-.201 1.041.135.852.864z"/>
+                    </svg>
+                </span>
+                <span class="social-text">
+                    <span class="social-name">Telegram</span>
+                    <span class="social-handle">sed_y_m_code</span>
+                </span>
+                <span class="social-arrow" aria-hidden="true">→</span>
+            </a>
+
+            <a class="social-card social-card--linkedin"
+               href="https://www.linkedin.com/in/sed-younes-mousavi-943740425?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_android"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="LinkedIn — Younes Mousavi">
+                <span class="social-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor" role="img">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </span>
+                <span class="social-text">
+                    <span class="social-name">LinkedIn</span>
+                    <span class="social-handle">Sed Younes Mousavi</span>
+                </span>
+                <span class="social-arrow" aria-hidden="true">→</span>
             </a>
         </div>
 
@@ -422,17 +438,20 @@
     </div>
 </footer>
 
-<!-- Scoped Styles for Animations -->
 <style>
-    /* ===== HERO ===== */
+    @font-face {
+        font-family: 'Vazirmatn';
+        src: url("{% static 'fonts/Vazirmatn-Bold.woff2' %}") format('woff2');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+    }
+
     .hero-atmosphere {
         background: radial-gradient(ellipse 80% 60% at 20% 40%, rgba(88, 28, 135, 0.22), transparent 55%),
                     radial-gradient(ellipse 70% 50% at 85% 55%, rgba(59, 7, 100, 0.28), transparent 50%);
     }
 
-    /* The mask stays on the static wrapper so the drifting grid can run on its own
-       compositor layer: identical 64px / 28s / linear motion, but no full-viewport
-       repaint on every frame (this was the main scroll/entry jank on phones). */
     .hero-grid {
         position: absolute;
         inset: 0;
@@ -593,6 +612,95 @@
         transform: translateX(4px);
     }
 
+    .hero-say-hello {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        background-color: #ffffff;
+        color: #0a0a0a;
+        border-color: #ffffff;
+        text-decoration: none;
+        will-change: transform, box-shadow;
+        box-shadow: 0 0 0 0 rgba(192, 132, 252, 0),
+                    0 10px 30px -14px rgba(168, 85, 247, 0.45);
+    }
+
+    .hero-say-hello-glow {
+        position: absolute;
+        inset: -60%;
+        z-index: -1;
+        border-radius: 9999px;
+        background: radial-gradient(circle, rgba(192, 132, 252, 0.55), transparent 62%);
+        opacity: 0;
+        filter: blur(14px);
+        transition: opacity 0.6s ease 2.1s;
+        pointer-events: none;
+    }
+
+    .hero-cta-row.is-visible .hero-say-hello-glow {
+        opacity: 1;
+        animation: sayHelloHalo 4.5s ease-in-out 2.4s infinite;
+    }
+
+    @keyframes sayHelloHalo {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.08); opacity: 0.72; }
+    }
+
+    .hero-say-hello::after {
+        content: '';
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 45%;
+        background: linear-gradient(100deg, transparent, rgba(168, 85, 247, 0.22), transparent);
+        transform: translateX(-140%);
+        transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+        pointer-events: none;
+    }
+
+    .hero-say-hello:hover::after,
+    .hero-say-hello:focus-visible::after {
+        transform: translateX(240%);
+    }
+
+    .hero-say-hello:hover,
+    .hero-say-hello:focus-visible {
+        transform: translateY(-2px);
+        border-color: #e9d5ff;
+        box-shadow: 0 0 0 0 rgba(192, 132, 252, 0.55),
+                    0 10px 30px -8px rgba(168, 85, 247, 0.55);
+    }
+
+    .hero-say-hello:active {
+        transform: translateY(0) scale(0.985);
+    }
+
+    .hero-say-hello:focus-visible {
+        outline: 2px solid #c084fc;
+        outline-offset: 3px;
+    }
+
+    .hero-say-hello-label {
+        font-family: 'Vazirmatn', 'JetBrains Mono', monospace;
+        white-space: nowrap;
+        unicode-bidi: isolate;
+        direction: ltr;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero-say-hello,
+        .hero-say-hello::after,
+        .hero-say-hello-glow {
+            transition: none;
+            animation: none;
+        }
+
+        .hero-say-hello:hover,
+        .hero-say-hello:focus-visible {
+            transform: none;
+        }
+    }
+
     .hero-photo-glow {
         background: radial-gradient(circle, rgba(168, 85, 247, 0.35), transparent 70%);
         filter: blur(40px);
@@ -632,7 +740,6 @@
         50% { transform: scaleY(0.65); opacity: 1; }
     }
 
-    /* Shared section titles */
     .section-title {
         font-family: 'Inter', sans-serif;
         margin-bottom: 5rem;
@@ -650,7 +757,6 @@
         text-shadow: 0 0 40px rgba(126, 34, 206, 0.25);
     }
 
-    /* Floating Animation */
     @keyframes floatSoft {
         0%, 100% { transform: translateY(0px); }
         50% { transform: translateY(-12px); }
@@ -662,7 +768,6 @@
         justify-content: center;
     }
 
-    /* QR Scanner line animation */
     @keyframes scan {
         0%, 100% { top: 0%; opacity: 0; }
         10%, 90% { opacity: 1; }
@@ -702,7 +807,6 @@
         pointer-events: none;
     }
 
-    /* Tech Stack reveal — same cinematic language as project cards */
     .tech-row {
         opacity: 0;
         transform: perspective(1200px) translateY(40px) scale(0.92) rotateX(8deg);
@@ -720,7 +824,6 @@
         filter: blur(0);
     }
 
-    /* Fixed-size build panels — never resize with content */
     .build-panel {
         width: 100%;
         max-width: 100%;
@@ -731,7 +834,6 @@
         width: 100%;
     }
 
-    /* REST API lines — same language as tech-stack rows */
     .api-line {
         opacity: 0;
         transform: perspective(800px) translateY(24px) scale(0.94) rotateX(8deg);
@@ -748,7 +850,6 @@
         filter: blur(0);
     }
 
-    /* Web Apps assemble */
     .webapp-chrome {
         transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         transform: translateY(-6px);
@@ -800,9 +901,175 @@
         opacity: 1;
         animation: webappScan 1.6s linear 1;
     }
+
+    .social-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        max-width: 40rem;
+        margin: 0 auto 2.5rem;
+    }
+
+    .social-card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        overflow: hidden;
+        padding: 1rem 1.15rem;
+        border: 1px solid #30363D;
+        border-radius: 0.9rem;
+        background: #0D1117;
+        text-decoration: none;
+        transition:
+            transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+            border-color 0.4s ease,
+            box-shadow 0.4s ease,
+            background-color 0.4s ease;
+        will-change: transform;
+    }
+
+    .social-card::after {
+        content: '';
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 40%;
+        background: linear-gradient(100deg, transparent, rgba(168, 85, 247, 0.18), transparent);
+        transform: translateX(-160%);
+        transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        pointer-events: none;
+    }
+
+    .social-card:hover::after,
+    .social-card:focus-visible::after {
+        transform: translateX(300%);
+    }
+
+    .social-card:hover,
+    .social-card:focus-visible {
+        transform: translateY(-3px);
+    }
+
+    .social-card:focus-visible {
+        outline: 2px solid #c084fc;
+        outline-offset: 3px;
+    }
+
+    .social-card--telegram:hover,
+    .social-card--telegram:focus-visible {
+        border-color: rgba(41, 171, 226, 0.55);
+        background: rgba(41, 171, 226, 0.08);
+        box-shadow: 0 14px 34px -16px rgba(41, 171, 226, 0.7);
+    }
+
+    .social-card--linkedin:hover,
+    .social-card--linkedin:focus-visible {
+        border-color: rgba(10, 102, 194, 0.65);
+        background: rgba(10, 102, 194, 0.1);
+        box-shadow: 0 14px 34px -16px rgba(10, 102, 194, 0.8);
+    }
+
+    .social-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.65rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid #21262D;
+        transition: background-color 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+    }
+
+    .social-icon svg {
+        width: 1.15rem;
+        height: 1.15rem;
+        display: block;
+    }
+
+    .social-card--telegram .social-icon {
+        color: #29abe2;
+    }
+
+    .social-card--linkedin .social-icon {
+        color: #0a66c2;
+    }
+
+    .social-card:hover .social-icon,
+    .social-card:focus-visible .social-icon {
+        transform: scale(1.06);
+        border-color: rgba(168, 85, 247, 0.45);
+        background: rgba(168, 85, 247, 0.1);
+    }
+
+    .social-text {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        text-align: left;
+    }
+
+    .social-name {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: #E6EDF3;
+    }
+
+    .social-handle {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.04em;
+        color: #6E7681;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .social-arrow {
+        margin-left: auto;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
+        color: #6E7681;
+        transition: transform 0.35s ease, color 0.35s ease;
+    }
+
+    .social-card:hover .social-arrow,
+    .social-card:focus-visible .social-arrow {
+        transform: translateX(4px);
+        color: #c084fc;
+    }
+
+    .social-card--linkedin .social-handle {
+        direction: ltr;
+        unicode-bidi: isolate;
+    }
+
+    @media (max-width: 640px) {
+        .social-row {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .social-card,
+        .social-card::after,
+        .social-icon,
+        .social-arrow {
+            transition: none;
+        }
+
+        .social-card:hover,
+        .social-card:focus-visible,
+        .social-card:hover .social-icon,
+        .social-card:focus-visible .social-icon {
+            transform: none;
+        }
+    }
 </style>
 
-<!-- Scroll & Interaction Logic -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const track = document.getElementById('projects-track');
@@ -810,7 +1077,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeIndex = -1;
     let typeTimeouts = [];
 
-    // --- HERO: atmosphere entrance + typing + photo fade ---
     const heroSection = document.getElementById('hero');
     const heroName = document.querySelector('.hero-name');
     const heroBoot = document.querySelector('.hero-boot');
@@ -829,10 +1095,28 @@ document.addEventListener("DOMContentLoaded", () => {
         if (heroCtaRow) heroCtaRow.classList.add('is-visible');
     });
 
-    // Soft parallax between copy and photo.
-    // The maths are untouched; it is now driven by the single rAF-throttled scroll
-    // pipeline registered near the bottom of this script (one listener, at most one
-    // style write per frame) and it stops while the hero is off-screen.
+    let programmaticScrollUntil = 0;
+
+    function scrollToContact(event) {
+        const contact = document.getElementById('contact');
+        if (!contact) return;
+
+        event.preventDefault();
+
+        const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            ? 'auto'
+            : 'smooth';
+
+        programmaticScrollUntil = Date.now() + (behavior === 'smooth' ? 1600 : 0);
+
+        contact.scrollIntoView({ behavior, block: 'start' });
+    }
+
+    document.querySelectorAll('a[href="#contact"]').forEach(link => {
+        link.addEventListener('click', scrollToContact);
+    });
+
+
     const heroCopy = heroSection ? heroSection.querySelector('.hero-copy') : null;
     let heroInView = true;
 
@@ -879,7 +1163,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     typeNatural(heroType, { startDelay: 900, minDelay: 70, maxDelay: 140, pauseOnSpace: 110 });
 
-    // Footer terminal (fires when visible)
     if (footerType) {
         const footerObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -898,7 +1181,6 @@ document.addEventListener("DOMContentLoaded", () => {
         footerObserver.observe(footerType.closest('footer') || footerType);
     }
 
-    // --- WHAT I BUILD ---
     const buildSection = document.getElementById('what-i-build');
     let buildAnimated = false;
     const buildTypeTimeouts = [];
@@ -988,7 +1270,6 @@ document.addEventListener("DOMContentLoaded", () => {
         buildObserver.observe(buildSection);
     }
 
-    // --- TECH STACK LINE-BY-LINE REVEAL ---
     const techSection = document.getElementById('tech-stack');
     const techRows = document.querySelectorAll('.tech-row');
     let techAnimated = false;
@@ -1049,12 +1330,10 @@ document.addEventListener("DOMContentLoaded", () => {
         techObserver.observe(techSection);
     }
 
-    // اعمال یک Transition اختصاصی و سینمایی به همه کارت‌ها
     cards.forEach(card => {
         card.style.transition = 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
     });
 
-    // --- TERMINAL TYPING LOGIC ---
     function typeTerminal(card) {
         const terminal = card.querySelector('.terminal-text');
         if (!terminal) return;
@@ -1091,7 +1370,6 @@ document.addEventListener("DOMContentLoaded", () => {
         typeTimeouts.push(setTimeout(typeChar, 400));
     }
 
-    // --- PROGRESS LOGIC ---
     function runProgress(card) {
         const targetPercent = parseInt(card.getAttribute('data-percent'));
         const bar = card.querySelector('.progress-bar');
@@ -1122,9 +1400,8 @@ document.addEventListener("DOMContentLoaded", () => {
         requestAnimationFrame(scrambleText);
     }
 
-    // --- SCROLL TRACKING LOGIC ---
     let snapTimeout;
-    let trackHeight = 0; // the 300vh track never resizes with its content: measure on resize only
+    let trackHeight = 0;
 
     function measureTrack() {
         trackHeight = track ? track.offsetHeight : 0;
@@ -1134,7 +1411,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const trackRect = track.getBoundingClientRect();
         const windowHeight = window.innerHeight;
 
-        // Skip all work (and the forced layout read) while the track is fully off-screen.
         if (trackRect.bottom < 0 || trackRect.top > windowHeight) return;
 
         if (!trackHeight) measureTrack();
@@ -1156,7 +1432,6 @@ document.addEventListener("DOMContentLoaded", () => {
             
             cards.forEach((card, idx) => {
                 if (idx === activeIndex) {
-                    // ENTER: کارت به وسط صفحه می‌آید، واضح و با اندازه طبیعی
                     card.style.opacity = '1';
                     card.style.transform = 'perspective(1200px) translateY(0px) scale(1) rotateX(0deg)';
                     card.style.pointerEvents = 'auto';
@@ -1166,25 +1441,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     typeTerminal(card);
                     runProgress(card);
                 } else {
-                    // EXIT: کارت‌های غیرفعال خیلی بیشتر جابجا می‌شوند، کوچک می‌شوند، می‌چرخند و تار می‌شوند
                     card.style.opacity = '0';
                     const isAbove = idx < activeIndex;
-                    
-                    // تنظیم انیمیشن اغراق‌شده‌تر برای ورود و خروج
+
                     const yOffset = isAbove ? '-250px' : '250px';
                     const rotateX = isAbove ? '10deg' : '-10deg';
                     
                     card.style.transform = `perspective(1200px) translateY(${yOffset}) scale(0.8) rotateX(${rotateX})`;
                     card.style.pointerEvents = 'none';
                     card.style.zIndex = '10';
-                    card.style.filter = 'blur(10px)'; // افکت تار شدن سینمایی
+                    card.style.filter = 'blur(10px)';
                 }
             });
         }
 
-        // --- SNAP SCROLL ---
         clearTimeout(snapTimeout);
         snapTimeout = setTimeout(() => {
+            if (Date.now() < programmaticScrollUntil) return;
             if (trackRect.top < windowHeight && trackRect.bottom > 0) {
                 const snapPoints = [0, windowHeight, windowHeight * 2];
                 const closestPoint = snapPoints.reduce((prev, curr) => 
@@ -1199,10 +1472,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 400);
     }
 
-    // --- SINGLE SCROLL PIPELINE ---
-    // One listener + one rAF for everything scroll-driven (hero parallax + project
-    // track). Previously each of them registered its own listener and wrote styles
-    // straight from the scroll event, which is what made phones stutter on entry.
+
+
     let scrollFrameQueued = false;
 
     function onScrollFrame() {
@@ -1226,7 +1497,6 @@ document.addEventListener("DOMContentLoaded", () => {
     measureTrack();
     updateCards();
 
-    // --- FULLSCREEN EXPANSION LOGIC ---
     document.querySelectorAll('.expand-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1237,7 +1507,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const bgBox = cardParent.querySelector('.project-bg');
             const floater = cardParent.querySelector('.floating-wrapper');
 
-            // Capture visual position BEFORE any layout changes
             const rect = bgBox.getBoundingClientRect();
 
             document.body.classList.add('project-expanding');
@@ -1246,7 +1515,6 @@ document.addEventListener("DOMContentLoaded", () => {
             overlay.className = 'project-expand-overlay';
             document.body.appendChild(overlay);
 
-            // Pin card exactly where it was on screen first (avoids jump)
             bgBox.classList.add('is-expanding');
             bgBox.style.position = 'fixed';
             bgBox.style.top = `${rect.top}px`;
@@ -1258,7 +1526,6 @@ document.addEventListener("DOMContentLoaded", () => {
             bgBox.style.boxSizing = 'border-box';
             bgBox.style.maxWidth = 'none';
 
-            // Now safe to freeze floating + scroll transforms
             floater.classList.remove('floating-anim');
             floater.style.animation = 'none';
             floater.style.transform = 'none';
