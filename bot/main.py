@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 apihelper.API_URL = "https://telegram.sedyounesmousavi1388.workers.dev/bot{0}/{1}"
 apihelper.FILE_URL = "https://telegram.sedyounesmousavi1388.workers.dev/file/bot{0}/{1}"
 
-# ۲. بارگذاری متغیرهای محیطی از فایل .env
+# ۲. لود متغیرها
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(base_dir, '.env'))
 
@@ -27,7 +27,7 @@ if not BOT_TOKEN or not GEMINI_API_KEY:
 # آیدی مشاوره یونس (فقط برای مشاوره، نه معرفی به عنوان برنامه‌نویس)
 YOUNES_CONTACT = "@sed_y_m_code"
 
-# ۳. اتصال به جمنای از طریق ورکر کلودفلر
+# ۳. اتصال به جمنای
 client = genai.Client(
     api_key=GEMINI_API_KEY,
     http_options={"baseUrl": "https://gemini.sedyounesmousavi1388.workers.dev"}
@@ -41,30 +41,33 @@ try:
 except FileNotFoundError:
     knowledge_base = "اطلاعاتی ثبت نشده است."
 
-# ۵. پرامپت سیستم و قوانین رفتار ربات
+# ۵. پرامپت با قابلیت تشخیص لید و پیام‌های مهم
 SYSTEM_INSTRUCTION = f"""
 تو دستیار شخصی و صمیمی یونس هستی. نقش تو اینه که کاملاً مثل یک انسان واقعی، صمیمی، چت‌گونه و خلاصه صحبت کنی.
 
 قوانین سخت‌گیرانه لحن و فرمت:
-۱. به هیچ عنوان از علامت‌های مارک‌داون مثل ** (ستاره برای بولد کردن)، *، #، یا لیست‌های بولت‌پوینتی (- یا •) استفاده نکن. متن باید کاملاً ساده و مثل پیام‌های تلگرامی عادی باشه.
+۱. به هیچ عنوان از علامت‌های مارک‌داون مثل ** (ستاره برای بولد کردن)، *، #، یا لیست‌های بولت‌پوینتی (- یا •) استفاده نکن. من باید کاملاً ساده و مثل پیام‌های تلگرامی عادی باشه.
 ۲. از به‌کار بردن دو نقطه (:) و حالت تیتروار جداً خودداری کن.
-۳. پاسخ‌ها رو خیلی کوتاه، روان و انسان‌گونه بنویس. از انشا نوشتن و متن‌های طولانی رباتی پرهیز کن.
+۳. پاسخ‌ها رو خیلی کوتاه، روان و انسان‌گونه بنویس.
 
 نحوه صحبت درباره پروژه‌ها:
-- اصلاً پروژه‌ها رو لیست نکن. روان و عامیانه توی متن بگو؛ مثلاً: «یونس چند تا پروژه خفن مثل خورمارکت یا منوی دیجیتال کافی‌شاپ رو ساخته که سیستم سفارش‌گیری و مدیریتشون واقعاً کارفرماها رو راحت کرده.»
+- اصلاً پروژه‌ها رو لیست نکن. روان و عامیانه توی متن بگو؛ مثلاً: «یونس چند تا پروژه خفن مثل خورمارکت یا منوی دیجیتال کافی‌ش رو ساخته که سیستم سفارش‌گیری و مدیریتشون واقعاً کارفرماها رو راحت کرده.»
 
 تشخیص مخاطب (مشتری یا برنامه‌نویس):
-- تا زمانی که کاربر خودش نگفته برنامه‌نویسه یا سوال کاملاً تخصصی کدنویسی نپرسیده، فرض کن یک مشتری یا فرد معمولیه.
-- برای مشتری‌ها اصلاً کلمات فنی مثل جنگو، API، دیتابیس، بک‌اند و اینا رو به کار نبر. درباره حل مشکل کسب‌وکارشون، راحت‌تر شدن کارها، افزایش مشتری و ارزش دادن به کارشون صحبت کن.
+- تا زمانی که کاربر خودش نگفته برنامه‌نویسه، فرض کن مشتریه و اصلاً کلمات فنی (مثل جنگو، API و دیتابیس) نگو. درباره راه حل کسب‌وکارش صحبت کن.
 - اگر حس کردی کاربر مشتریه یا قصد سفارش پروژه داره، تشویقش کن و بگو یونس دقیقاً می‌تونه متناسب با نیاز کسب‌وکارش سیستم بسازه. اگه کاربر نیاز به مشاوره داشت، آیدی {YOUNES_CONTACT} رو بهش بده.
 - فقط اگه کاربر برنامه‌نویس بود یا سوال فنی پرسید، می‌تونی وارد جزئیات فنی و فریم‌ورک‌ها بشی.
+
+قانون بسیار مهم تشخیص پیام مهم / لید:
+اگر کاربر شماره تماس، آیدی تلگرام، پیشنهاد کاری، درخواست قیمت یا پروژه مطرح کرد، یا سوال بسیار مهمی پرسید، علاوه بر جواب عادی که بهش میدی، در انتهای انتهای پاسخت دقیقاً این کد رو اضافه کن:
+[ALERT: خلاصه خیلی کوتاه درخواست و اطلاعات تماس کاربر]
 
 --- پایگاه دانش یونس ---
 {knowledge_base}
 """
 
 MODEL_NAME = "gemini-3.1-flash-lite"
-user_sessions = {}
+user_histories = {}
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
@@ -80,10 +83,10 @@ def extract_project_name(text):
     return text.strip()
 
 
-def send_lead_to_admin(message, project_name):
+def send_buy_lead_to_admin(message, project_name):
     """ارسال لید درخواست خرید به یونس. اگر کاربر آیدی نداشت، راه ارتباط جایگزین هم ارسال می‌شود."""
     if not ADMIN_CHAT_ID:
-        print("ADMIN_CHAT_ID تنظیم نشده؛ لید ارسال نشد.")
+        print("ADMIN_CHAT_ID تنظیم نشده؛ لید خرید ارسال نشد.")
         return
 
     user = message.from_user
@@ -115,18 +118,13 @@ def send_lead_to_admin(message, project_name):
         # فوروارد پیام کاربر تا حتی بدون یوزرنیم هم بتوانی روی پیام بزنی و پاسخ دهی
         bot.forward_message(ADMIN_CHAT_ID, message.chat.id, message.message_id)
     except Exception as e:
-        print(f"ارسال لید به ادمین با خطا مواجه شد: {e}")
+        print(f"ارسال لید خرید به ادمین با خطا مواجه شد: {e}")
 
 
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['start', 'reset', 'clear'])
 def start_command(message):
     chat_id = message.chat.id
-    user_sessions[chat_id] = client.chats.create(
-        model=MODEL_NAME,
-        config=types.GenerateContentConfig(
-            system_instruction=SYSTEM_INSTRUCTION
-        )
-    )
+    user_histories[chat_id] = []
     bot.reply_to(message, "سلام! من دستیار یونسم. چطور می‌تونم کمکت کنم؟")
 
 
@@ -147,27 +145,73 @@ def handle_buy_request(message):
     )
     bot.reply_to(message, reply)
 
-    send_lead_to_admin(message, project_name)
+    send_buy_lead_to_admin(message, project_name)
 
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
     chat_id = message.chat.id
 
-    if chat_id not in user_sessions:
-        user_sessions[chat_id] = client.chats.create(
-            model=MODEL_NAME,
-            config=types.GenerateContentConfig(
-                system_instruction=SYSTEM_INSTRUCTION
-            )
-        )
+    if chat_id not in user_histories:
+        user_histories[chat_id] = []
+
+    user_content = types.Content(
+        role="user",
+        parts=[types.Part.from_text(text=message.text)]
+    )
+    user_histories[chat_id].append(user_content)
+
+    if len(user_histories[chat_id]) > 20:
+        user_histories[chat_id] = user_histories[chat_id][-20:]
 
     max_retries = 3
+    success = False
+
     for attempt in range(max_retries):
         try:
-            chat = user_sessions[chat_id]
-            response = chat.send_message(message.text)
-            bot.reply_to(message, response.text)
+            response = client.models.generate_content(
+                model=MODEL_NAME,
+                contents=user_histories[chat_id],
+                config=types.GenerateContentConfig(
+                    system_instruction=SYSTEM_INSTRUCTION
+                )
+            )
+
+            full_text = response.text
+            user_reply = full_text
+            alert_info = None
+
+            # بررسی وجود هشدار پیام مهم
+            if "[ALERT:" in full_text:
+                parts = full_text.split("[ALERT:")
+                user_reply = parts[0].strip()
+                alert_info = parts[1].replace("]", "").strip()
+
+            # ذخیره پاسخ تمیز شده در تاریخچه
+            model_content = types.Content(
+                role="model",
+                parts=[types.Part.from_text(text=user_reply)]
+            )
+            user_histories[chat_id].append(model_content)
+
+            # فرستادن پاسخ به کاربر
+            bot.reply_to(message, user_reply)
+
+            # فرستادن نوتیفیکیشن اختصاصی به پی‌وی یونس
+            if alert_info and ADMIN_CHAT_ID:
+                username = f"@{message.from_user.username}" if message.from_user.username else "بدون آیدی"
+                admin_msg = (
+                    f"🎯 **لید یا پیام مهم جدید!**\n\n"
+                    f"👤 کاربر: {message.from_user.first_name} ({username})\n"
+                    f"💬 پیام کاربر: {message.text}\n"
+                    f"💡 تشخیص هوش مصنوعی: {alert_info}"
+                )
+                try:
+                    bot.send_message(ADMIN_CHAT_ID, admin_msg)
+                except Exception as adm_err:
+                    print(f"خطا در ارسال پیام به ادمین: {adm_err}")
+
+            success = True
             break
         except Exception as e:
             error_msg = str(e)
@@ -178,8 +222,10 @@ def handle_message(message):
                     time.sleep(2)
                     continue
 
-            bot.reply_to(message, "سرور هوش مصنوعی یکم شلوغه، لطفاً چند ثانیه دیگه دوباره پیامت رو بفرست.")
-            break
+    if not success:
+        if user_histories[chat_id] and user_histories[chat_id][-1].role == "user":
+            user_histories[chat_id].pop()
+        bot.reply_to(message, "سرور هوش مصنوعی یکم شلوغه، لطفاً چند ثانیه دیگه دوباره پیامت رو بفرست.")
 
 
 if __name__ == "__main__":
