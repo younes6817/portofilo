@@ -6,6 +6,18 @@ from django.db import models
 from tech_stack.models import TechStack
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name='نام')
+
+    class Meta:
+        verbose_name = 'دسته‌بندی'
+        verbose_name_plural = 'دسته‌بندی‌ها'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class Project(models.Model):
     TELEGRAM_BOT_USERNAME = 'Younes_web_developer_bot'
 
@@ -16,6 +28,7 @@ class Project(models.Model):
     description = models.TextField()
     important = models.IntegerField(default=1)
     tech_stacks = models.ManyToManyField(TechStack, related_name='projects', blank=True)
+    categories = models.ManyToManyField(Category, related_name='projects', verbose_name='دسته‌بندی‌ها')
     github_link = models.URLField(max_length=255, null=True, blank=True)
     live_demo_link = models.URLField(max_length=255, null=True, blank=True)
     cilend_or_role = models.CharField(max_length=100, null=True, blank=True)

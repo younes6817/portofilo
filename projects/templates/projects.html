@@ -21,6 +21,20 @@
             </div>
         </header>
 
+        <!-- Category Filter Bar -->
+        {% if categories %}
+        <nav class="category-bar mb-12 -mt-4 flex items-center gap-6 overflow-x-auto whitespace-nowrap font-mono text-sm" style="scrollbar-width: none; -ms-overflow-style: none;">
+            <a href="{% url 'project:projects' %}" class="shrink-0 pb-1 transition-colors duration-300 {% if not active_category %}text-purple-400 border-b border-purple-500{% else %}text-gray-500 hover:text-gray-300{% endif %}">
+                ./all
+            </a>
+            {% for category in categories %}
+            <a href="?category={{ category.id }}" class="shrink-0 pb-1 transition-colors duration-300 {% if active_category == category.id|stringformat:'s' %}text-purple-400 border-b border-purple-500{% else %}text-gray-500 hover:text-gray-300{% endif %}">
+                ./{{ category.name }}
+            </a>
+            {% endfor %}
+        </nav>
+        {% endif %}
+
         <!-- Projects Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
@@ -99,6 +113,11 @@
     .project-grid-card {
         opacity: 0; /* Hidden initially for animation */
         animation: fadeInUpGrid 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Hide scrollbar on the category filter bar (Firefox/IE handled inline) */
+    .category-bar::-webkit-scrollbar {
+        display: none;
     }
 </style>
 

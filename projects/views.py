@@ -3,9 +3,16 @@ from .models import *
 
 def project_list(request):
     projects = Project.objects.filter(is_active=True).order_by('-important')
+    categories = Category.objects.all()
+
+    active_category = request.GET.get('category')
+    if active_category:
+        projects = projects.filter(categories__id=active_category)
 
     return render(request, "projects.html", {
-        "projects": projects
+        "projects": projects,
+        "categories": categories,
+        "active_category": active_category,
     })
 
 def project_detail(request, project_id):
