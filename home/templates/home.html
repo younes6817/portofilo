@@ -3,11 +3,11 @@
 
 {% block extra_head %}
     <link rel="preload" as="image" type="image/webp"
-          href="{% static 'img/younes.webp' %}"
-          imagesrcset="{% static 'img/younes-900.webp' %} 900w, {% static 'img/younes-1400.webp' %} 1400w, {% static 'img/younes-2560.webp' %} 2560w"
-          imagesizes="100vw"
+          href="{{ MEDIA_URL }}younes.webp?v={{ hero_version }}"
           media="(max-width: 767px)">
-    <link rel="preload" as="image" type="image/png" href="/media/younes.webp?v=3" media="(min-width: 768px)">
+    <link rel="preload" as="image" type="image/webp"
+          href="{{ MEDIA_URL }}younes.webp?v={{ hero_version }}"
+          media="(min-width: 768px)">
 {% endblock %}
 
 {% block content %}
@@ -29,14 +29,14 @@
             <div class="hero-photo-glow pointer-events-none absolute inset-[12%] rounded-full" aria-hidden="true"></div>
             <img
                 id="hero-photo"
-                src="/media/younes.webp"
+                src="{{ MEDIA_URL }}younes.webp?v={{ hero_version }}"
                 sizes="(max-width: 767px) 100vw, 4253px"
                 width="4253"
                 height="5434"
                 alt="Younes"
                 fetchpriority="high"
                 decoding="async"
-                onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.removeAttribute('srcset');this.removeAttribute('sizes');this.src='/media/younes.webp?v=3&amp;fallback=1';}"
+                onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.removeAttribute('srcset');this.removeAttribute('sizes');this.src='{{ MEDIA_URL }}younes.webp?v={{ hero_version }}&amp;fallback=1';}"
                 class="hero-photo relative w-full h-full object-cover md:object-contain lg:object-cover xl:object-cover md:h-auto md:max-w-none md:w-[130%] lg:w-[145%] md:-mr-24 lg:-mr-32 md:-ml-8
                 [mask-image:radial-gradient(ellipse_90%_75%_at_50%_45%,black_35%,transparent_100%)]
                 md:[mask-image:radial-gradient(ellipse_85%_75%_at_65%_50%,black_35%,transparent_100%),linear-gradient(to_right,transparent_0%,black_20%)]
