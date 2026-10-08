@@ -10,7 +10,7 @@
     <div class="container mx-auto px-6 relative z-10 max-w-7xl">
         
         <!-- Page Header (Terminal Style) -->
-        <header class="mb-16 border-b border-white/5 pb-8">
+        <header class="border-b border-white/5 pb-8">
             <h1 class="text-3xl md:text-6xl font-black text-white tracking-tighter mb-4 flex items-center">
                 SYSTEM<span class="text-purple-500">.</span>PROJECTS
             </h1>
@@ -23,7 +23,7 @@
 
         <!-- Category Filter Bar -->
         {% if categories %}
-        <nav class="category-bar mb-20 flex items-center gap-6 overflow-x-auto whitespace-nowrap font-mono text-sm" style="scrollbar-width: none; -ms-overflow-style: none;">
+        <nav class="category-bar mt-6 mb-12 flex items-center gap-6 overflow-x-auto whitespace-nowrap font-mono text-sm" style="scrollbar-width: none; -ms-overflow-style: none;">
             <a href="{% url 'project:projects' %}" class="shrink-0 pb-1 transition-colors duration-300 {% if not active_category %}text-purple-400 border-b border-purple-500{% else %}text-gray-500 hover:text-gray-300{% endif %}">
                 ./all
             </a>
