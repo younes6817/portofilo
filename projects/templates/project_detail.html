@@ -62,8 +62,57 @@
         </div>
     </section>
 
+    {% if project.is_for_sale %}
+    <!-- FOR SALE BANNER -->
+    <div class="container mx-auto px-6 max-w-7xl relative z-30 mt-8">
+        <div class="relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-gradient-to-r from-emerald-950/60 via-[#09090b] to-[#09090b] shadow-[0_20px_60px_-20px_rgba(16,185,129,0.35)]">
+            <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-400/80 to-transparent"></div>
+            <div class="absolute -top-16 -left-16 w-48 h-48 bg-emerald-500/10 blur-3xl rounded-full pointer-events-none"></div>
+
+            <div class="relative flex flex-col md:flex-row md:items-center gap-5 md:gap-8 p-5 md:p-7">
+                <div class="flex items-center justify-between md:justify-start gap-5 md:gap-8 flex-1">
+                    <div class="flex items-center gap-3">
+                        <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                        </span>
+                        <div>
+                            <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-emerald-400/80 mb-1">For Sale</div>
+                            <div class="text-sm font-semibold text-gray-200">این پروژه آمادهٔ فروش است</div>
+                        </div>
+                    </div>
+
+                    <div class="text-right md:text-left md:pl-6 md:border-l md:border-white/10">
+                        <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-500 mb-1">Price</div>
+                        <div class="font-mono text-2xl md:text-3xl font-bold text-emerald-400" dir="ltr">
+                            {% if project.price is not None %}{{ project.price_display }} <span class="text-sm text-gray-500">Toman</span>{% else %}—{% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:w-64 shrink-0">
+                    {% if project.is_sale_button_active %}
+                    <a href="{{ project.telegram_buy_link }}" target="_blank" rel="noopener noreferrer"
+                       class="group flex items-center justify-center gap-2 w-full font-mono text-sm font-bold text-[#0a0a0a] bg-emerald-400 px-6 py-3.5 rounded-xl hover:bg-emerald-300 hover:-translate-y-0.5 transition-all shadow-[0_10px_30px_-10px_rgba(16,185,129,0.6)]">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161l-2.02 9.53c-.152.679-.556.845-1.126.526l-3.115-2.297-1.503 1.447c-.166.166-.306.306-.627.306l.222-3.164 5.76-5.203c.25-.222-.055-.346-.387-.124l-7.119 4.482-3.067-.958c-.667-.208-.68-.667.14-.987l11.99-4.622c.555-.201 1.041.135.852.864z"/></svg>
+                        خرید پروژه
+                    </a>
+                    <p class="mt-2 text-center font-mono text-[10px] text-gray-600">پرداخت و هماهنگی از طریق تلگرام</p>
+                    {% else %}
+                    <button type="button" disabled
+                            class="flex items-center justify-center gap-2 w-full font-mono text-sm font-bold text-gray-500 bg-white/[0.03] border border-white/10 px-6 py-3.5 rounded-xl cursor-not-allowed opacity-60">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161l-2.02 9.53c-.152.679-.556.845-1.126.526l-3.115-2.297-1.503 1.447c-.166.166-.306.306-.627.306l.222-3.164 5.76-5.203c.25-.222-.055-.346-.387-.124l-7.119 4.482-3.067-.958c-.667-.208-.68-.667.14-.987l11.99-4.622c.555-.201 1.041.135.852.864z"/></svg>
+                        خرید پروژه
+                    </button>
+                    <p class="mt-2 text-center font-mono text-[10px] text-gray-600">فروش این پروژه فعلاً غیرفعال است</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Main Content Container -->
-    <div class="container mx-auto px-6 max-w-7xl relative z-20 mt-12">
+    <div class="container mx-auto px-6 max-w-7xl relative z-20 mt-8">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
             <!-- LEFT COLUMN -->
@@ -161,40 +210,6 @@
                         </div>
                     </div>
                 </div>
-
-                {% if project.is_for_sale %}
-                <div class="relative bg-[#09090b] rounded-2xl border border-emerald-500/20 p-6 shadow-2xl overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/70 to-transparent"></div>
-                    <h3 class="font-mono text-xs text-gray-500 mb-4 pb-2 border-b border-white/5 tracking-wider uppercase">
-                        FOR_SALE
-                    </h3>
-                    <div class="mb-5">
-                        <div class="font-mono text-[10px] text-gray-500 tracking-wider uppercase mb-1">Price</div>
-                        <div class="font-mono text-2xl font-bold text-emerald-400" dir="ltr">
-                            {% if project.price is not None %}{{ project.price_display }} <span class="text-sm text-gray-500">Toman</span>{% else %}—{% endif %}
-                        </div>
-                    </div>
-                    {% if project.is_sale_button_active %}
-                    <a href="{{ project.telegram_buy_link }}" target="_blank" rel="noopener noreferrer"
-                       class="group flex items-center justify-center gap-2 w-full font-mono text-sm font-bold text-[#0a0a0a] bg-emerald-400 px-5 py-3 rounded-xl hover:bg-emerald-300 hover:-translate-y-0.5 transition-all">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161l-2.02 9.53c-.152.679-.556.845-1.126.526l-3.115-2.297-1.503 1.447c-.166.166-.306.306-.627.306l.222-3.164 5.76-5.203c.25-.222-.055-.346-.387-.124l-7.119 4.482-3.067-.958c-.667-.208-.68-.667.14-.987l11.99-4.622c.555-.201 1.041.135.852.864z"/></svg>
-                        خرید پروژه
-                    </a>
-                    <p class="mt-3 text-center font-mono text-[10px] text-gray-600">
-                        از طریق تلگرام با فروشنده در تماس باشید
-                    </p>
-                    {% else %}
-                    <button type="button" disabled
-                            class="flex items-center justify-center gap-2 w-full font-mono text-sm font-bold text-gray-500 bg-white/[0.03] border border-white/10 px-5 py-3 rounded-xl cursor-not-allowed opacity-60">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161l-2.02 9.53c-.152.679-.556.845-1.126.526l-3.115-2.297-1.503 1.447c-.166.166-.306.306-.627.306l.222-3.164 5.76-5.203c.25-.222-.055-.346-.387-.124l-7.119 4.482-3.067-.958c-.667-.208-.68-.667.14-.987l11.99-4.622c.555-.201 1.041.135.852.864z"/></svg>
-                        خرید پروژه
-                    </button>
-                    <p class="mt-3 text-center font-mono text-[10px] text-gray-600">
-                        فروش این پروژه فعلاً غیرفعال است
-                    </p>
-                    {% endif %}
-                </div>
-                {% endif %}
 
                 {% if project.cilend_or_role or project.start_date %}
                 <div class="bg-[#09090b] rounded-2xl border border-white/5 p-6 shadow-2xl">
