@@ -92,6 +92,7 @@ class ProjectImage(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField()
     image_name = models.CharField(max_length=255, null=True, blank=True)
+    number_sort = models.IntegerField(default=0)
 
 
 class ProjectFeature(models.Model):
