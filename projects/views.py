@@ -17,8 +17,8 @@ def project_list(request):
 
 def project_detail(request, project_id):
     project = get_object_or_404(Project, id=project_id, is_active=True)
-    mobile_images = project.images.filter(type='mobile')
-    desktop_images = project.images.filter(type='desktop')
+    mobile_images = project.images.filter(type='mobile').order_by('number_sort')
+    desktop_images = project.images.filter(type='desktop').order_by('number_sort')
     
     context = {
         'project': project,
