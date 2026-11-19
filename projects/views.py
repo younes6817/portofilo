@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render
+
 from .models import *
+
 
 def project_list(request):
     projects = Project.objects.filter(is_active=True).order_by('-important')
@@ -15,11 +17,15 @@ def project_list(request):
         "active_category": active_category,
     })
 
+
 def project_detail(request, project_id):
-    project = get_object_or_404(Project, id=project_id, is_active=True)
+    project = Project.objects.filter(id=project_id, is_active=True).first()
+    if project is None:
+        return redirect('project:projects')
+
     mobile_images = project.images.filter(type='mobile').order_by('number_sort')
     desktop_images = project.images.filter(type='desktop').order_by('number_sort')
-    
+
     context = {
         'project': project,
         'mobile_images': mobile_images,
