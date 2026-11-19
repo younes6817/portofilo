@@ -1,461 +1,810 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<main class="relative w-full bg-[#030305] min-h-screen text-gray-200 font-sans selection:bg-purple-500/30 pb-32">
-
-    <!-- Background Ambient Glows -->
-    <div class="fixed top-1/4 left-10 w-96 h-96 bg-purple-900/10 blur-[140px] rounded-full pointer-events-none z-0"></div>
-    <div class="fixed bottom-10 right-10 w-[500px] h-[500px] bg-blue-900/10 blur-[160px] rounded-full pointer-events-none z-0"></div>
-
-    <!-- Hero Banner Section -->
-    <section class="relative w-full h-[55vh] min-h-[420px] overflow-hidden flex items-end border-b border-white/5">
-        {% if project.image_default %}
-            <div class="absolute inset-0 bg-black">
-                <img src="{{ project.image_default.url }}" alt="{{ project.title }}" class="w-full h-full object-cover opacity-25 filter grayscale-[40%] contrast-125 scale-105 animate-[pulse_10s_infinite]">
-            </div>
-        {% endif %}
-
-        <div class="absolute inset-0 bg-gradient-to-t from-[#030305] via-[#030305]/70 to-transparent"></div>
-        <div class="absolute inset-0 bg-gradient-to-r from-[#030305] via-transparent to-[#030305]/80"></div>
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#030305]/50 to-[#030305]"></div>
-
-        <div class="container mx-auto px-6 relative z-10 pb-10 w-full max-w-7xl">
-            <a href="{% url 'project:projects' %}" class="inline-flex items-center text-purple-400 hover:text-purple-300 font-mono text-xs tracking-widest mb-6 transition-all duration-300 group">
-                <span class="mr-2 transform group-hover:-translate-x-1.5 transition-transform">←</span>
-                RETURN_TO_ARCHIVE
+<main class="project-page">
+    <header class="project-nav">
+        <div class="project-nav__inner">
+            <a href="{% url 'project:projects' %}" class="project-nav__back mono">
+                <span aria-hidden="true">‹</span>
+                All projects
             </a>
 
-            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-                <div>
-                    <div class="font-mono text-xs text-gray-400 mb-3 flex items-center gap-2">
-                        <span class="text-purple-500">~/projects/active_node/</span>
-                        <span class="text-white font-bold">{{ project.title|slugify }}</span>
-                        <span class="inline-block w-2 h-4 bg-purple-500 animate-pulse"></span>
-                    </div>
-                    <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter mb-4 drop-shadow-2xl">
-                        {{ project.title }}
-                    </h1>
-                </div>
+            <nav class="project-nav__links mono" aria-label="Project page navigation">
+                <a href="#overview">Overview</a>
+                <a href="#gallery">Gallery</a>
+                {% if project.features.all %}<a href="#features">Features</a>{% endif %}
+            </nav>
 
-                <div class="flex flex-wrap items-center gap-4 bg-[#09090b]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl">
-                    <div class="text-left pr-2">
-                        <div class="font-mono text-[10px] text-gray-500 tracking-wider mb-1">SYSTEM STATUS</div>
-                        <div class="font-mono text-sm font-bold text-emerald-400 flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                            {{ project.status }}
+            {% if project.live_demo_link %}
+                <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener noreferrer"
+                   class="project-nav__demo mono">
+                    Live demo
+                </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <section class="project-hero">
+        {% if project.image_default %}
+            <img class="project-hero__image" src="{{ project.image_default.url }}" alt="" fetchpriority="high">
+        {% endif %}
+        <div class="project-hero__shade" aria-hidden="true"></div>
+        <div class="project-hero__grid" aria-hidden="true"></div>
+
+        <div class="project-shell project-hero__content">
+            <div class="project-eyebrow mono">
+                <span class="project-status-dot"></span>
+                {{ project.status }}
+                <span class="project-eyebrow__divider">/</span>
+                {{ project.status_percent }}% complete
+            </div>
+
+            <h1 class="project-title inter">{{ project.title }}</h1>
+
+            <div class="project-hero__bottom">
+                <p class="project-lead">
+                    {{ project.description|striptags|truncatewords:34 }}
+                </p>
+
+                <div class="project-actions">
+                    {% if project.live_demo_link %}
+                        <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener noreferrer"
+                           class="project-button project-button--primary mono">
+                            <span class="project-button__icon" aria-hidden="true">▶</span>
+                            <span>
+                                <strong>Open live demo</strong>
+                                <small>See the product in action</small>
+                            </span>
+                        </a>
+                    {% else %}
+                        <div class="project-button project-button--disabled mono" aria-label="Live demo is not available">
+                            <span class="project-button__icon" aria-hidden="true">—</span>
+                            <span>
+                                <strong>Demo not available</strong>
+                                <small>Preview this project in the gallery</small>
+                            </span>
                         </div>
-                    </div>
-                    <div class="w-px h-8 bg-white/10"></div>
-                    <div class="text-left pr-2">
-                        <div class="font-mono text-[10px] text-gray-500 tracking-wider mb-1">COMPLETION</div>
-                        <div class="font-mono text-sm font-bold text-purple-400">{{ project.status_percent }}%</div>
-                    </div>
-                    {% if project.important > 1 %}
-                    <div class="w-px h-8 bg-white/10"></div>
-                    <div class="text-left">
-                        <div class="font-mono text-[10px] text-gray-500 tracking-wider mb-1">PRIORITY</div>
-                        <div class="font-mono text-sm font-bold text-amber-400">LEVEL {{ project.important }}</div>
-                    </div>
+                    {% endif %}
+
+                    {% if project.github_link %}
+                        <a href="{{ project.github_link }}" target="_blank" rel="noopener noreferrer"
+                           class="project-button project-button--secondary mono">
+                            <span class="project-button__icon" aria-hidden="true">&lt;/&gt;</span>
+                            <span>
+                                <strong>Source code</strong>
+                                <small>View the repository</small>
+                            </span>
+                        </a>
                     {% endif %}
                 </div>
             </div>
         </div>
     </section>
 
-    {% if project.is_for_sale %}
-    <!-- FOR SALE BANNER -->
-    <div class="container mx-auto px-6 max-w-7xl relative z-30" style="margin-top: 2rem;">
-        <div class="relative overflow-hidden" style="border-radius: 1rem; border: 1px solid rgba(16,185,129,0.3); background: linear-gradient(90deg, rgba(6,78,59,0.5), #09090b 60%); box-shadow: 0 20px 60px -20px rgba(16,185,129,0.35); padding: 1.75rem;">
-            <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-400/80 to-transparent"></div>
-
-            <div class="relative flex flex-col md:flex-row md:items-center" style="gap: 1.75rem;">
-                <!-- Info -->
-                <div class="flex items-center flex-1" style="gap: 1rem;">
-                    <span class="flex items-center justify-center shrink-0" style="width: 3rem; height: 3rem; border-radius: 0.75rem; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #34d399;">
-                        <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                    </span>
-                    <div>
-                        <div class="font-mono uppercase text-emerald-400/80" style="font-size: 0.65rem; letter-spacing: 0.2em; margin-bottom: 0.35rem;">For Sale</div>
-                        <div class="font-semibold text-gray-200" style="font-size: 0.95rem;">این پروژه فروشی است</div>
-                    </div>
+    <section id="gallery" class="project-section project-gallery-section">
+        <div class="project-shell">
+            <div class="project-section-heading">
+                <div>
+                    <p class="project-kicker mono">Product gallery</p>
+                    <h2 class="inter">See how it looks.</h2>
                 </div>
-
-                <!-- Price -->
-                <div class="md:border-l md:border-white/10" style="padding-left: 0;">
-                    <div class="font-mono uppercase text-gray-500" style="font-size: 0.65rem; letter-spacing: 0.2em; margin-bottom: 0.35rem;">Price</div>
-                    <div class="font-mono font-bold text-emerald-400" dir="ltr" style="font-size: 1.75rem; line-height: 1.1;">
-                        {% if project.price is not None %}{{ project.price_display }} <span class="text-gray-500" style="font-size: 0.85rem;">Toman</span>{% else %}—{% endif %}
-                    </div>
-                </div>
-
-                <!-- Button -->
-                <div class="shrink-0" style="width: 100%; max-width: 20rem;">
-                    {% if project.is_sale_button_active %}
-                    <a href="{{ project.telegram_buy_link }}" target="_blank" rel="noopener noreferrer"
-                       class="group flex items-center justify-center w-full font-mono font-bold text-[#0a0a0a] bg-emerald-400 hover:bg-emerald-300 transition-all"
-                       style="padding: 1.15rem 2rem; font-size: 1.05rem; line-height: 1; gap: 0.65rem; border-radius: 0.9rem; box-shadow: 0 10px 30px -10px rgba(16,185,129,0.6);">
-                        <svg width="20" height="20" class="shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161l-2.02 9.53c-.152.679-.556.845-1.126.526l-3.115-2.297-1.503 1.447c-.166.166-.306.306-.627.306l.222-3.164 5.76-5.203c.25-.222-.055-.346-.387-.124l-7.119 4.482-3.067-.958c-.667-.208-.68-.667.14-.987l11.99-4.622c.555-.201 1.041.135.852.864z"/></svg>
-                        <span class="whitespace-nowrap">خرید پروژه</span>
-                    </a>
-                    <p class="text-center font-mono text-gray-600" style="font-size: 0.65rem; margin-top: 0.6rem;">پرداخت و هماهنگی از طریق تلگرام</p>
-                    {% else %}
-                    <button type="button" disabled
-                            class="flex items-center justify-center w-full font-mono font-bold text-gray-500 border border-white/10 cursor-not-allowed opacity-60"
-                            style="padding: 1.15rem 2rem; font-size: 1.05rem; line-height: 1; gap: 0.65rem; border-radius: 0.9rem; background: rgba(255,255,255,0.03);">
-                        <svg width="20" height="20" class="shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161l-2.02 9.53c-.152.679-.556.845-1.126.526l-3.115-2.297-1.503 1.447c-.166.166-.306.306-.627.306l.222-3.164 5.76-5.203c.25-.222-.055-.346-.387-.124l-7.119 4.482-3.067-.958c-.667-.208-.68-.667.14-.987l11.99-4.622c.555-.201 1.041.135.852.864z"/></svg>
-                        <span class="whitespace-nowrap">خرید پروژه</span>
-                    </button>
-                    <p class="text-center font-mono text-gray-600" style="font-size: 0.65rem; margin-top: 0.6rem;">فروش این پروژه فعلاً غیرفعال است</p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <!-- Main Content Container -->
-    <div class="container mx-auto px-6 max-w-7xl relative z-20 mt-8">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-
-            <!-- LEFT COLUMN -->
-            <div class="lg:col-span-2 space-y-10">
-
-                <!-- Detailed Description -->
-                <section class="bg-[#09090b] rounded-2xl border border-white/5 p-8 relative overflow-hidden shadow-2xl group hover:border-white/10 transition-all">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 opacity-60"></div>
-                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
-                        <h2 class="font-mono text-base text-white flex items-center tracking-wide">
-                            <span class="text-purple-500 mr-2.5">></span> SYSTEM_OVERVIEW.md
-                        </h2>
-                        <span class="font-mono text-[10px] text-gray-600 uppercase">UTF-8 ENCODED</span>
-                    </div>
-                    <div class="prose prose-invert max-w-none text-gray-300 font-sans leading-relaxed text-base space-y-4">
-                        {{ project.description|linebreaks }}
-                    </div>
-                </section>
-
-                <!-- Core Capabilities -->
-                {% if project.features.all %}
-                <section class="bg-[#09090b] rounded-2xl border border-white/5 p-8 shadow-2xl">
-                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
-                        <h2 class="font-mono text-base text-white flex items-center tracking-wide">
-                            <span class="text-purple-500 mr-2.5">></span> MODULE_CAPABILITIES
-                        </h2>
-                        <span class="font-mono text-[10px] text-purple-400/80">{{ project.features.count }} MODULES LOADED</span>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {% for feature in project.features.all %}
-                        <div class="bg-black/40 border border-white/5 rounded-xl p-4 flex items-start space-x-3 space-x-reverse hover:border-purple-500/30 hover:bg-purple-950/10 transition-all group">
-                            <div class="p-2 mr-2.5 bg-purple-500/10 border border-purple-500/20 rounded-lg text-purple-400 group-hover:scale-110 transition-transform">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-mono text-sm font-bold text-gray-200 group-hover:text-purple-300 transition-colors">
-                                    {{ feature.feature }}
-                                </h3>
-                                <p class="font-mono text-[11px] text-gray-500 mt-0.5">Active Component</p>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </section>
-                {% endif %}
+                <p>
+                    Browse the real interface. Select any image to open it at full size.
+                </p>
             </div>
 
-            <!-- RIGHT COLUMN: Sidebar -->
-            <div class="space-y-8">
-
-                {% if project.tech_stacks.all %}
-                <div class="bg-[#09090b] rounded-2xl border border-white/5 p-6 shadow-2xl">
-                    <h3 class="font-mono text-xs text-gray-500 mb-4 pb-2 border-b border-white/5 tracking-wider uppercase flex justify-between items-center">
-                        <span>TECH_STACK</span>
-                        <span class="text-purple-500 font-bold">{{ project.tech_stacks.count }}</span>
-                    </h3>
-                    <div class="flex flex-wrap gap-2">
-                        {% for tech in project.tech_stacks.all %}
-                        <div class="flex items-center gap-1.5 font-mono text-xs px-3 py-1.5 bg-white/[0.03] text-gray-300 border border-white/10 rounded-lg hover:border-purple-500/50 hover:bg-purple-950/20 hover:text-purple-300 transition-all duration-300">
-                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
-                            {{ tech.title }}
-                        </div>
-                        {% endfor %}
+            {% if desktop_images %}
+                <div class="gallery-group">
+                    <div class="gallery-group__heading">
+                        <h3 class="inter">Desktop experience</h3>
+                        <span class="mono">{{ desktop_images.count }} screenshot{{ desktop_images.count|pluralize }}</span>
                     </div>
-                </div>
-                {% endif %}
-
-                <div class="bg-[#09090b] rounded-2xl border border-white/5 p-6 shadow-2xl">
-                    <h3 class="font-mono text-xs text-gray-500 mb-6 pb-2 border-b border-white/5 tracking-wider uppercase">
-                        DEVELOPMENT_METRICS
-                    </h3>
-                    <div class="space-y-6">
-                        <div>
-                            <div class="flex justify-between font-mono text-xs mb-2">
-                                <span class="text-gray-400">DEPLOYMENT STATUS</span>
-                                <span class="text-purple-400 font-bold progress-num" data-target="{{ project.status_percent }}">0%</span>
-                            </div>
-                            <div class="h-2 w-full bg-black rounded-full overflow-hidden border border-white/5">
-                                <div class="progress-bar-fill h-full bg-gradient-to-r from-purple-700 via-purple-500 to-emerald-400 w-0 shadow-[0_0_12px_rgba(168,85,247,0.6)]" data-target="{{ project.status_percent }}"></div>
-                            </div>
-                        </div>
-                        <div class="bg-black/60 border border-white/5 rounded-xl p-4 font-mono text-xs space-y-2">
-                            <div class="flex justify-between text-gray-500">
-                                <span>Active State:</span>
-                                <span class="{% if project.is_active %}text-emerald-400{% else %}text-red-400{% endif %}">
-                                    {% if project.is_active %}TRUE{% else %}FALSE{% endif %}
+                    <div class="desktop-gallery">
+                        {% for img in desktop_images %}
+                            <button type="button"
+                                    class="gallery-card gallery-card--desktop {% if forloop.first %}gallery-card--featured{% endif %}"
+                                    data-lightbox-src="{{ img.image.url }}"
+                                    data-lightbox-caption="{{ img.image_name|default:project.title }} — desktop">
+                                <span class="gallery-card__frame">
+                                    <span class="gallery-card__browser" aria-hidden="true">
+                                        <i></i><i></i><i></i>
+                                    </span>
+                                    <img src="{{ img.image.url }}"
+                                         alt="{{ img.image_name|default:project.title }} desktop screenshot"
+                                         loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                                         decoding="async">
                                 </span>
-                            </div>
-                            <div class="flex justify-between text-gray-500">
-                                <span>Priority Weight:</span>
-                                <span class="text-gray-300">{{ project.important }} / 5</span>
-                            </div>
-                        </div>
+                                <span class="gallery-card__caption">
+                                    <strong>{{ img.image_name|default:"Desktop view" }}</strong>
+                                    <small class="mono">Open full size</small>
+                                </span>
+                            </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if mobile_images %}
+                <div class="gallery-group">
+                    <div class="gallery-group__heading">
+                        <h3 class="inter">Mobile experience</h3>
+                        <span class="mono">{{ mobile_images.count }} screenshot{{ mobile_images.count|pluralize }}</span>
+                    </div>
+                    <div class="mobile-gallery">
+                        {% for img in mobile_images %}
+                            <button type="button"
+                                    class="gallery-card gallery-card--mobile"
+                                    data-lightbox-src="{{ img.image.url }}"
+                                    data-lightbox-caption="{{ img.image_name|default:project.title }} — mobile">
+                                <span class="gallery-card__phone">
+                                    <i aria-hidden="true"></i>
+                                    <img src="{{ img.image.url }}"
+                                         alt="{{ img.image_name|default:project.title }} mobile screenshot"
+                                         loading="lazy" decoding="async">
+                                </span>
+                                <span class="gallery-card__caption">
+                                    <strong>{{ img.image_name|default:"Mobile view" }}</strong>
+                                    <small class="mono">Open full size</small>
+                                </span>
+                            </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if not desktop_images and not mobile_images %}
+                <div class="gallery-empty">
+                    {% if project.image_default %}
+                        <button type="button" class="gallery-empty__preview"
+                                data-lightbox-src="{{ project.image_default.url }}"
+                                data-lightbox-caption="{{ project.title }} — cover image">
+                            <img src="{{ project.image_default.url }}" alt="{{ project.title }} project preview">
+                        </button>
+                    {% endif %}
+                    <div class="gallery-empty__copy">
+                        <span class="mono">Gallery update pending</span>
+                        <h3 class="inter">No additional screenshots yet.</h3>
+                        <p>The project cover is available above. More interface captures will appear here when they are added.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <section id="overview" class="project-section project-overview-section">
+        <div class="project-shell project-layout">
+            <div class="project-main-column">
+                <div class="project-section-heading project-section-heading--compact">
+                    <div>
+                        <p class="project-kicker mono">Project overview</p>
+                        <h2 class="inter">What this project does.</h2>
                     </div>
                 </div>
 
-                {% if project.cilend_or_role or project.start_date %}
-                <div class="bg-[#09090b] rounded-2xl border border-white/5 p-6 shadow-2xl">
-                    <h3 class="font-mono text-xs text-gray-500 mb-4 pb-2 border-b border-white/5 tracking-wider uppercase">
-                        PROJECT_META
-                    </h3>
-                    <div class="bg-black/60 border border-white/5 rounded-xl p-4 font-mono text-xs space-y-3">
-                        {% if project.cilend_or_role %}
-                        <div class="flex justify-between gap-4">
-                            <span class="text-gray-500 shrink-0">Role / Client:</span>
-                            <span class="text-gray-200 text-right">{{ project.cilend_or_role }}</span>
+                <article class="project-description">
+                    {{ project.description|linebreaks }}
+                </article>
+
+                {% if project.features.all %}
+                    <section id="features" class="project-features">
+                        <div class="project-subheading">
+                            <div>
+                                <p class="project-kicker mono">Core capabilities</p>
+                                <h2 class="inter">What is included.</h2>
+                            </div>
+                            <span class="mono">{{ project.features.count }} feature{{ project.features.count|pluralize }}</span>
                         </div>
-                        {% endif %}
-                        {% if project.start_date %}
-                        <div class="flex justify-between gap-4">
-                            <span class="text-gray-500 shrink-0">Started:</span>
-                            <span class="text-gray-200 text-right">{{ project.start_date|date:"M d, Y" }}</span>
+
+                        <div class="feature-grid">
+                            {% for feature in project.features.all %}
+                                <article class="feature-card">
+                                    <span class="feature-card__mark mono" aria-hidden="true">✓</span>
+                                    <h3>{{ feature.feature }}</h3>
+                                </article>
+                            {% endfor %}
                         </div>
-                        {% endif %}
-                        <div class="flex justify-between gap-4">
-                            <span class="text-gray-500 shrink-0">{% if project.end_date %}Completed:{% else %}Status:{% endif %}</span>
-                            {% if project.end_date %}
-                            <span class="text-gray-200 text-right">{{ project.end_date|date:"M d, Y" }}</span>
+                    </section>
+                {% endif %}
+
+                {% if project.is_for_sale %}
+                    <section class="sale-card">
+                        <div>
+                            <p class="project-kicker mono">Available for purchase</p>
+                            <h2 class="inter">Use this project as your next product.</h2>
+                            <p>Purchase and project coordination are handled directly through Telegram.</p>
+                        </div>
+                        <div class="sale-card__action">
+                            <span class="sale-card__price mono">
+                                {% if project.price is not None %}
+                                    {{ project.price_display }} <small>Toman</small>
+                                {% else %}
+                                    Contact for price
+                                {% endif %}
+                            </span>
+                            {% if project.is_sale_button_active %}
+                                <a href="{{ project.telegram_buy_link }}" target="_blank" rel="noopener noreferrer"
+                                   class="project-button project-button--sale mono">
+                                    Buy via Telegram
+                                </a>
                             {% else %}
-                            <span class="text-emerald-400 text-right">Ongoing</span>
+                                <span class="sale-card__disabled mono">Sales temporarily unavailable</span>
                             {% endif %}
                         </div>
-                    </div>
-                </div>
+                    </section>
                 {% endif %}
+            </div>
 
-                {% if project.github_link or project.live_demo_link %}
-                <div class="bg-[#09090b] rounded-2xl border border-white/5 p-6 shadow-2xl">
-                    <h3 class="font-mono text-xs text-gray-500 mb-4 pb-2 border-b border-white/5 tracking-wider uppercase">
-                        EXTERNAL_LINKS
-                    </h3>
-                    <div class="space-y-2">
-                        {% if project.live_demo_link %}
+            <aside class="project-sidebar">
+                <div class="project-panel project-panel--actions">
+                    <p class="project-panel__label mono">Try the project</p>
+                    {% if project.live_demo_link %}
                         <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener noreferrer"
-                           class="group flex items-center justify-between font-mono text-xs px-4 py-3 rounded-xl border border-white/10 bg-white/[0.02] text-gray-300 hover:bg-white/5 hover:border-emerald-500/40 hover:text-emerald-300 transition-all">
-                            <span class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                                Live Demo
-                            </span>
-                            <span class="text-gray-500 group-hover:text-emerald-300 transition-colors">↗</span>
+                           class="sidebar-demo mono">
+                            <strong>Open live demo</strong>
+                            <small>Launch in a new tab</small>
                         </a>
-                        {% endif %}
-                        {% if project.github_link %}
+                    {% else %}
+                        <div class="sidebar-unavailable mono">
+                            <strong>Demo not available</strong>
+                            <small>Use the gallery to explore the interface.</small>
+                        </div>
+                    {% endif %}
+                    {% if project.github_link %}
                         <a href="{{ project.github_link }}" target="_blank" rel="noopener noreferrer"
-                           class="group flex items-center justify-between font-mono text-xs px-4 py-3 rounded-xl border border-white/10 bg-white/[0.02] text-gray-300 hover:bg-white/5 hover:border-white/25 hover:text-white transition-all">
-                            <span class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                                Source Code
-                            </span>
-                            <span class="text-gray-500 group-hover:text-white transition-colors">↗</span>
-                        </a>
-                        {% endif %}
+                           class="sidebar-link mono">View source code</a>
+                    {% endif %}
+                </div>
+
+                <div class="project-panel">
+                    <p class="project-panel__label mono">Project status</p>
+                    <div class="progress-heading">
+                        <strong>{{ project.status }}</strong>
+                        <span class="mono">{{ project.status_percent }}%</span>
+                    </div>
+                    <div class="progress-track" role="progressbar"
+                         aria-valuenow="{{ project.status_percent }}" aria-valuemin="0" aria-valuemax="100"
+                         aria-label="Project completion">
+                        <span style="width: {{ project.status_percent }}%"></span>
                     </div>
                 </div>
+
+                {% if project.tech_stacks.all %}
+                    <div class="project-panel">
+                        <p class="project-panel__label mono">Technology</p>
+                        <div class="tech-list">
+                            {% for tech in project.tech_stacks.all %}
+                                <span class="mono">{{ tech.title }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
                 {% endif %}
 
-                <div class="bg-[#09090b] rounded-2xl border border-white/5 p-6 shadow-2xl space-y-3">
-                    <a href="{% url 'project:projects' %}" class="block w-full text-center font-mono text-xs text-gray-300 border border-white/10 bg-white/[0.02] py-3 rounded-xl hover:bg-white/5 hover:border-white/20 transition-all">
-                        ← BACK TO ALL PROJECTS
-                    </a>
-                </div>
-            </div>
+                {% if project.cilend_or_role or project.start_date or project.end_date %}
+                    <div class="project-panel">
+                        <p class="project-panel__label mono">Project details</p>
+                        <dl class="project-facts">
+                            {% if project.cilend_or_role %}
+                                <div><dt>Role / Client</dt><dd>{{ project.cilend_or_role }}</dd></div>
+                            {% endif %}
+                            {% if project.start_date %}
+                                <div><dt>Started</dt><dd>{{ project.start_date|date:"M Y" }}</dd></div>
+                            {% endif %}
+                            {% if project.end_date %}
+                                <div><dt>Completed</dt><dd>{{ project.end_date|date:"M Y" }}</dd></div>
+                            {% endif %}
+                        </dl>
+                    </div>
+                {% endif %}
+            </aside>
         </div>
+    </section>
 
-        <!-- ============================================================ -->
-        <!-- NEW: COLLAPSIBLE SCREENSHOT BARS (MOBILE / DESKTOP)          -->
-        <!-- ============================================================ -->
-        <section class="mt-16 space-y-4">
-            <div class="flex items-center justify-between mb-2">
-                <h2 class="font-mono text-base text-white flex items-center tracking-wide">
-                    <span class="text-purple-500 mr-2.5">></span> SCREEN_CAPTURES
-                </h2>
-                <span class="font-mono text-[10px] text-gray-600">CLICK_TO_EXPAND // SCROLL →</span>
+    <section class="project-next">
+        <div class="project-shell project-next__inner">
+            <div>
+                <p class="project-kicker mono">Keep exploring</p>
+                <h2 class="inter">See the rest of the work.</h2>
             </div>
+            <a href="{% url 'project:projects' %}" class="project-button project-button--secondary mono">
+                All projects
+            </a>
+        </div>
+    </section>
 
-            <!-- ▸ FOR MOBILE BAR -->
-            <div class="bg-[#09090b] rounded-2xl border border-white/5 shadow-2xl overflow-hidden hover:border-white/10 transition-all">
-                <button type="button" class="collapse-toggle group w-full flex items-center justify-between p-5 md:p-6 text-left"
-                        aria-expanded="false" aria-controls="mobile-gallery">
-                    <span class="flex items-center gap-3">
-                        <span class="p-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-                            </svg>
-                        </span>
-                        <span>
-                            <span class="block font-mono text-sm font-bold text-gray-100 group-hover:text-emerald-300 transition-colors">FOR MOBILE</span>
-                            <span class="block font-mono text-[10px] text-gray-500 mt-0.5">MOBILE_INTERFACE_SHOTS // {{ mobile_images.count }} FILES</span>
-                        </span>
-                    </span>
-                    <span class="chevron text-gray-500 group-hover:text-white">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </span>
-                </button>
+    {% if project.live_demo_link %}
+        <div class="mobile-demo-bar">
+            <span>
+                <small class="mono">Ready to explore?</small>
+                <strong>Open {{ project.title }}</strong>
+            </span>
+            <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener noreferrer" class="mono">Live demo</a>
+        </div>
+    {% endif %}
 
-                <div id="mobile-gallery" class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-out">
-                    <div class="overflow-hidden">
-                        <div class="h-scroll flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 pt-1 px-5 md:px-6">
-                            {% for img in mobile_images %}
-                            <figure onclick="openLightbox('{{ img.image.url }}', '{{ img.image_name|default:project.title }} — MOBILE_{{ forloop.counter|stringformat:'02d' }}')"
-                                    class="group relative snap-start shrink-0 w-52 md:w-60 aspect-[9/16] bg-black rounded-xl overflow-hidden border border-white/5 hover:border-emerald-500/40 transition-all duration-500 cursor-zoom-in">
-                                <img src="{{ img.image.url }}" alt="{{ img.image_name|default:project.title }} mobile screenshot"
-                                     loading="lazy" decoding="async"
-                                     class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
-                                <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-3 font-mono text-[10px] text-emerald-300 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    CAPTURE_{{ forloop.counter|stringformat:"02d" }}
-                                </figcaption>
-                            </figure>
-                            {% empty %}
-                            <p class="font-mono text-xs text-gray-600 py-8 px-1">// NO_MOBILE_ASSETS_REGISTERED</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ▸ FOR DESKTOP BAR -->
-            <div class="bg-[#09090b] rounded-2xl border border-white/5 shadow-2xl overflow-hidden hover:border-white/10 transition-all">
-                <button type="button" class="collapse-toggle group w-full flex items-center justify-between p-5 md:p-6 text-left"
-                        aria-expanded="false" aria-controls="desktop-gallery">
-                    <span class="flex items-center gap-3">
-                        <span class="p-2 bg-purple-500/10 border border-purple-500/20 rounded-lg text-purple-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                        </span>
-                        <span>
-                            <span class="block font-mono text-sm font-bold text-gray-100 group-hover:text-purple-300 transition-colors">FOR DESKTOP</span>
-                            <span class="block font-mono text-[10px] text-gray-500 mt-0.5">DESKTOP_INTERFACE_SHOTS // {{ desktop_images.count }} FILES</span>
-                        </span>
-                    </span>
-                    <span class="chevron text-gray-500 group-hover:text-white">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </span>
-                </button>
-
-                <div id="desktop-gallery" class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-out">
-                    <div class="overflow-hidden">
-                        <div class="h-scroll flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 pt-1 px-5 md:px-6">
-                            {% for img in desktop_images %}
-                            <figure onclick="openLightbox('{{ img.image.url }}', '{{ img.image_name|default:project.title }} — DESKTOP_{{ forloop.counter|stringformat:'02d' }}')"
-                                    class="group relative snap-start shrink-0 w-72 md:w-96 aspect-video bg-black rounded-xl overflow-hidden border border-white/5 hover:border-purple-500/40 transition-all duration-500 cursor-zoom-in">
-                                <img src="{{ img.image.url }}" alt="{{ img.image_name|default:project.title }} desktop screenshot"
-                                     loading="lazy" decoding="async"
-                                     class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
-                                <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-3 font-mono text-[10px] text-purple-300 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    CAPTURE_{{ forloop.counter|stringformat:"02d" }}
-                                </figcaption>
-                            </figure>
-                            {% empty %}
-                            <p class="font-mono text-xs text-gray-600 py-8 px-1">// NO_DESKTOP_ASSETS_REGISTERED</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Lightbox -->
-    <div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl hidden items-center justify-center p-6"
-         role="dialog" aria-modal="true" onclick="closeLightbox()">
-        <button type="button" class="absolute top-5 right-6 text-3xl text-gray-400 hover:text-white transition-colors" aria-label="Close">×</button>
-        <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()"
-             class="max-w-full max-h-[85vh] rounded-xl shadow-2xl border border-white/10">
-        <p id="lightbox-caption" class="absolute bottom-6 inset-x-0 text-center font-mono text-xs text-gray-300"></p>
+    <div id="project-lightbox" class="project-lightbox" role="dialog" aria-modal="true"
+         aria-labelledby="project-lightbox-caption" hidden>
+        <button type="button" class="project-lightbox__close" aria-label="Close image viewer">×</button>
+        <div class="project-lightbox__content">
+            <img id="project-lightbox-image" src="" alt="">
+            <p id="project-lightbox-caption" class="mono"></p>
+        </div>
     </div>
 </main>
 
 <style>
-    /* اسکرول‌بار افقی هماهنگ با تم */
-    .h-scroll { scrollbar-width: thin; scrollbar-color: rgba(168,85,247,.4) rgba(255,255,255,.05); }
-    .h-scroll::-webkit-scrollbar { height: 6px; }
-    .h-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,.03); border-radius: 3px; }
-    .h-scroll::-webkit-scrollbar-thumb { background: rgba(168,85,247,.4); border-radius: 3px; }
-    .h-scroll::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,.7); }
+    :root {
+        --project-bg: #030305;
+        --project-surface: #0b0b10;
+        --project-surface-raised: #111118;
+        --project-line: rgba(255, 255, 255, 0.10);
+        --project-muted: #9896a2;
+        --project-text: #f4f1f8;
+        --project-purple: #a855f7;
+        --project-purple-light: #d8b4fe;
+        --project-green: #4ade80;
+    }
 
-    /* چرخش فلش نوارها */
-    .chevron { transition: transform .3s ease; }
-    .collapse-toggle[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+    html { scroll-behavior: smooth; }
+    body { background: var(--project-bg); }
+
+    .project-page {
+        min-height: 100vh;
+        overflow: clip;
+        color: var(--project-text);
+        background:
+            radial-gradient(circle at 8% 42%, rgba(88, 28, 135, 0.10), transparent 28rem),
+            var(--project-bg);
+    }
+
+    .project-shell {
+        width: min(100% - 3rem, 1240px);
+        margin-inline: auto;
+    }
+
+    .project-nav {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 60;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(3, 3, 5, 0.78);
+        backdrop-filter: blur(18px);
+    }
+
+    .project-nav__inner {
+        display: grid;
+        width: min(100% - 3rem, 1240px);
+        min-height: 4.25rem;
+        margin-inline: auto;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .project-nav a { text-decoration: none; }
+
+    .project-nav__back {
+        display: inline-flex;
+        align-items: center;
+        justify-self: start;
+        gap: 0.5rem;
+        color: #d7d3df;
+        font-size: 0.82rem;
+        transition: color 0.2s ease;
+    }
+
+    .project-nav__back span { color: var(--project-purple-light); font-size: 1.35rem; }
+    .project-nav__back:hover { color: #fff; }
+
+    .project-nav__links { display: flex; gap: 1.6rem; }
+    .project-nav__links a { color: #898692; font-size: 0.75rem; transition: color 0.2s ease; }
+    .project-nav__links a:hover { color: #fff; }
+
+    .project-nav__demo {
+        justify-self: end;
+        border-radius: 999px;
+        padding: 0.65rem 1rem;
+        color: #13051e;
+        background: #fff;
+        font-size: 0.72rem;
+        font-weight: 700;
+        transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .project-nav__demo:hover { transform: translateY(-1px); background: var(--project-purple-light); }
+
+    .project-hero {
+        position: relative;
+        display: flex;
+        min-height: min(820px, 92vh);
+        align-items: flex-end;
+        overflow: hidden;
+        border-bottom: 1px solid var(--project-line);
+        background: #050507;
+    }
+
+    .project-hero__image {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        opacity: 0.48;
+        filter: saturate(0.78) contrast(1.08);
+        transform: scale(1.015);
+    }
+
+    .project-hero__shade {
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg, rgba(3,3,5,.98) 0%, rgba(3,3,5,.78) 42%, rgba(3,3,5,.22) 78%),
+            linear-gradient(0deg, #030305 0%, rgba(3,3,5,.30) 58%, rgba(3,3,5,.68) 100%);
+    }
+
+    .project-hero__grid {
+        position: absolute;
+        inset: 0;
+        opacity: 0.13;
+        background-image:
+            linear-gradient(rgba(255,255,255,.10) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.10) 1px, transparent 1px);
+        background-size: 72px 72px;
+        mask-image: linear-gradient(to right, black, transparent 72%);
+    }
+
+    .project-hero__content {
+        position: relative;
+        z-index: 2;
+        padding-block: 10rem 5rem;
+    }
+
+    .project-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        margin-bottom: 1.5rem;
+        color: #c4bfcb;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .project-status-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: var(--project-green);
+        box-shadow: 0 0 14px rgba(74, 222, 128, 0.62);
+    }
+
+    .project-eyebrow__divider { color: #55515e; }
+
+    .project-title {
+        max-width: 11ch;
+        margin: 0;
+        color: #fff;
+        font-size: clamp(3.6rem, 10vw, 8.6rem);
+        font-weight: 800;
+        line-height: 0.86;
+        letter-spacing: -0.072em;
+        text-wrap: balance;
+    }
+
+    .project-hero__bottom {
+        display: grid;
+        margin-top: clamp(2.5rem, 6vw, 4.5rem);
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 3rem;
+    }
+
+    .project-lead {
+        max-width: 48rem;
+        margin: 0;
+        color: #c6c2cb;
+        font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+        line-height: 1.75;
+    }
+
+    .project-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.8rem; }
+
+    .project-button {
+        display: inline-flex;
+        min-height: 3.75rem;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        border: 1px solid var(--project-line);
+        border-radius: 0.9rem;
+        padding: 0.8rem 1.15rem;
+        text-decoration: none;
+        transition: border-color .25s ease, background .25s ease, transform .25s ease;
+    }
+
+    .project-button strong,
+    .project-button small { display: block; }
+    .project-button strong { font-size: 0.78rem; line-height: 1.25; }
+    .project-button small { margin-top: 0.18rem; opacity: 0.65; font-size: 0.63rem; line-height: 1.25; }
+    .project-button__icon { font-size: 0.9rem; }
+
+    .project-button--primary {
+        border-color: #fff;
+        color: #09040e;
+        background: #fff;
+        box-shadow: 0 18px 45px -24px rgba(216, 180, 254, 0.85);
+    }
+    .project-button--primary:hover { transform: translateY(-3px); background: var(--project-purple-light); border-color: var(--project-purple-light); }
+    .project-button--secondary { color: #e3dee8; background: rgba(255,255,255,.05); }
+    .project-button--secondary:hover { transform: translateY(-2px); border-color: rgba(216,180,254,.55); background: rgba(168,85,247,.12); }
+    .project-button--disabled { color: #898692; background: rgba(255,255,255,.035); cursor: default; }
+
+    .project-section { padding-block: clamp(5rem, 9vw, 8.5rem); }
+    .project-gallery-section { border-bottom: 1px solid var(--project-line); background: #050507; }
+    .project-overview-section { background: radial-gradient(circle at 80% 28%, rgba(88,28,135,.10), transparent 26rem); }
+
+    .project-section-heading {
+        display: grid;
+        margin-bottom: clamp(3rem, 6vw, 5rem);
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 430px);
+        align-items: end;
+        gap: 2rem;
+    }
+
+    .project-section-heading--compact { grid-template-columns: 1fr; margin-bottom: 2.2rem; }
+    .project-kicker { margin: 0 0 0.9rem; color: var(--project-purple-light); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; }
+    .project-section-heading h2,
+    .project-subheading h2,
+    .project-next h2,
+    .sale-card h2 { margin: 0; color: #fff; font-size: clamp(2.35rem, 5vw, 4.7rem); font-weight: 750; line-height: 0.95; letter-spacing: -0.055em; }
+    .project-section-heading > p { margin: 0; color: var(--project-muted); font-size: 1rem; line-height: 1.75; }
+
+    .gallery-group + .gallery-group { margin-top: 5rem; }
+    .gallery-group__heading { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+    .gallery-group__heading h3 { margin: 0; font-size: 1.35rem; font-weight: 650; }
+    .gallery-group__heading span { color: #7d7985; font-size: 0.72rem; }
+
+    .desktop-gallery { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1.1rem; }
+    .gallery-card {
+        appearance: none;
+        min-width: 0;
+        border: 0;
+        padding: 0;
+        color: inherit;
+        background: none;
+        text-align: left;
+        cursor: zoom-in;
+    }
+    .gallery-card--desktop { grid-column: span 4; }
+    .gallery-card--desktop.gallery-card--featured { grid-column: span 8; grid-row: span 2; }
+    .gallery-card__frame {
+        display: block;
+        overflow: hidden;
+        border: 1px solid var(--project-line);
+        border-radius: 1rem;
+        background: #09090c;
+        transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+    }
+    .gallery-card:hover .gallery-card__frame {
+        transform: translateY(-4px);
+        border-color: rgba(168,85,247,.55);
+        box-shadow: 0 24px 60px -40px rgba(168,85,247,.72);
+    }
+    .gallery-card__browser { display: flex; height: 2rem; align-items: center; gap: .38rem; border-bottom: 1px solid var(--project-line); padding-inline: .8rem; }
+    .gallery-card__browser i { width: .42rem; height: .42rem; border-radius: 50%; background: #4b4851; }
+    .gallery-card__browser i:first-child { background: #f87171; }
+    .gallery-card__browser i:nth-child(2) { background: #fbbf24; }
+    .gallery-card__browser i:nth-child(3) { background: #4ade80; }
+    .gallery-card__frame img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #020203; }
+    .gallery-card__caption { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.9rem 0.2rem 0; }
+    .gallery-card__caption strong { overflow: hidden; color: #d8d4dd; font-size: 0.88rem; font-weight: 550; text-overflow: ellipsis; white-space: nowrap; }
+    .gallery-card__caption small { flex: none; color: #77737e; font-size: 0.65rem; }
+
+    .mobile-gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.1rem; }
+    .gallery-card__phone { position: relative; display: block; overflow: hidden; border: 1px solid var(--project-line); border-radius: 1.7rem; padding: .42rem; background: #0b0b0e; transition: border-color .3s ease, transform .3s ease; }
+    .gallery-card__phone i { position: absolute; z-index: 2; top: .78rem; left: 50%; width: 3.2rem; height: .28rem; border-radius: 99px; background: #17171c; transform: translateX(-50%); }
+    .gallery-card__phone img { display: block; width: 100%; aspect-ratio: 9 / 16; border-radius: 1.3rem; object-fit: contain; background: #020203; }
+    .gallery-card:hover .gallery-card__phone { transform: translateY(-4px); border-color: rgba(168,85,247,.55); }
+
+    .gallery-empty {
+        display: grid;
+        overflow: hidden;
+        grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+        align-items: stretch;
+        border: 1px solid var(--project-line);
+        border-radius: 1.35rem;
+        background: var(--project-surface);
+    }
+    .gallery-empty__preview { appearance: none; min-height: 25rem; overflow: hidden; border: 0; padding: 0; background: #020203; cursor: zoom-in; }
+    .gallery-empty__preview img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .gallery-empty__copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(2rem, 5vw, 4rem); }
+    .gallery-empty__copy span { color: var(--project-purple-light); font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; }
+    .gallery-empty__copy h3 { margin: .85rem 0 1rem; font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1; letter-spacing: -.04em; }
+    .gallery-empty__copy p { margin: 0; color: var(--project-muted); font-size: 1rem; line-height: 1.7; }
+
+    .project-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; align-items: start; gap: clamp(2rem, 6vw, 5rem); }
+    .project-description { color: #cbc7d0; font-size: 1.08rem; line-height: 1.9; }
+    .project-description p { margin: 0 0 1.2rem; }
+    .project-sidebar { position: sticky; top: 6rem; display: grid; gap: 1rem; }
+    .project-panel { border: 1px solid var(--project-line); border-radius: 1rem; padding: 1.25rem; background: rgba(11,11,16,.82); backdrop-filter: blur(12px); }
+    .project-panel__label { margin: 0 0 1.1rem; color: #7f7b86; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; }
+    .project-panel--actions { display: grid; gap: .7rem; }
+    .sidebar-demo, .sidebar-link { display: flex; flex-direction: column; border-radius: .8rem; padding: 1rem; text-decoration: none; }
+    .sidebar-demo { color: #100516; background: #fff; transition: background .2s ease, transform .2s ease; }
+    .sidebar-demo:hover { transform: translateY(-2px); background: var(--project-purple-light); }
+    .sidebar-demo strong, .sidebar-unavailable strong { font-size: .8rem; }
+    .sidebar-demo small, .sidebar-unavailable small { margin-top: .3rem; font-size: .65rem; line-height: 1.45; opacity: .65; }
+    .sidebar-unavailable { display: flex; flex-direction: column; border: 1px solid var(--project-line); border-radius: .8rem; padding: 1rem; color: #aaa6b0; background: rgba(255,255,255,.035); }
+    .sidebar-link { border: 1px solid var(--project-line); color: #d8d4df; font-size: .75rem; text-align: center; transition: border-color .2s ease, background .2s ease; }
+    .sidebar-link:hover { border-color: rgba(168,85,247,.55); background: rgba(168,85,247,.10); }
+
+    .progress-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .85rem; }
+    .progress-heading strong { font-size: .95rem; font-weight: 550; }
+    .progress-heading span { color: var(--project-purple-light); font-size: .75rem; }
+    .progress-track { height: .5rem; overflow: hidden; border-radius: 99px; background: #24222a; }
+    .progress-track span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #7e22ce, #c084fc, #4ade80); box-shadow: 0 0 12px rgba(168,85,247,.55); }
+
+    .tech-list { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tech-list span { border: 1px solid var(--project-line); border-radius: 999px; padding: .48rem .7rem; color: #ccc7d1; background: rgba(255,255,255,.035); font-size: .68rem; }
+    .project-facts { display: grid; gap: .8rem; margin: 0; }
+    .project-facts div { display: flex; justify-content: space-between; gap: 1rem; }
+    .project-facts dt { color: #817d88; font-size: .78rem; }
+    .project-facts dd { margin: 0; color: #ded9e3; font-size: .78rem; text-align: right; }
+
+    .project-features { margin-top: clamp(4rem, 8vw, 7rem); }
+    .project-subheading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
+    .project-subheading h2 { font-size: clamp(2.1rem, 4vw, 3.5rem); }
+    .project-subheading > span { color: #77737e; font-size: .68rem; }
+    .feature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+    .feature-card { display: flex; min-height: 7rem; align-items: flex-start; gap: .9rem; border: 1px solid var(--project-line); border-radius: .9rem; padding: 1.15rem; background: var(--project-surface); }
+    .feature-card__mark { display: grid; width: 1.7rem; height: 1.7rem; flex: none; place-items: center; border-radius: .45rem; color: var(--project-green); background: rgba(74,222,128,.10); font-size: .72rem; }
+    .feature-card h3 { margin: .2rem 0 0; color: #dfdbe4; font-size: .95rem; font-weight: 550; line-height: 1.55; }
+
+    .sale-card { display: grid; margin-top: 4rem; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2rem; border: 1px solid rgba(52,211,153,.35); border-radius: 1.2rem; padding: clamp(1.5rem, 4vw, 2.5rem); background: linear-gradient(135deg, rgba(6,78,59,.34), rgba(11,11,16,.96)); }
+    .sale-card h2 { font-size: clamp(1.8rem, 4vw, 3rem); }
+    .sale-card p:not(.project-kicker) { margin: 1rem 0 0; color: var(--project-muted); line-height: 1.65; }
+    .sale-card__action { display: flex; min-width: 13rem; flex-direction: column; align-items: stretch; gap: .8rem; }
+    .sale-card__price { color: #6ee7b7; font-size: 1.35rem; font-weight: 700; text-align: center; }
+    .sale-card__price small { color: #8e8a94; font-size: .65rem; }
+    .project-button--sale { border-color: #34d399; color: #052e24; background: #34d399; font-weight: 700; }
+    .project-button--sale:hover { transform: translateY(-2px); background: #6ee7b7; }
+    .sale-card__disabled { color: #77737e; font-size: .7rem; text-align: center; }
+
+    .project-next { border-top: 1px solid var(--project-line); padding-block: clamp(4rem, 7vw, 6rem); background: #050507; }
+    .project-next__inner { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
+    .project-next h2 { font-size: clamp(2.25rem, 5vw, 4.4rem); }
+
+    .project-lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: grid;
+        place-items: center;
+        padding: 4rem 2rem 2rem;
+        background: rgba(0,0,0,.94);
+        backdrop-filter: blur(16px);
+    }
+    .project-lightbox[hidden] { display: none; }
+    .project-lightbox__content { display: flex; max-width: min(94vw, 1500px); max-height: 88vh; flex-direction: column; align-items: center; gap: 1rem; }
+    .project-lightbox__content img { display: block; max-width: 100%; max-height: calc(88vh - 3rem); border: 1px solid var(--project-line); border-radius: .9rem; object-fit: contain; box-shadow: 0 32px 100px rgba(0,0,0,.8); }
+    .project-lightbox__content p { margin: 0; color: #c7c2cc; font-size: .75rem; }
+    .project-lightbox__close { position: absolute; top: 1rem; right: 1.5rem; width: 2.6rem; height: 2.6rem; border: 1px solid var(--project-line); border-radius: 50%; color: #fff; background: rgba(255,255,255,.08); font-size: 1.7rem; cursor: pointer; }
+    .project-lightbox__close:hover { background: rgba(168,85,247,.25); }
+
+    .mobile-demo-bar { display: none; }
+
+    @media (max-width: 960px) {
+        .project-nav__links { display: none; }
+        .project-nav__inner { grid-template-columns: 1fr auto; }
+        .project-hero { min-height: 760px; }
+        .project-hero__bottom { grid-template-columns: 1fr; align-items: start; }
+        .project-actions { justify-content: flex-start; }
+        .project-section-heading { grid-template-columns: 1fr; align-items: start; }
+        .project-layout { grid-template-columns: 1fr; }
+        .project-sidebar { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .project-panel--actions { grid-column: 1 / -1; }
+        .gallery-card--desktop,
+        .gallery-card--desktop.gallery-card--featured { grid-column: span 6; grid-row: auto; }
+        .mobile-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 680px) {
+        .project-shell,
+        .project-nav__inner { width: min(100% - 2rem, 1240px); }
+        .project-nav__demo { display: none; }
+        .project-nav__inner { grid-template-columns: 1fr; }
+        .project-hero { min-height: 690px; }
+        .project-hero__content { padding-block: 8rem 3.5rem; }
+        .project-hero__shade { background: linear-gradient(0deg, #030305 0%, rgba(3,3,5,.52) 62%, rgba(3,3,5,.75) 100%); }
+        .project-title { font-size: clamp(3.2rem, 18vw, 5.6rem); }
+        .project-actions { display: grid; width: 100%; grid-template-columns: 1fr; }
+        .project-button { width: 100%; }
+        .project-section { padding-block: 4.5rem; }
+        .desktop-gallery { grid-template-columns: 1fr; }
+        .gallery-card--desktop,
+        .gallery-card--desktop.gallery-card--featured { grid-column: 1; }
+        .mobile-gallery { grid-auto-columns: 76%; grid-template-columns: none; grid-auto-flow: column; overflow-x: auto; padding-bottom: .75rem; scroll-snap-type: x mandatory; }
+        .gallery-card--mobile { scroll-snap-align: start; }
+        .gallery-empty { grid-template-columns: 1fr; }
+        .gallery-empty__preview { min-height: 16rem; }
+        .project-sidebar { grid-template-columns: 1fr; }
+        .project-panel--actions { grid-column: auto; }
+        .feature-grid { grid-template-columns: 1fr; }
+        .project-subheading { align-items: flex-start; flex-direction: column; gap: .7rem; }
+        .sale-card { grid-template-columns: 1fr; }
+        .project-next__inner { align-items: flex-start; flex-direction: column; }
+        .mobile-demo-bar {
+            position: fixed;
+            right: .75rem;
+            bottom: .75rem;
+            left: .75rem;
+            z-index: 70;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border: 1px solid rgba(216,180,254,.28);
+            border-radius: 1rem;
+            padding: .75rem;
+            background: rgba(12,8,15,.92);
+            box-shadow: 0 20px 50px rgba(0,0,0,.55);
+            backdrop-filter: blur(18px);
+        }
+        .mobile-demo-bar span { min-width: 0; }
+        .mobile-demo-bar small, .mobile-demo-bar strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .mobile-demo-bar small { color: #8e8994; font-size: .6rem; }
+        .mobile-demo-bar strong { margin-top: .16rem; color: #fff; font-size: .82rem; }
+        .mobile-demo-bar a { flex: none; border-radius: .7rem; padding: .8rem 1rem; color: #110517; background: #fff; font-size: .7rem; font-weight: 700; text-decoration: none; }
+        .project-page:has(.mobile-demo-bar) { padding-bottom: 5.5rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .gallery-card__frame,
+        .gallery-card__phone,
+        .project-button,
+        .sidebar-demo { transition: none; }
+        .gallery-card:hover .gallery-card__frame,
+        .gallery-card:hover .gallery-card__phone,
+        .project-button:hover,
+        .sidebar-demo:hover { transform: none; }
+    }
 </style>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. نوارهای پنهان (آکاردئونی)
-    document.querySelectorAll('.collapse-toggle').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const body = document.getElementById(btn.getAttribute('aria-controls'));
-            const isOpen = btn.getAttribute('aria-expanded') === 'true';
-            btn.setAttribute('aria-expanded', String(!isOpen));
-            body.classList.toggle('grid-rows-[1fr]', !isOpen);
-            body.classList.toggle('grid-rows-[0fr]', isOpen);
+document.addEventListener('DOMContentLoaded', () => {
+    const lightbox = document.getElementById('project-lightbox');
+    const lightboxImage = document.getElementById('project-lightbox-image');
+    const lightboxCaption = document.getElementById('project-lightbox-caption');
+    const closeButton = lightbox.querySelector('.project-lightbox__close');
+    let lastTrigger = null;
+
+    function closeLightbox() {
+        lightbox.hidden = true;
+        document.body.style.overflow = '';
+        lightboxImage.src = '';
+        if (lastTrigger) lastTrigger.focus();
+    }
+
+    document.querySelectorAll('[data-lightbox-src]').forEach((trigger) => {
+        trigger.addEventListener('click', () => {
+            lastTrigger = trigger;
+            lightboxImage.src = trigger.dataset.lightboxSrc;
+            lightboxImage.alt = trigger.dataset.lightboxCaption || 'Project screenshot';
+            lightboxCaption.textContent = trigger.dataset.lightboxCaption || '';
+            lightbox.hidden = false;
+            document.body.style.overflow = 'hidden';
+            closeButton.focus();
         });
     });
 
-    // 2. Progress Bar
-    setTimeout(() => {
-        const bar = document.querySelector('.progress-bar-fill');
-        if (bar) {
-            bar.style.transition = 'width 1.5s cubic-bezier(0.16, 1, 0.3, 1)';
-            bar.style.width = bar.getAttribute('data-target') + '%';
-        }
-    }, 200);
-
-    // 3. Count-up Number
-    const numElem = document.querySelector('.progress-num');
-    if (numElem) {
-        const target = parseInt(numElem.getAttribute('data-target'));
-        const duration = 1200, startTime = Date.now();
-        (function countUp() {
-            const elapsed = Date.now() - startTime;
-            if (elapsed < duration) {
-                const eased = 1 - Math.pow(1 - elapsed / duration, 3);
-                numElem.innerText = Math.floor(eased * target) + '%';
-                requestAnimationFrame(countUp);
-            } else {
-                numElem.innerText = target + '%';
-            }
-        })();
-    }
+    closeButton.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !lightbox.hidden) closeLightbox();
+    });
 });
-
-// 4. Lightbox
-function openLightbox(url, caption) {
-    document.getElementById('lightbox-img').src = url;
-    document.getElementById('lightbox-caption').textContent = caption;
-    const lb = document.getElementById('lightbox');
-    lb.classList.remove('hidden');
-    lb.classList.add('flex');
-}
-function closeLightbox() {
-    const lb = document.getElementById('lightbox');
-    lb.classList.add('hidden');
-    lb.classList.remove('flex');
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 {% endblock %}
