@@ -1,0 +1,250 @@
+<section id="what-i-build" class="portfolio-section build-lab">
+    <div class="section-shell">
+        <div class="section-heading section-heading--split">
+            <div>
+                <p class="section-kicker mono">CAPABILITIES</p>
+                <h2 class="section-display inter">What I Build</h2>
+            </div>
+            <p class="section-summary mono">
+                Backend-first products, dependable APIs, and web interfaces built as one connected system.
+            </p>
+        </div>
+
+        <div class="capability-grid">
+            <article class="capability-card capability-card--django">
+                <div class="capability-head">
+                    <span class="capability-index mono">BACKEND</span>
+                    <span class="capability-status mono"><i></i> CORE STACK</span>
+                </div>
+                <div class="capability-copy">
+                    <h3 class="inter">Django systems</h3>
+                    <p class="mono">Structured models, business logic, admin workflows, and production-ready foundations.</p>
+                </div>
+                <div class="code-window" aria-label="Django model example">
+                    <div class="window-bar" aria-hidden="true">
+                        <span></span><span></span><span></span>
+                        <small class="mono">models.py</small>
+                    </div>
+                    <pre class="mono"><code><span class="code-purple">from</span> django.db <span class="code-purple">import</span> models
+
+<span class="code-purple">class</span> <span class="code-blue">Project</span>(models.Model):
+    title = models.CharField(max_length=<span class="code-green">120</span>)
+    is_active = models.BooleanField(default=<span class="code-blue">True</span>)</code></pre>
+                </div>
+                <div class="capability-tags mono" aria-label="Django capabilities">
+                    <span>Models</span><span>Admin</span><span>Auth</span>
+                </div>
+            </article>
+
+            <article class="capability-card capability-card--api">
+                <div class="capability-head">
+                    <span class="capability-index mono">DATA LAYER</span>
+                    <span class="capability-status mono"><i></i> CONNECTED</span>
+                </div>
+                <div class="capability-copy">
+                    <h3 class="inter">REST APIs</h3>
+                    <p class="mono">Clear endpoints with predictable responses for apps, dashboards, and integrations.</p>
+                </div>
+                <div class="api-console mono" aria-label="API request example">
+                    <div class="api-request"><span>GET</span><code>/api/projects/</code></div>
+                    <div class="api-response"><span>200</span><code>application/json</code></div>
+                    <pre>{
+  "status": "ready",
+  "results": [ ... ]
+}</pre>
+                </div>
+                <div class="capability-tags mono" aria-label="API capabilities">
+                    <span>DRF</span><span>JSON</span><span>WebSockets</span>
+                </div>
+            </article>
+
+            <article class="capability-card capability-card--apps">
+                <div class="capability-head">
+                    <span class="capability-index mono">INTERFACE</span>
+                    <span class="capability-status mono"><i></i> LIVE</span>
+                </div>
+                <div class="capability-copy">
+                    <h3 class="inter">Web applications</h3>
+                    <p class="mono">Responsive interfaces that keep complex workflows focused and easy to use.</p>
+                </div>
+                <div class="app-preview" aria-label="Web application interface preview">
+                    <div class="app-preview__bar">
+                        <div><span></span><span></span><span></span></div>
+                        <small class="mono">app.younes.dev</small>
+                        <b class="mono">LIVE</b>
+                    </div>
+                    <div class="app-preview__body">
+                        <div class="app-preview__nav"></div>
+                        <div class="app-preview__content">
+                            <div class="preview-line preview-line--wide"></div>
+                            <div class="preview-line"></div>
+                            <div class="preview-panels"><i></i><i></i></div>
+                            <div class="preview-action"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="capability-tags mono" aria-label="Web app capabilities">
+                    <span>Responsive</span><span>Interactive</span><span>Accessible</span>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="tech-stack" class="portfolio-section stack-section">
+    <div class="section-shell">
+        <div class="section-heading section-heading--split">
+            <div>
+                <p class="section-kicker mono">TOOLKIT</p>
+                <h2 class="section-display inter">Tech Stack</h2>
+            </div>
+            <p class="section-summary mono">
+                A practical toolkit selected around the product—not the trend.
+            </p>
+        </div>
+
+        <div class="stack-board">
+            <div class="stack-board__top mono">
+                <span>SKILL MATRIX</span>
+                <span class="stack-board__signal"><i></i> SYSTEM READY</span>
+            </div>
+            <div class="stack-list">
+                {% for tech_stack in tech_stacks %}
+                    <div class="tech-row" data-percent="{{ tech_stack.percent }}">
+                        <div class="tech-meta">
+                            <strong class="mono">{{ tech_stack.title }}</strong>
+                            <span class="tech-progress-text mono">00%</span>
+                        </div>
+                        <div class="tech-track">
+                            <div class="tech-progress-bar" style="--stack-color: {{ tech_stack.color }}; background-color: {{ tech_stack.color }}"></div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="stack-empty mono">Stack data is loading.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="projects-showcase" class="portfolio-section projects-section">
+    <div id="projects-track" class="section-shell">
+        <div class="section-heading section-heading--split projects-heading">
+            <div>
+                <p class="section-kicker mono">SELECTED WORK</p>
+                <h2 class="section-display inter">Projects</h2>
+            </div>
+            <a href="{% url 'project:projects' %}" class="section-link mono">VIEW ALL PROJECTS</a>
+        </div>
+
+        <div class="projects-grid">
+            <article class="project-tile project-tile--market">
+                <div class="project-tile__top mono">
+                    <span>MARKETPLACE</span>
+                    <span class="project-state"><i></i> IN DEVELOPMENT</span>
+                </div>
+                <div class="project-tile__main">
+                    <div>
+                        <p class="project-overline mono">Multi-vendor commerce</p>
+                        <h3 class="inter">KHUR<br>MARKET</h3>
+                    </div>
+                    <div class="project-terminal mono">
+                        <span>$ init marketplace</span>
+                        <span>stack: Django / DRF / Stripe</span>
+                        <b>status: ready_</b>
+                    </div>
+                </div>
+                <div class="project-tile__bottom">
+                    <div class="project-tags mono"><span>Django</span><span>DRF</span><span>Stripe</span></div>
+                    <a href="{% url 'project:projects' %}" class="project-link mono">VIEW PROJECTS</a>
+                </div>
+            </article>
+
+            <article class="project-tile project-tile--menu">
+                <div class="project-tile__top mono">
+                    <span>HOSPITALITY</span>
+                    <span class="project-state"><i></i> COMPLETE</span>
+                </div>
+                <div class="project-tile__main">
+                    <div>
+                        <p class="project-overline mono">QR ordering system</p>
+                        <h3 class="inter">DIGITAL<br>MENU</h3>
+                    </div>
+                    <div class="qr-visual" aria-hidden="true">
+                        <span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+                <div class="project-tile__bottom">
+                    <div class="project-tags mono"><span>WebSockets</span><span>Redis</span></div>
+                    <a href="{% url 'project:projects' %}" class="project-link mono">VIEW PROJECTS</a>
+                </div>
+            </article>
+
+            <article class="project-tile project-tile--wallet">
+                <div class="project-tile__top mono">
+                    <span>FINTECH CONCEPT</span>
+                    <span class="project-state"><i></i> IN PROGRESS</span>
+                </div>
+                <div class="project-tile__main">
+                    <div>
+                        <p class="project-overline mono">Gamified dashboard</p>
+                        <h3 class="inter">MONOPOLY<br>WALLET</h3>
+                    </div>
+                    <div class="wallet-visual mono" aria-hidden="true">
+                        <small>M-PASS</small>
+                        <strong>•••• 4092</strong>
+                        <div><span>PLAYER ONE</span><span>12/25</span></div>
+                    </div>
+                </div>
+                <div class="project-tile__bottom">
+                    <div class="project-tags mono"><span>Django</span><span>Pandas</span></div>
+                    <a href="{% url 'project:projects' %}" class="project-link mono">VIEW PROJECTS</a>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<footer id="contact" class="contact-section">
+    <div class="contact-glow" aria-hidden="true"></div>
+    <div class="section-shell contact-shell">
+        <div class="contact-main">
+            <div>
+                <p class="section-kicker mono">CONTACT</p>
+                <h2 class="contact-title inter">Let’s build<br><span>something useful.</span></h2>
+            </div>
+            <div class="contact-copy">
+                <p class="mono">Have an idea, a product, or a backend that needs clarity?</p>
+                <a href="mailto:hello@younes.cam" class="contact-button mono">SAY HELLO</a>
+            </div>
+        </div>
+
+        <div class="contact-links">
+            <a href="https://t.me/younes_web_developer_bot" target="_blank" rel="noopener noreferrer" class="contact-link">
+                <span class="mono">TELEGRAM</span>
+                <strong class="mono">@younes_web_developer_bot</strong>
+            </a>
+            <a href="https://www.linkedin.com/in/sed-younes-mousavi-943740425?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_android" target="_blank" rel="noopener noreferrer" class="contact-link">
+                <span class="mono">LINKEDIN</span>
+                <strong class="mono">Sed Younes Mousavi</strong>
+            </a>
+        </div>
+
+        <div class="contact-terminal mono">
+            <span id="footer-type" data-text="> available for new projects| > stack ready.| > awaiting your message_"></span><span class="hero-cursor hero-cursor--sm" aria-hidden="true"></span>
+        </div>
+
+        <div class="contact-footer mono">
+            <span>© <span id="footer-year"></span> YOUNES</span>
+            <nav aria-label="Footer navigation">
+                <a href="#what-i-build">BUILD</a>
+                <a href="#tech-stack">STACK</a>
+                <a href="#projects-showcase">PROJECTS</a>
+            </nav>
+        </div>
+    </div>
+</footer>
