@@ -9,6 +9,7 @@ class HomePageTests(TestCase):
     def setUp(self):
         self.stack = TechStack.objects.create(
             title='Django',
+            title_fa='جنگو',
             percent=90,
             color='#a855f7',
         )
@@ -16,10 +17,13 @@ class HomePageTests(TestCase):
     def create_project(self, title, importance, is_active=True):
         project = Project.objects.create(
             title=title,
+            title_fa=f'پروژه {importance}',
             image_default='project.jpg',
             status_percent=80,
             status='In progress',
+            status_fa='در حال توسعه',
             description='A useful web product with a clear workflow.',
+            description_fa='یک محصول وب کاربردی با جریان کاری روشن.',
             important=importance,
             is_active=is_active,
         )
@@ -54,3 +58,14 @@ class HomePageTests(TestCase):
         self.assertContains(response, 'href="#expertise"')
         self.assertContains(response, 'href="#selected-work"')
         self.assertContains(response, 'href="#contact"')
+
+    def test_language_switcher_and_persian_database_content_are_rendered(self):
+        self.create_project('Translated project', 10)
+
+        response = self.client.get(reverse('home'))
+
+        self.assertContains(response, 'id="language-toggle"')
+        self.assertContains(response, "sessionStorage.getItem('portfolio-language')")
+        self.assertContains(response, 'data-fa="پروژه 10"')
+        self.assertContains(response, 'data-fa="جنگو"')
+        self.assertContains(response, 'data-fa="یک محصول وب کاربردی با جریان کاری روشن."')

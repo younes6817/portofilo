@@ -5,8 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const revealItems = document.querySelectorAll('.portfolio-v2 .reveal-item');
     const stackPanel = document.querySelector('.portfolio-v2 .stack-panel');
 
-    document.querySelectorAll('[data-current-year]').forEach((element) => {
-        element.textContent = String(new Date().getFullYear());
+    function renderCurrentYear(language = document.documentElement.dataset.language || 'en') {
+        const locale = language === 'fa' ? 'fa-IR' : 'en-US';
+        const year = new Intl.NumberFormat(locale, { useGrouping: false }).format(new Date().getFullYear());
+        document.querySelectorAll('[data-current-year]').forEach((element) => {
+            element.textContent = year;
+        });
+    }
+
+    renderCurrentYear();
+    document.addEventListener('portfolio:languagechange', (event) => {
+        renderCurrentYear(event.detail.language);
     });
 
     if (reduceMotion || !('IntersectionObserver' in window)) {

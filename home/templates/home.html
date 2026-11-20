@@ -50,7 +50,7 @@
         <div class="hero-copy relative z-10 flex flex-col items-center text-center md:items-start md:text-left md:order-1 pt-12 md:pt-0 md:-ml-4 lg:-ml-12">
             <p class="hero-boot mono mb-4 md:mb-6 text-[10px] lg:text-[11px] tracking-[0.3em] md:tracking-[0.28em] text-purple-200/90 md:text-purple-400/60 uppercase opacity-0">
                 <span class="hero-boot-dot"></span>
-                system online
+                <span data-en="system online" data-fa="سیستم فعال">system online</span>
             </p>
 
             <h1 class="hero-name inter text-[clamp(4.2rem,17vw,9.5rem)] md:text-[clamp(3.2rem,8vw,8rem)] lg:text-[clamp(4.5rem,10vw,9.5rem)] font-bold leading-[0.9] tracking-tight text-white md:text-purple-300 drop-shadow-xl md:drop-shadow-none whitespace-nowrap" aria-label="YOUNES">
@@ -58,17 +58,17 @@
             </h1>
 
             <p class="mono mt-4 md:mt-6 text-[clamp(1.1rem,4.5vw,1.85rem)] md:text-[clamp(1rem,2vw,1.85rem)] text-purple-50 md:text-purple-200/85 drop-shadow-md md:drop-shadow-none">
-                <span id="hero-type" data-text="full-stack Developer"></span><span id="hero-cursor" class="hero-cursor" aria-hidden="true"></span>
+                <span id="hero-type" data-text="full-stack Developer" data-en-text="full-stack Developer" data-fa-text="توسعه‌دهنده فول‌استک"></span><span id="hero-cursor" class="hero-cursor" aria-hidden="true"></span>
             </p>
 
             <div class="hero-cta-row mt-8 lg:mt-10 flex items-center justify-center md:justify-start gap-4 md:gap-6 opacity-0">
                 <a id="hero-say-hello" href="#contact" class="hero-say-hello hero-say-hello--primary mono inline-flex items-center gap-2 text-sm font-bold tracking-wide rounded-full px-6 py-3 border transition-all duration-300">
                     <span class="hero-say-hello-glow" aria-hidden="true"></span>
-                    <span class="hero-say-hello-label">Say hello</span>
+                    <span class="hero-say-hello-label" data-en="Say hello" data-fa="تماس">Say hello</span>
                 </a>
                 <a id="hero-view-projects" href="{% url 'project:projects' %}" class="hero-say-hello hero-say-hello--secondary mono inline-flex items-center gap-2 text-sm font-bold tracking-wide rounded-full px-6 py-3 border transition-all duration-300">
                     <span class="hero-say-hello-glow" aria-hidden="true"></span>
-                    <span class="hero-say-hello-label">View projects</span>
+                    <span class="hero-say-hello-label" data-en="View projects" data-fa="مشاهده پروژه‌ها">View projects</span>
                 </a>
                 <span class="hidden h-px w-16 bg-gradient-to-r from-purple-500/50 to-transparent sm:block" aria-hidden="true"></span>
             </div>
@@ -77,7 +77,7 @@
     </div>
 
     <a href="#what-i-build" class="hero-scroll mono absolute bottom-6 md:bottom-8 left-1/2 z-20 -translate-x-1/2 text-[10px] tracking-[0.4em] text-purple-200/80 md:text-purple-400/50 uppercase transition-colors hover:text-white md:hover:text-purple-300 text-center">
-        scroll
+        <span data-en="scroll" data-fa="ادامه">scroll</span>
         <span class="hero-scroll-line mx-auto mt-2 block h-6 md:h-8 w-px bg-gradient-to-b from-purple-200/90 md:from-purple-400/60 to-transparent" aria-hidden="true"></span>
     </a>
 </section>
@@ -1811,8 +1811,13 @@ document.addEventListener("DOMContentLoaded", () => {
         heroViewObserver.observe(heroSection);
     }
 
+    const naturalTypeTimers = new WeakMap();
+
     function typeNatural(el, { startDelay = 400, minDelay = 55, maxDelay = 120, pauseOnSpace = 90, splitLines = false } = {}) {
         if (!el) return;
+        (naturalTypeTimers.get(el) || []).forEach(clearTimeout);
+        const timers = [];
+        naturalTypeTimers.set(el, timers);
         const raw = el.getAttribute('data-text') || '';
         const full = splitLines ? raw.replace(/\|/g, '\n') : raw;
         el.textContent = '';
@@ -1830,13 +1835,17 @@ document.addEventListener("DOMContentLoaded", () => {
             let wait = minDelay + Math.random() * (maxDelay - minDelay);
             if (ch === ' ') wait += pauseOnSpace;
             if (ch === '.' || ch === ',' || ch === '\n') wait += 200;
-            setTimeout(tick, wait);
+            timers.push(setTimeout(tick, wait));
         }
 
-        setTimeout(tick, startDelay);
+        timers.push(setTimeout(tick, startDelay));
     }
 
     typeNatural(heroType, { startDelay: 900, minDelay: 70, maxDelay: 140, pauseOnSpace: 110 });
+
+    document.addEventListener('portfolio:languagechange', () => {
+        typeNatural(heroType, { startDelay: 80, minDelay: 35, maxDelay: 70, pauseOnSpace: 45 });
+    });
 
     if (footerType) {
         const footerObserver = new IntersectionObserver((entries) => {

@@ -1,34 +1,34 @@
 <div class="portfolio-v2">
-    <nav class="portfolio-nav" aria-label="Portfolio sections">
+    <nav class="portfolio-nav" aria-label="Portfolio sections" data-en-aria="Portfolio sections" data-fa-aria="بخش‌های پورتفولیو">
         <div class="portfolio-nav__inner">
             <a class="portfolio-nav__brand mono" href="#hero" aria-label="Back to top">YN<span>.</span></a>
             <div class="portfolio-nav__links mono">
-                <a href="#about">ABOUT</a>
-                <a href="#expertise">EXPERTISE</a>
-                <a href="#selected-work">WORK</a>
-                <a href="#contact">CONTACT</a>
+                <a href="#about" data-en="ABOUT" data-fa="درباره من">ABOUT</a>
+                <a href="#expertise" data-en="EXPERTISE" data-fa="تخصص‌ها">EXPERTISE</a>
+                <a href="#selected-work" data-en="WORK" data-fa="پروژه‌ها">WORK</a>
+                <a href="#contact" data-en="CONTACT" data-fa="تماس">CONTACT</a>
             </div>
-            <a class="portfolio-nav__cta mono" href="{% url 'project:projects' %}">ALL PROJECTS</a>
+            <a class="portfolio-nav__cta mono" href="{% url 'project:projects' %}" data-en="ALL PROJECTS" data-fa="همه پروژه‌ها">ALL PROJECTS</a>
         </div>
     </nav>
 
     <section id="about" class="v2-section v2-intro" aria-labelledby="about-title">
         <div class="v2-shell v2-intro__grid">
             <div class="v2-heading reveal-item">
-                <p class="v2-kicker mono">PROFILE</p>
-                <h2 id="about-title" class="inter">Useful products.<br><span>Built end to end.</span></h2>
+                <p class="v2-kicker mono" data-en="PROFILE" data-fa="معرفی">PROFILE</p>
+                <h2 id="about-title" class="inter"><span data-en="Useful products." data-fa="محصولات کاربردی.">Useful products.</span><br><span data-en="Built end to end." data-fa="ساخته‌شده از ابتدا تا انتها.">Built end to end.</span></h2>
             </div>
             <div class="v2-intro__copy reveal-item">
-                <p class="v2-lead inter">
+                <p class="v2-lead inter" data-en="I’m a full-stack developer focused on turning product ideas into clear, dependable web experiences." data-fa="من یک توسعه‌دهنده فول‌استک هستم که ایده‌های محصول را به تجربه‌های وب روشن، قابل اتکا و کاربردی تبدیل می‌کنم.">
                     I’m a full-stack developer focused on turning product ideas into clear, dependable web experiences.
                 </p>
-                <p class="mono">
+                <p class="mono" data-en="My work connects backend architecture, APIs, and responsive interfaces—so the product feels coherent for both its users and the people running it." data-fa="کار من معماری بک‌اند، APIها و رابط‌های واکنش‌گرا را به هم متصل می‌کند تا محصول هم برای کاربران و هم برای افرادی که آن را مدیریت می‌کنند، یکپارچه و روشن باشد.">
                     My work connects backend architecture, APIs, and responsive interfaces—so the product feels coherent for both its users and the people running it.
                 </p>
                 <div class="v2-focus" aria-label="Main areas of focus">
-                    <span class="mono">DJANGO &amp; PYTHON</span>
+                    <span class="mono" data-en="DJANGO &amp; PYTHON" data-fa="جنگو و پایتون">DJANGO &amp; PYTHON</span>
                     <span class="mono">REST APIs</span>
-                    <span class="mono">WEB PRODUCTS</span>
+                    <span class="mono" data-en="WEB PRODUCTS" data-fa="محصولات وب">WEB PRODUCTS</span>
                 </div>
             </div>
         </div>
@@ -38,10 +38,10 @@
         <div class="v2-shell">
             <header class="v2-section-head reveal-item">
                 <div>
-                    <p class="v2-kicker mono">EXPERTISE</p>
-                    <h2 id="expertise-title" class="inter">What I bring to a project</h2>
+                    <p class="v2-kicker mono" data-en="EXPERTISE" data-fa="تخصص‌ها">EXPERTISE</p>
+                    <h2 id="expertise-title" class="inter" data-en="What I bring to a project" data-fa="چیزی که به یک پروژه اضافه می‌کنم">What I bring to a project</h2>
                 </div>
-                <p class="mono">A practical, backend-first approach with the interface and real workflow kept in view.</p>
+                <p class="mono" data-en="A practical, backend-first approach with the interface and real workflow kept in view." data-fa="رویکردی کاربردی و بک‌اند‌محور که رابط کاربری و جریان واقعی محصول را همیشه در نظر می‌گیرد.">A practical, backend-first approach with the interface and real workflow kept in view.</p>
             </header>
 
             <div class="expertise-grid">
@@ -49,9 +49,9 @@
                     <div class="expertise-card__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7.5 12 3l8 4.5-8 4.5-8-4.5Z"/><path d="m4 12 8 4.5 8-4.5M4 16.5 12 21l8-4.5"/></svg>
                     </div>
-                    <p class="expertise-card__label mono">BACKEND SYSTEMS</p>
-                    <h3 class="inter">Solid foundations</h3>
-                    <p class="mono">Django applications with structured data, business logic, authentication, and practical admin workflows.</p>
+                    <p class="expertise-card__label mono" data-en="BACKEND SYSTEMS" data-fa="سیستم‌های بک‌اند">BACKEND SYSTEMS</p>
+                    <h3 class="inter" data-en="Solid foundations" data-fa="زیرساخت قابل اتکا">Solid foundations</h3>
+                    <p class="mono" data-en="Django applications with structured data, business logic, authentication, and practical admin workflows." data-fa="اپلیکیشن‌های جنگو با داده ساختاریافته، منطق کسب‌وکار، احراز هویت و جریان‌های مدیریتی کاربردی.">Django applications with structured data, business logic, authentication, and practical admin workflows.</p>
                     <div class="expertise-card__tags mono"><span>DJANGO</span><span>PYTHON</span><span>POSTGRESQL</span></div>
                 </article>
 
@@ -59,20 +59,20 @@
                     <div class="expertise-card__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 9 4 12l4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>
                     </div>
-                    <p class="expertise-card__label mono">API DESIGN</p>
-                    <h3 class="inter">Clear connections</h3>
-                    <p class="mono">Predictable APIs that connect products, dashboards, and services without turning the system into a maze.</p>
-                    <div class="expertise-card__tags mono"><span>DRF</span><span>JSON</span><span>INTEGRATIONS</span></div>
+                    <p class="expertise-card__label mono" data-en="API DESIGN" data-fa="طراحی API">API DESIGN</p>
+                    <h3 class="inter" data-en="Clear connections" data-fa="اتصال‌های روشن">Clear connections</h3>
+                    <p class="mono" data-en="Predictable APIs that connect products, dashboards, and services without turning the system into a maze." data-fa="APIهای قابل پیش‌بینی که محصولات، داشبوردها و سرویس‌ها را بدون پیچیده‌کردن سیستم به هم متصل می‌کنند.">Predictable APIs that connect products, dashboards, and services without turning the system into a maze.</p>
+                    <div class="expertise-card__tags mono"><span>DRF</span><span>JSON</span><span data-en="INTEGRATIONS" data-fa="اتصال‌ها">INTEGRATIONS</span></div>
                 </article>
 
                 <article class="expertise-card reveal-item">
                     <div class="expertise-card__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg>
                     </div>
-                    <p class="expertise-card__label mono">PRODUCT INTERFACES</p>
-                    <h3 class="inter">Focused experiences</h3>
-                    <p class="mono">Responsive interfaces designed around the user’s next step, with clarity across desktop and mobile.</p>
-                    <div class="expertise-card__tags mono"><span>RESPONSIVE</span><span>ACCESSIBLE</span><span>INTERACTIVE</span></div>
+                    <p class="expertise-card__label mono" data-en="PRODUCT INTERFACES" data-fa="رابط‌های محصول">PRODUCT INTERFACES</p>
+                    <h3 class="inter" data-en="Focused experiences" data-fa="تجربه‌های متمرکز">Focused experiences</h3>
+                    <p class="mono" data-en="Responsive interfaces designed around the user’s next step, with clarity across desktop and mobile." data-fa="رابط‌های واکنش‌گرا که بر قدم بعدی کاربر تمرکز دارند و در دسکتاپ و موبایل واضح باقی می‌مانند.">Responsive interfaces designed around the user’s next step, with clarity across desktop and mobile.</p>
+                    <div class="expertise-card__tags mono"><span data-en="RESPONSIVE" data-fa="واکنش‌گرا">RESPONSIVE</span><span data-en="ACCESSIBLE" data-fa="دسترس‌پذیر">ACCESSIBLE</span><span data-en="INTERACTIVE" data-fa="تعاملی">INTERACTIVE</span></div>
                 </article>
             </div>
         </div>
@@ -82,30 +82,30 @@
         <div class="v2-shell v2-stack__grid">
             <header class="v2-section-head v2-section-head--stack reveal-item">
                 <div>
-                    <p class="v2-kicker mono">TOOLKIT</p>
-                    <h2 id="stack-title" class="inter">Tools I work with</h2>
+                    <p class="v2-kicker mono" data-en="TOOLKIT" data-fa="ابزارها">TOOLKIT</p>
+                    <h2 id="stack-title" class="inter" data-en="Tools I work with" data-fa="ابزارهایی که با آن‌ها کار می‌کنم">Tools I work with</h2>
                 </div>
-                <p class="mono">Chosen for the product and the problem—not for the trend.</p>
+                <p class="mono" data-en="Chosen for the product and the problem—not for the trend." data-fa="انتخاب‌شده بر اساس محصول و مسئله، نه صرفاً بر اساس ترند.">Chosen for the product and the problem—not for the trend.</p>
             </header>
 
             <div class="stack-panel reveal-item">
                 <div class="stack-panel__top mono">
-                    <span>WORKING STACK</span>
-                    <span><i aria-hidden="true"></i> READY</span>
+                    <span data-en="WORKING STACK" data-fa="استک کاری">WORKING STACK</span>
+                    <span><i aria-hidden="true"></i><span data-en="READY" data-fa="آماده">READY</span></span>
                 </div>
                 <div class="stack-panel__list">
                     {% for tech_stack in tech_stacks %}
                         <div class="stack-skill" data-level="{{ tech_stack.percent }}">
                             <div class="stack-skill__meta mono">
-                                <strong>{{ tech_stack.title }}</strong>
-                                <span>{{ tech_stack.percent }}%</span>
+                                <strong data-en="{{ tech_stack.title }}" data-fa="{{ tech_stack.title_fa|default:tech_stack.title }}">{{ tech_stack.title }}</strong>
+                                <span data-en="{{ tech_stack.percent }}%" data-fa="{{ tech_stack.percent }}٪">{{ tech_stack.percent }}%</span>
                             </div>
                             <div class="stack-skill__track" role="progressbar" aria-label="{{ tech_stack.title }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ tech_stack.percent }}">
                                 <span style="--skill-level: {{ tech_stack.percent }}%;"></span>
                             </div>
                         </div>
                     {% empty %}
-                        <p class="stack-panel__empty mono">The toolkit is being updated.</p>
+                        <p class="stack-panel__empty mono" data-en="The toolkit is being updated." data-fa="فهرست ابزارها در حال به‌روزرسانی است.">The toolkit is being updated.</p>
                     {% endfor %}
                 </div>
             </div>
@@ -116,10 +116,10 @@
         <div class="v2-shell">
             <header class="v2-section-head reveal-item">
                 <div>
-                    <p class="v2-kicker mono">SELECTED WORK</p>
-                    <h2 id="work-title" class="inter">Projects with real context</h2>
+                    <p class="v2-kicker mono" data-en="SELECTED WORK" data-fa="پروژه‌های منتخب">SELECTED WORK</p>
+                    <h2 id="work-title" class="inter" data-en="Projects with real context" data-fa="پروژه‌هایی با زمینه واقعی">Projects with real context</h2>
                 </div>
-                <a class="v2-text-link mono" href="{% url 'project:projects' %}">EXPLORE ALL PROJECTS</a>
+                <a class="v2-text-link mono" href="{% url 'project:projects' %}" data-en="EXPLORE ALL PROJECTS" data-fa="مشاهده همه پروژه‌ها">EXPLORE ALL PROJECTS</a>
             </header>
 
             <div class="work-grid">
@@ -127,36 +127,36 @@
                     <article class="work-card {% if forloop.first %}work-card--featured{% endif %} reveal-item">
                         <a class="work-card__media" href="{% url 'project:project_detail' project.id %}" aria-label="View {{ project.title }} project">
                             {% if project.image_default %}
-                                <div class="work-card__placeholder mono" aria-hidden="true">PROJECT PREVIEW</div>
+                                <div class="work-card__placeholder mono" aria-hidden="true" data-en="PROJECT PREVIEW" data-fa="پیش‌نمایش پروژه">PROJECT PREVIEW</div>
                                 <img src="{{ project.image_default.url }}" alt="{{ project.title }} project preview" loading="lazy" decoding="async" onerror="this.hidden=true">
                             {% else %}
-                                <div class="work-card__placeholder mono" aria-hidden="true">PROJECT PREVIEW</div>
+                                <div class="work-card__placeholder mono" aria-hidden="true" data-en="PROJECT PREVIEW" data-fa="پیش‌نمایش پروژه">PROJECT PREVIEW</div>
                             {% endif %}
-                            <span class="work-card__status mono"><i aria-hidden="true"></i>{{ project.status }}</span>
+                            <span class="work-card__status mono"><i aria-hidden="true"></i><span data-en="{{ project.status }}" data-fa="{{ project.status_fa|default:project.status }}">{{ project.status }}</span></span>
                         </a>
                         <div class="work-card__body">
-                            <p class="work-card__role mono">{{ project.cilend_or_role|default:"WEB PRODUCT" }}</p>
-                            <h3 class="inter"><a href="{% url 'project:project_detail' project.id %}">{{ project.title }}</a></h3>
-                            <p class="work-card__description inter">{{ project.description|truncatewords:30 }}</p>
+                            <p class="work-card__role mono" data-en="{{ project.cilend_or_role|default:'WEB PRODUCT' }}" data-fa="{{ project.cilend_or_role_fa|default:project.cilend_or_role|default:'محصول وب' }}">{{ project.cilend_or_role|default:"WEB PRODUCT" }}</p>
+                            <h3 class="inter"><a href="{% url 'project:project_detail' project.id %}" data-en="{{ project.title }}" data-fa="{{ project.title_fa|default:project.title }}">{{ project.title }}</a></h3>
+                            <p class="work-card__description inter" data-en="{{ project.description|truncatewords:30 }}" data-fa="{{ project.description_fa|default:project.description|truncatewords:30 }}">{{ project.description|truncatewords:30 }}</p>
 
                             <div class="work-card__tags mono">
                                 {% for technology in project.tech_stacks.all|slice:":4" %}
-                                    <span>{{ technology.title }}</span>
+                                    <span data-en="{{ technology.title }}" data-fa="{{ technology.title_fa|default:technology.title }}">{{ technology.title }}</span>
                                 {% empty %}
-                                    <span>PROJECT</span>
+                                    <span data-en="PROJECT" data-fa="پروژه">PROJECT</span>
                                 {% endfor %}
                             </div>
 
                             <div class="work-card__footer mono">
-                                <span>{{ project.status_percent }}% COMPLETE</span>
-                                <a href="{% url 'project:project_detail' project.id %}">VIEW CASE STUDY</a>
+                                <span data-en="{{ project.status_percent }}% COMPLETE" data-fa="{{ project.status_percent }}٪ تکمیل‌شده">{{ project.status_percent }}% COMPLETE</span>
+                                <a href="{% url 'project:project_detail' project.id %}" data-en="VIEW CASE STUDY" data-fa="مشاهده جزئیات پروژه">VIEW CASE STUDY</a>
                             </div>
                         </div>
                     </article>
                 {% empty %}
                     <div class="work-empty reveal-item">
-                        <p class="mono">Project details are being prepared.</p>
-                        <a class="v2-button mono" href="{% url 'project:projects' %}">VISIT PROJECT ARCHIVE</a>
+                        <p class="mono" data-en="Project details are being prepared." data-fa="جزئیات پروژه‌ها در حال آماده‌سازی است.">Project details are being prepared.</p>
+                        <a class="v2-button mono" href="{% url 'project:projects' %}" data-en="VISIT PROJECT ARCHIVE" data-fa="مشاهده آرشیو پروژه‌ها">VISIT PROJECT ARCHIVE</a>
                     </div>
                 {% endfor %}
             </div>
@@ -168,12 +168,12 @@
         <div class="v2-shell">
             <div class="v2-contact__main reveal-item">
                 <div>
-                    <p class="v2-kicker mono">CONTACT</p>
-                    <h2 class="inter">Have something<br><span>worth building?</span></h2>
+                    <p class="v2-kicker mono" data-en="CONTACT" data-fa="تماس">CONTACT</p>
+                    <h2 class="inter"><span data-en="Have something" data-fa="ایده‌ای داری که">Have something</span><br><span data-en="worth building?" data-fa="ارزش ساختن دارد؟">worth building?</span></h2>
                 </div>
                 <div class="v2-contact__copy">
-                    <p class="mono">Tell me what you’re working on and where you need help. We can start with the problem.</p>
-                    <a class="v2-button mono" href="mailto:hello@younes.cam">START A CONVERSATION</a>
+                    <p class="mono" data-en="Tell me what you’re working on and where you need help. We can start with the problem." data-fa="از چیزی که روی آن کار می‌کنی و جایی که به کمک نیاز داری بگو. می‌توانیم از خود مسئله شروع کنیم.">Tell me what you’re working on and where you need help. We can start with the problem.</p>
+                    <a class="v2-button mono" href="mailto:hello@younes.cam" data-en="START A CONVERSATION" data-fa="شروع گفتگو">START A CONVERSATION</a>
                 </div>
             </div>
 
@@ -187,7 +187,7 @@
                     <strong class="mono">Sed Younes Mousavi</strong>
                 </a>
                 <a href="mailto:hello@younes.cam">
-                    <span class="mono">EMAIL</span>
+                    <span class="mono" data-en="EMAIL" data-fa="ایمیل">EMAIL</span>
                     <strong class="mono">hello@younes.cam</strong>
                 </a>
             </div>
@@ -195,9 +195,9 @@
             <div class="v2-footer mono">
                 <span>© <span data-current-year></span> YOUNES</span>
                 <nav aria-label="Footer navigation">
-                    <a href="#about">ABOUT</a>
-                    <a href="#expertise">EXPERTISE</a>
-                    <a href="#selected-work">WORK</a>
+                    <a href="#about" data-en="ABOUT" data-fa="درباره من">ABOUT</a>
+                    <a href="#expertise" data-en="EXPERTISE" data-fa="تخصص‌ها">EXPERTISE</a>
+                    <a href="#selected-work" data-en="WORK" data-fa="پروژه‌ها">WORK</a>
                 </nav>
             </div>
         </div>

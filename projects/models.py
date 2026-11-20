@@ -8,6 +8,7 @@ from tech_stack.models import TechStack
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name='نام')
+    name_fa = models.CharField(max_length=100, blank=True, verbose_name='نام فارسی')
 
     class Meta:
         verbose_name = 'دسته‌بندی'
@@ -22,16 +23,20 @@ class Project(models.Model):
     TELEGRAM_BOT_USERNAME = 'Younes_web_developer_bot'
 
     title = models.CharField(max_length=100)
+    title_fa = models.CharField(max_length=100, blank=True, verbose_name='عنوان فارسی')
     image_default = models.ImageField()
     status_percent = models.IntegerField(default=0)
     status = models.CharField(max_length=100)
+    status_fa = models.CharField(max_length=100, blank=True, verbose_name='وضعیت فارسی')
     description = models.TextField()
+    description_fa = models.TextField(blank=True, verbose_name='توضیحات فارسی')
     important = models.IntegerField(default=1)
     tech_stacks = models.ManyToManyField(TechStack, related_name='projects', blank=True)
     categories = models.ManyToManyField(Category, related_name='projects', verbose_name='دسته‌بندی‌ها')
     github_link = models.URLField(max_length=255, null=True, blank=True)
     live_demo_link = models.URLField(max_length=255, null=True, blank=True)
     cilend_or_role = models.CharField(max_length=100, null=True, blank=True)
+    cilend_or_role_fa = models.CharField(max_length=100, null=True, blank=True, verbose_name='نقش یا کارفرما به فارسی')
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
@@ -92,9 +97,11 @@ class ProjectImage(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField()
     image_name = models.CharField(max_length=255, null=True, blank=True)
+    image_name_fa = models.CharField(max_length=255, null=True, blank=True, verbose_name='نام فارسی تصویر')
     number_sort = models.IntegerField(default=0)
 
 
 class ProjectFeature(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='features')
     feature = models.TextField()
+    feature_fa = models.TextField(blank=True, verbose_name='ویژگی به فارسی')

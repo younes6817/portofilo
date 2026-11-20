@@ -1,0 +1,114 @@
+{% load static %}
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('{% static "fonts/Vazirmatn-Regular.woff2" %}') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('{% static "fonts/Vazirmatn-Bold.woff2" %}') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root { --language-bar-height: 3.25rem; }
+
+body { padding-top: var(--language-bar-height); }
+
+.language-switcher {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 120;
+    display: flex;
+    height: var(--language-bar-height);
+    align-items: center;
+    justify-content: flex-end;
+    border-bottom: 1px solid rgba(216, 180, 254, 0.12);
+    padding-inline: clamp(1rem, 3vw, 2rem);
+    background: rgba(5, 3, 7, 0.9);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.language-switcher__button {
+    display: inline-flex;
+    min-height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border: 1px solid rgba(216, 180, 254, 0.34);
+    border-radius: 999px;
+    padding: 0.5rem 0.85rem;
+    color: #f3e8ff;
+    background: rgba(88, 28, 135, 0.22);
+    font-family: 'Vazirmatn', 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.language-switcher__button:hover,
+.language-switcher__button:focus-visible {
+    border-color: rgba(233, 213, 255, 0.75);
+    background: rgba(126, 34, 206, 0.38);
+    transform: translateY(-1px);
+}
+
+.language-switcher__button:focus-visible {
+    outline: 2px solid #c084fc;
+    outline-offset: 2px;
+}
+
+.language-switcher__icon {
+    color: #d8b4fe;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+}
+
+.portfolio-nav,
+.project-nav { top: var(--language-bar-height) !important; }
+
+html[dir='rtl'] body,
+html[dir='rtl'] .inter,
+html[dir='rtl'] .mono {
+    font-family: 'Vazirmatn', 'Inter', sans-serif;
+}
+
+html[dir='rtl'] pre,
+html[dir='rtl'] code,
+html[dir='rtl'] .code-window,
+html[dir='rtl'] .api-console,
+html[dir='rtl'] .project-terminal {
+    direction: ltr;
+    font-family: 'JetBrains Mono', monospace;
+    text-align: left;
+}
+
+html[dir='rtl'] .gallery-card { text-align: right; }
+html[dir='rtl'] .project-lightbox__close { right: auto; left: 1.5rem; }
+
+[data-language-content='fa'] { display: none; }
+html[data-language='fa'] [data-language-content='en'] { display: none; }
+html[data-language='fa'] [data-language-content='fa'] { display: block; }
+
+@media (min-width: 768px) {
+    html[dir='rtl'] .hero-copy { align-items: flex-start; text-align: right; }
+}
+
+@media (max-width: 520px) {
+    :root { --language-bar-height: 3rem; }
+    .language-switcher { padding-inline: 0.75rem; }
+    .language-switcher__button { min-height: 2.1rem; font-size: 0.72rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .language-switcher__button { transition: none; }
+    .language-switcher__button:hover,
+    .language-switcher__button:focus-visible { transform: none; }
+}

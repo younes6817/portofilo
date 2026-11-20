@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<main class="project-page">
+<main class="project-page" data-page-title-en="{{ project.title }} — Younes" data-page-title-fa="{{ project.title_fa|default:project.title }} — یونس">
     <header class="project-nav">
         <div class="project-nav__inner">
             <a href="{% url 'project:projects' %}" class="project-nav__back mono">
                 <span aria-hidden="true">‹</span>
-                All projects
+                <span data-en="All projects" data-fa="همه پروژه‌ها">All projects</span>
             </a>
 
             <nav class="project-nav__links mono" aria-label="Project page navigation">
-                <a href="#overview">Overview</a>
-                <a href="#gallery">Gallery</a>
-                {% if project.features.all %}<a href="#features">Features</a>{% endif %}
+                <a href="#overview" data-en="Overview" data-fa="معرفی">Overview</a>
+                <a href="#gallery" data-en="Gallery" data-fa="گالری">Gallery</a>
+                {% if project.features.all %}<a href="#features" data-en="Features" data-fa="ویژگی‌ها">Features</a>{% endif %}
             </nav>
 
             {% if project.live_demo_link %}
                 <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener noreferrer"
                    class="project-nav__demo mono">
-                    Live demo
+                    <span data-en="Live demo" data-fa="دموی آنلاین">Live demo</span>
                 </a>
             {% endif %}
         </div>
@@ -34,15 +34,15 @@
         <div class="project-shell project-hero__content">
             <div class="project-eyebrow mono">
                 <span class="project-status-dot"></span>
-                {{ project.status }}
+                <span data-en="{{ project.status }}" data-fa="{{ project.status_fa|default:project.status }}">{{ project.status }}</span>
                 <span class="project-eyebrow__divider">/</span>
-                {{ project.status_percent }}% complete
+                <span data-en="{{ project.status_percent }}% complete" data-fa="{{ project.status_percent }}٪ تکمیل‌شده">{{ project.status_percent }}% complete</span>
             </div>
 
-            <h1 class="project-title inter">{{ project.title }}</h1>
+            <h1 class="project-title inter" data-en="{{ project.title }}" data-fa="{{ project.title_fa|default:project.title }}">{{ project.title }}</h1>
 
             <div class="project-hero__bottom">
-                <p class="project-lead">
+                <p class="project-lead" data-en="{{ project.description|striptags|truncatewords:34 }}" data-fa="{{ project.description_fa|default:project.description|striptags|truncatewords:34 }}">
                     {{ project.description|striptags|truncatewords:34 }}
                 </p>
 
@@ -52,16 +52,16 @@
                            class="project-button project-button--primary mono">
                             <span class="project-button__icon" aria-hidden="true">▶</span>
                             <span>
-                                <strong>Open live demo</strong>
-                                <small>See the product in action</small>
+                                <strong data-en="Open live demo" data-fa="باز کردن دموی آنلاین">Open live demo</strong>
+                                <small data-en="See the product in action" data-fa="محصول را در عمل ببینید">See the product in action</small>
                             </span>
                         </a>
                     {% else %}
-                        <div class="project-button project-button--disabled mono" aria-label="Live demo is not available">
+                        <div class="project-button project-button--disabled mono" aria-label="Live demo is not available" data-en-aria="Live demo is not available" data-fa-aria="دموی آنلاین در دسترس نیست">
                             <span class="project-button__icon" aria-hidden="true">—</span>
                             <span>
-                                <strong>Demo not available</strong>
-                                <small>Preview this project in the gallery</small>
+                                <strong data-en="Demo not available" data-fa="دمو در دسترس نیست">Demo not available</strong>
+                                <small data-en="Preview this project in the gallery" data-fa="پروژه را در گالری ببینید">Preview this project in the gallery</small>
                             </span>
                         </div>
                     {% endif %}
@@ -71,8 +71,8 @@
                            class="project-button project-button--secondary mono">
                             <span class="project-button__icon" aria-hidden="true">&lt;/&gt;</span>
                             <span>
-                                <strong>Source code</strong>
-                                <small>View the repository</small>
+                                <strong data-en="Source code" data-fa="کد منبع">Source code</strong>
+                                <small data-en="View the repository" data-fa="مشاهده مخزن کد">View the repository</small>
                             </span>
                         </a>
                     {% endif %}
@@ -85,10 +85,10 @@
         <div class="project-shell">
             <div class="project-section-heading">
                 <div>
-                    <p class="project-kicker mono">Product gallery</p>
-                    <h2 class="inter">See how it looks.</h2>
+                    <p class="project-kicker mono" data-en="Product gallery" data-fa="گالری محصول">Product gallery</p>
+                    <h2 class="inter" data-en="See how it looks." data-fa="ظاهر محصول را ببینید.">See how it looks.</h2>
                 </div>
-                <p>
+                <p data-en="Browse the real interface. Select any image to open it at full size." data-fa="رابط واقعی محصول را ببینید. برای نمایش کامل، هر تصویر را انتخاب کنید.">
                     Browse the real interface. Select any image to open it at full size.
                 </p>
             </div>
@@ -96,27 +96,31 @@
             {% if desktop_images %}
                 <div class="gallery-group">
                     <div class="gallery-group__heading">
-                        <h3 class="inter">Desktop experience</h3>
-                        <span class="mono">{{ desktop_images.count }} screenshot{{ desktop_images.count|pluralize }}</span>
+                        <h3 class="inter" data-en="Desktop experience" data-fa="تجربه دسکتاپ">Desktop experience</h3>
+                        <span class="mono" data-en="{{ desktop_images.count }} screenshot{{ desktop_images.count|pluralize }}" data-fa="{{ desktop_images.count }} تصویر">{{ desktop_images.count }} screenshot{{ desktop_images.count|pluralize }}</span>
                     </div>
                     <div class="desktop-gallery">
                         {% for img in desktop_images %}
                             <button type="button"
                                     class="gallery-card gallery-card--desktop {% if forloop.first %}gallery-card--featured{% endif %}"
                                     data-lightbox-src="{{ img.image.url }}"
-                                    data-lightbox-caption="{{ img.image_name|default:project.title }} — desktop">
+                                    data-lightbox-caption="{{ img.image_name|default:project.title }} — desktop"
+                                    data-caption-en="{{ img.image_name|default:project.title }} — desktop"
+                                    data-caption-fa="{{ img.image_name_fa|default:img.image_name|default:project.title_fa|default:project.title }} — دسکتاپ">
                                 <span class="gallery-card__frame">
                                     <span class="gallery-card__browser" aria-hidden="true">
                                         <i></i><i></i><i></i>
                                     </span>
                                     <img src="{{ img.image.url }}"
                                          alt="{{ img.image_name|default:project.title }} desktop screenshot"
+                                         data-alt-en="{{ img.image_name|default:project.title }} desktop screenshot"
+                                         data-alt-fa="تصویر دسکتاپ {{ img.image_name_fa|default:img.image_name|default:project.title_fa|default:project.title }}"
                                          loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
                                          decoding="async">
                                 </span>
                                 <span class="gallery-card__caption">
-                                    <strong>{{ img.image_name|default:"Desktop view" }}</strong>
-                                    <small class="mono">Open full size</small>
+                                    <strong data-en="{{ img.image_name|default:'Desktop view' }}" data-fa="{{ img.image_name_fa|default:img.image_name|default:'نمای دسکتاپ' }}">{{ img.image_name|default:"Desktop view" }}</strong>
+                                    <small class="mono" data-en="Open full size" data-fa="نمایش کامل">Open full size</small>
                                 </span>
                             </button>
                         {% endfor %}
@@ -127,24 +131,28 @@
             {% if mobile_images %}
                 <div class="gallery-group">
                     <div class="gallery-group__heading">
-                        <h3 class="inter">Mobile experience</h3>
-                        <span class="mono">{{ mobile_images.count }} screenshot{{ mobile_images.count|pluralize }}</span>
+                        <h3 class="inter" data-en="Mobile experience" data-fa="تجربه موبایل">Mobile experience</h3>
+                        <span class="mono" data-en="{{ mobile_images.count }} screenshot{{ mobile_images.count|pluralize }}" data-fa="{{ mobile_images.count }} تصویر">{{ mobile_images.count }} screenshot{{ mobile_images.count|pluralize }}</span>
                     </div>
                     <div class="mobile-gallery">
                         {% for img in mobile_images %}
                             <button type="button"
                                     class="gallery-card gallery-card--mobile"
                                     data-lightbox-src="{{ img.image.url }}"
-                                    data-lightbox-caption="{{ img.image_name|default:project.title }} — mobile">
+                                    data-lightbox-caption="{{ img.image_name|default:project.title }} — mobile"
+                                    data-caption-en="{{ img.image_name|default:project.title }} — mobile"
+                                    data-caption-fa="{{ img.image_name_fa|default:img.image_name|default:project.title_fa|default:project.title }} — موبایل">
                                 <span class="gallery-card__phone">
                                     <i aria-hidden="true"></i>
                                     <img src="{{ img.image.url }}"
                                          alt="{{ img.image_name|default:project.title }} mobile screenshot"
+                                         data-alt-en="{{ img.image_name|default:project.title }} mobile screenshot"
+                                         data-alt-fa="تصویر موبایل {{ img.image_name_fa|default:img.image_name|default:project.title_fa|default:project.title }}"
                                          loading="lazy" decoding="async">
                                 </span>
                                 <span class="gallery-card__caption">
-                                    <strong>{{ img.image_name|default:"Mobile view" }}</strong>
-                                    <small class="mono">Open full size</small>
+                                    <strong data-en="{{ img.image_name|default:'Mobile view' }}" data-fa="{{ img.image_name_fa|default:img.image_name|default:'نمای موبایل' }}">{{ img.image_name|default:"Mobile view" }}</strong>
+                                    <small class="mono" data-en="Open full size" data-fa="نمایش کامل">Open full size</small>
                                 </span>
                             </button>
                         {% endfor %}
@@ -157,14 +165,16 @@
                     {% if project.image_default %}
                         <button type="button" class="gallery-empty__preview"
                                 data-lightbox-src="{{ project.image_default.url }}"
-                                data-lightbox-caption="{{ project.title }} — cover image">
-                            <img src="{{ project.image_default.url }}" alt="{{ project.title }} project preview">
+                                data-lightbox-caption="{{ project.title }} — cover image"
+                                data-caption-en="{{ project.title }} — cover image"
+                                data-caption-fa="{{ project.title_fa|default:project.title }} — تصویر اصلی">
+                            <img src="{{ project.image_default.url }}" alt="{{ project.title }} project preview" data-alt-en="{{ project.title }} project preview" data-alt-fa="پیش‌نمایش پروژه {{ project.title_fa|default:project.title }}">
                         </button>
                     {% endif %}
                     <div class="gallery-empty__copy">
-                        <span class="mono">Gallery update pending</span>
-                        <h3 class="inter">No additional screenshots yet.</h3>
-                        <p>The project cover is available above. More interface captures will appear here when they are added.</p>
+                        <span class="mono" data-en="Gallery update pending" data-fa="گالری در انتظار به‌روزرسانی">Gallery update pending</span>
+                        <h3 class="inter" data-en="No additional screenshots yet." data-fa="هنوز تصویر دیگری اضافه نشده است.">No additional screenshots yet.</h3>
+                        <p data-en="The project cover is available above. More interface captures will appear here when they are added." data-fa="تصویر اصلی پروژه در بالا در دسترس است. تصاویر بیشتر رابط کاربری پس از اضافه‌شدن در این بخش نمایش داده می‌شوند.">The project cover is available above. More interface captures will appear here when they are added.</p>
                     </div>
                 </div>
             {% endif %}
@@ -176,30 +186,31 @@
             <div class="project-main-column">
                 <div class="project-section-heading project-section-heading--compact">
                     <div>
-                        <p class="project-kicker mono">Project overview</p>
-                        <h2 class="inter">What this project does.</h2>
+                        <p class="project-kicker mono" data-en="Project overview" data-fa="معرفی پروژه">Project overview</p>
+                        <h2 class="inter" data-en="What this project does." data-fa="این پروژه چه کاری انجام می‌دهد؟">What this project does.</h2>
                     </div>
                 </div>
 
                 <article class="project-description">
-                    {{ project.description|linebreaks }}
+                    <div data-language-content="en">{{ project.description|linebreaks }}</div>
+                    <div data-language-content="fa">{{ project.description_fa|default:project.description|linebreaks }}</div>
                 </article>
 
                 {% if project.features.all %}
                     <section id="features" class="project-features">
                         <div class="project-subheading">
                             <div>
-                                <p class="project-kicker mono">Core capabilities</p>
-                                <h2 class="inter">What is included.</h2>
+                                <p class="project-kicker mono" data-en="Core capabilities" data-fa="قابلیت‌های اصلی">Core capabilities</p>
+                                <h2 class="inter" data-en="What is included." data-fa="چه امکاناتی در پروژه وجود دارد؟">What is included.</h2>
                             </div>
-                            <span class="mono">{{ project.features.count }} feature{{ project.features.count|pluralize }}</span>
+                            <span class="mono" data-en="{{ project.features.count }} feature{{ project.features.count|pluralize }}" data-fa="{{ project.features.count }} ویژگی">{{ project.features.count }} feature{{ project.features.count|pluralize }}</span>
                         </div>
 
                         <div class="feature-grid">
                             {% for feature in project.features.all %}
                                 <article class="feature-card">
                                     <span class="feature-card__mark mono" aria-hidden="true">✓</span>
-                                    <h3>{{ feature.feature }}</h3>
+                                    <h3 data-en="{{ feature.feature }}" data-fa="{{ feature.feature_fa|default:feature.feature }}">{{ feature.feature }}</h3>
                                 </article>
                             {% endfor %}
                         </div>
@@ -209,25 +220,25 @@
                 {% if project.is_for_sale %}
                     <section class="sale-card">
                         <div>
-                            <p class="project-kicker mono">Available for purchase</p>
-                            <h2 class="inter">Use this project as your next product.</h2>
-                            <p>Purchase and project coordination are handled directly through Telegram.</p>
+                            <p class="project-kicker mono" data-en="Available for purchase" data-fa="آماده فروش">Available for purchase</p>
+                            <h2 class="inter" data-en="Use this project as your next product." data-fa="این پروژه را به محصول بعدی خود تبدیل کنید.">Use this project as your next product.</h2>
+                            <p data-en="Purchase and project coordination are handled directly through Telegram." data-fa="خرید و هماهنگی پروژه مستقیماً از طریق تلگرام انجام می‌شود.">Purchase and project coordination are handled directly through Telegram.</p>
                         </div>
                         <div class="sale-card__action">
                             <span class="sale-card__price mono">
                                 {% if project.price is not None %}
-                                    {{ project.price_display }} <small>Toman</small>
+                                    <span data-en="{{ project.price_display }}" data-fa="{{ project.price_display }}">{{ project.price_display }}</span> <small data-en="Toman" data-fa="تومان">Toman</small>
                                 {% else %}
-                                    Contact for price
+                                    <span data-en="Contact for price" data-fa="برای قیمت تماس بگیرید">Contact for price</span>
                                 {% endif %}
                             </span>
                             {% if project.is_sale_button_active %}
                                 <a href="{{ project.telegram_buy_link }}" target="_blank" rel="noopener noreferrer"
                                    class="project-button project-button--sale mono">
-                                    Buy via Telegram
+                                    <span data-en="Buy via Telegram" data-fa="خرید از طریق تلگرام">Buy via Telegram</span>
                                 </a>
                             {% else %}
-                                <span class="sale-card__disabled mono">Sales temporarily unavailable</span>
+                                <span class="sale-card__disabled mono" data-en="Sales temporarily unavailable" data-fa="فروش موقتاً در دسترس نیست">Sales temporarily unavailable</span>
                             {% endif %}
                         </div>
                     </section>
@@ -236,30 +247,30 @@
 
             <aside class="project-sidebar">
                 <div class="project-panel project-panel--actions">
-                    <p class="project-panel__label mono">Try the project</p>
+                    <p class="project-panel__label mono" data-en="Try the project" data-fa="پروژه را امتحان کنید">Try the project</p>
                     {% if project.live_demo_link %}
                         <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener noreferrer"
                            class="sidebar-demo mono">
-                            <strong>Open live demo</strong>
-                            <small>Launch in a new tab</small>
+                            <strong data-en="Open live demo" data-fa="باز کردن دموی آنلاین">Open live demo</strong>
+                            <small data-en="Launch in a new tab" data-fa="باز شدن در تب جدید">Launch in a new tab</small>
                         </a>
                     {% else %}
                         <div class="sidebar-unavailable mono">
-                            <strong>Demo not available</strong>
-                            <small>Use the gallery to explore the interface.</small>
+                            <strong data-en="Demo not available" data-fa="دمو در دسترس نیست">Demo not available</strong>
+                            <small data-en="Use the gallery to explore the interface." data-fa="رابط محصول را در گالری بررسی کنید.">Use the gallery to explore the interface.</small>
                         </div>
                     {% endif %}
                     {% if project.github_link %}
                         <a href="{{ project.github_link }}" target="_blank" rel="noopener noreferrer"
-                           class="sidebar-link mono">View source code</a>
+                           class="sidebar-link mono" data-en="View source code" data-fa="مشاهده کد منبع">View source code</a>
                     {% endif %}
                 </div>
 
                 <div class="project-panel">
-                    <p class="project-panel__label mono">Project status</p>
+                    <p class="project-panel__label mono" data-en="Project status" data-fa="وضعیت پروژه">Project status</p>
                     <div class="progress-heading">
-                        <strong>{{ project.status }}</strong>
-                        <span class="mono">{{ project.status_percent }}%</span>
+                        <strong data-en="{{ project.status }}" data-fa="{{ project.status_fa|default:project.status }}">{{ project.status }}</strong>
+                        <span class="mono" data-en="{{ project.status_percent }}%" data-fa="{{ project.status_percent }}٪">{{ project.status_percent }}%</span>
                     </div>
                     <div class="progress-track" role="progressbar"
                          aria-valuenow="{{ project.status_percent }}" aria-valuemin="0" aria-valuemax="100"
@@ -270,10 +281,10 @@
 
                 {% if project.tech_stacks.all %}
                     <div class="project-panel">
-                        <p class="project-panel__label mono">Technology</p>
+                        <p class="project-panel__label mono" data-en="Technology" data-fa="تکنولوژی‌ها">Technology</p>
                         <div class="tech-list">
                             {% for tech in project.tech_stacks.all %}
-                                <span class="mono">{{ tech.title }}</span>
+                                <span class="mono" data-en="{{ tech.title }}" data-fa="{{ tech.title_fa|default:tech.title }}">{{ tech.title }}</span>
                             {% endfor %}
                         </div>
                     </div>
@@ -281,16 +292,16 @@
 
                 {% if project.cilend_or_role or project.start_date or project.end_date %}
                     <div class="project-panel">
-                        <p class="project-panel__label mono">Project details</p>
+                        <p class="project-panel__label mono" data-en="Project details" data-fa="جزئیات پروژه">Project details</p>
                         <dl class="project-facts">
                             {% if project.cilend_or_role %}
-                                <div><dt>Role / Client</dt><dd>{{ project.cilend_or_role }}</dd></div>
+                                <div><dt data-en="Role / Client" data-fa="نقش / کارفرما">Role / Client</dt><dd data-en="{{ project.cilend_or_role }}" data-fa="{{ project.cilend_or_role_fa|default:project.cilend_or_role }}">{{ project.cilend_or_role }}</dd></div>
                             {% endif %}
                             {% if project.start_date %}
-                                <div><dt>Started</dt><dd>{{ project.start_date|date:"M Y" }}</dd></div>
+                                <div><dt data-en="Started" data-fa="شروع">Started</dt><dd data-date="{{ project.start_date|date:'Y-m-d' }}">{{ project.start_date|date:"M Y" }}</dd></div>
                             {% endif %}
                             {% if project.end_date %}
-                                <div><dt>Completed</dt><dd>{{ project.end_date|date:"M Y" }}</dd></div>
+                                <div><dt data-en="Completed" data-fa="پایان">Completed</dt><dd data-date="{{ project.end_date|date:'Y-m-d' }}">{{ project.end_date|date:"M Y" }}</dd></div>
                             {% endif %}
                         </dl>
                     </div>
@@ -302,11 +313,11 @@
     <section class="project-next">
         <div class="project-shell project-next__inner">
             <div>
-                <p class="project-kicker mono">Keep exploring</p>
-                <h2 class="inter">See the rest of the work.</h2>
+                <p class="project-kicker mono" data-en="Keep exploring" data-fa="ادامه مشاهده">Keep exploring</p>
+                <h2 class="inter" data-en="See the rest of the work." data-fa="پروژه‌های دیگر را ببینید.">See the rest of the work.</h2>
             </div>
             <a href="{% url 'project:projects' %}" class="project-button project-button--secondary mono">
-                All projects
+                <span data-en="All projects" data-fa="همه پروژه‌ها">All projects</span>
             </a>
         </div>
     </section>
@@ -314,16 +325,16 @@
     {% if project.live_demo_link %}
         <div class="mobile-demo-bar">
             <span>
-                <small class="mono">Ready to explore?</small>
-                <strong>Open {{ project.title }}</strong>
+                <small class="mono" data-en="Ready to explore?" data-fa="آماده بررسی هستید؟">Ready to explore?</small>
+                <strong data-en="Open {{ project.title }}" data-fa="باز کردن {{ project.title_fa|default:project.title }}">Open {{ project.title }}</strong>
             </span>
-            <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener noreferrer" class="mono">Live demo</a>
+            <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener noreferrer" class="mono" data-en="Live demo" data-fa="دموی آنلاین">Live demo</a>
         </div>
     {% endif %}
 
     <div id="project-lightbox" class="project-lightbox" role="dialog" aria-modal="true"
          aria-labelledby="project-lightbox-caption" hidden>
-        <button type="button" class="project-lightbox__close" aria-label="Close image viewer">×</button>
+        <button type="button" class="project-lightbox__close" aria-label="Close image viewer" data-en-aria="Close image viewer" data-fa-aria="بستن نمایشگر تصویر">×</button>
         <div class="project-lightbox__content">
             <img id="project-lightbox-image" src="" alt="">
             <p id="project-lightbox-caption" class="mono"></p>
