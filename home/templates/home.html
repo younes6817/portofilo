@@ -8,8 +8,8 @@
     <link rel="preload" as="image" type="image/webp"
           href="{{ MEDIA_URL }}younes.webp?v={{ hero_version }}"
           media="(min-width: 768px)">
-    <link rel="stylesheet" href="{% static 'css/home-content.css' %}">
-    <script defer src="{% static 'js/home-content.js' %}"></script>
+    <style>{% include "home/_home_styles.css" %}</style>
+    <script>{% include "home/_home_content.js" %}</script>
 {% endblock %}
 
 {% block content %}

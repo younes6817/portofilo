@@ -46,6 +46,10 @@ class HomePageTests(TestCase):
         response = self.client.get(reverse('home'))
 
         self.assertContains(response, 'aria-label="YOUNES"')
+        self.assertContains(response, '<style>.portfolio-v2 {')
+        self.assertContains(response, "document.documentElement.classList.add('has-home-motion')")
+        self.assertNotContains(response, '/static/css/home-content.css')
+        self.assertNotContains(response, '/static/js/home-content.js')
         self.assertContains(response, 'href="#about"')
         self.assertContains(response, 'href="#expertise"')
         self.assertContains(response, 'href="#selected-work"')
