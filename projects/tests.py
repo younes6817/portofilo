@@ -91,6 +91,52 @@ class ProjectDetailFallbackTests(TestCase):
         self.assertContains(response, 'data-fa="تست"')
         self.assertContains(response, 'data-fa="تکمیل‌شده"')
 
+    def test_current_live_projects_and_categories_have_persian_fallbacks(self):
+        expected_projects = {
+            'Liora Cafe': ('کافه لیورا', 'فعال'),
+            'Cafe Gavazn': ('کافه گوزن', 'در آستانه شروع'),
+            'Personal AI Assistant': ('دستیار هوش مصنوعی شخصی', 'فعال'),
+            'Barber shop booking': ('سامانه نوبت‌دهی آرایشگاه', 'در حال توسعه'),
+        }
+        statuses = {
+            'Liora Cafe': 'Live',
+            'Cafe Gavazn': 'Coming to start',
+            'Personal AI Assistant': 'Live',
+            'Barber shop booking': 'Writing',
+        }
+
+        for title, (expected_title, expected_status) in expected_projects.items():
+            project = self.create_project(
+                title=title,
+                title_fa='',
+                status=statuses[title],
+                status_fa='',
+                description='English database description',
+                description_fa='',
+            )
+            self.assertEqual(project.title_fa_display, expected_title)
+            self.assertEqual(project.status_fa_display, expected_status)
+            self.assertNotEqual(project.description_fa_display, project.description)
+
+        expected_categories = {
+            'Bots': 'بات‌ها',
+            'Client Work': 'پروژه مشتری',
+            'Contract': 'قراردادی',
+            'For Sale': 'آماده فروش',
+            'Personal': 'شخصی',
+            'REST API': 'رابط برنامه‌نویسی REST',
+        }
+        for name, expected_name in expected_categories.items():
+            category = Category(name=name)
+            self.assertEqual(category.name_fa_display, expected_name)
+
+        feature = ProjectFeature(feature='Gemini AI Integration')
+        image = ProjectImage(image_name='Admin Menu')
+        stack = TechStack(title='DevOps')
+        self.assertEqual(feature.feature_fa_display, 'اتصال به هوش مصنوعی Gemini')
+        self.assertEqual(image.image_name_fa_display, 'مدیریت منو')
+        self.assertEqual(stack.title_fa_display, 'دواپس')
+
     def test_known_database_values_have_runtime_persian_fallbacks(self):
         project = self.create_project(
             title='Digital Menu',
