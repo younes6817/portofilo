@@ -96,6 +96,7 @@ html[dir='rtl'] .project-lightbox__close { right: auto; left: 1.5rem; }
 [data-language-content='fa'] { display: none; }
 html[data-language='fa'] [data-language-content='en'] { display: none; }
 html[data-language='fa'] [data-language-content='fa'] { display: block; }
+html[data-language='fa'] [data-language-content='fa'] { direction: rtl; }
 
 @media (min-width: 768px) {
     html[dir='rtl'] .hero-copy { align-items: flex-start; text-align: right; }

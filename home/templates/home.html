@@ -53,8 +53,9 @@
                 <span data-en="system online" data-fa="سیستم فعال">system online</span>
             </p>
 
-            <h1 class="hero-name inter text-[clamp(4.2rem,17vw,9.5rem)] md:text-[clamp(3.2rem,8vw,8rem)] lg:text-[clamp(4.5rem,10vw,9.5rem)] font-bold leading-[0.9] tracking-tight text-white md:text-purple-300 drop-shadow-xl md:drop-shadow-none whitespace-nowrap" aria-label="YOUNES">
-                <span class="hero-letter" style="--i:0">Y</span><span class="hero-letter" style="--i:1">O</span><span class="hero-letter" style="--i:2">U</span><span class="hero-letter" style="--i:3">N</span><span class="hero-letter" style="--i:4">E</span><span class="hero-letter" style="--i:5">S</span>
+            <h1 class="hero-name inter text-[clamp(4.2rem,17vw,9.5rem)] md:text-[clamp(3.2rem,8vw,8rem)] lg:text-[clamp(4.5rem,10vw,9.5rem)] font-bold leading-[0.9] tracking-tight text-white md:text-purple-300 drop-shadow-xl md:drop-shadow-none whitespace-nowrap" aria-label="YOUNES" data-en-aria="YOUNES" data-fa-aria="یونس">
+                <span class="hero-name__en" data-language-content="en"><span class="hero-letter" style="--i:0">Y</span><span class="hero-letter" style="--i:1">O</span><span class="hero-letter" style="--i:2">U</span><span class="hero-letter" style="--i:3">N</span><span class="hero-letter" style="--i:4">E</span><span class="hero-letter" style="--i:5">S</span></span>
+                <span class="hero-name__fa" data-language-content="fa">یونس</span>
             </h1>
 
             <p class="mono mt-4 md:mt-6 text-[clamp(1.1rem,4.5vw,1.85rem)] md:text-[clamp(1rem,2vw,1.85rem)] text-purple-50 md:text-purple-200/85 drop-shadow-md md:drop-shadow-none">
@@ -428,7 +429,7 @@
 
         <div class="mt-20 flex flex-col items-center justify-between gap-4 border-t border-[#21262D] pt-8 sm:flex-row">
             <p class="mono text-[11px] tracking-widest text-[#6E7681]">
-                © <span id="footer-year"></span> YOUNES
+                © <span id="footer-year"></span> <span data-en="YOUNES" data-fa="یونس">YOUNES</span>
             </p>
             <div class="flex gap-6 font-mono text-[11px] tracking-wider text-[#6E7681]">
                 <a href="#what-i-build" class="transition-colors hover:text-purple-400">Build</a>
@@ -553,6 +554,26 @@
     .hero-name.is-ready .hero-letter {
         animation: blurReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
         animation-delay: calc(var(--i) * 70ms + 120ms);
+    }
+
+    .hero-name__fa {
+        direction: rtl;
+        font-family: 'Vazirmatn', 'Inter', sans-serif;
+        letter-spacing: normal;
+        opacity: 0;
+        transform: translateY(0.25em);
+        filter: blur(8px);
+        transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
+    }
+
+    html[data-language='fa'] .hero-name__fa {
+        display: inline-block;
+    }
+
+    .hero-name.is-ready .hero-name__fa {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
     }
 
     @keyframes blurReveal {

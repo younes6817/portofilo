@@ -50,6 +50,8 @@ class HomePageTests(TestCase):
         response = self.client.get(reverse('home'))
 
         self.assertContains(response, 'aria-label="YOUNES"')
+        self.assertContains(response, 'data-fa-aria="یونس"')
+        self.assertContains(response, 'data-language-content="fa">یونس</span>')
         self.assertContains(response, '<style>.portfolio-v2 {')
         self.assertContains(response, "document.documentElement.classList.add('has-home-motion')")
         self.assertNotContains(response, '/static/css/home-content.css')
@@ -69,3 +71,23 @@ class HomePageTests(TestCase):
         self.assertContains(response, 'data-fa="پروژه 10"')
         self.assertContains(response, 'data-fa="جنگو"')
         self.assertContains(response, 'data-fa="یک محصول وب کاربردی با جریان کاری روشن."')
+
+    def test_known_database_values_get_persian_fallbacks_when_fields_are_blank(self):
+        self.stack.title_fa = ''
+        self.stack.save(update_fields=['title_fa'])
+        project = Project.objects.create(
+            title='Digital Menu',
+            image_default='project.jpg',
+            status_percent=100,
+            status='Demo',
+            description='English fixture description',
+            important=10,
+            is_active=True,
+        )
+        project.tech_stacks.add(self.stack)
+
+        response = self.client.get(reverse('home'))
+
+        self.assertContains(response, 'data-fa="منوی دیجیتال"')
+        self.assertContains(response, 'data-fa="نسخه دمو"')
+        self.assertContains(response, 'data-fa="جنگو"')

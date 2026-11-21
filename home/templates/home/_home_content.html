@@ -97,7 +97,7 @@
                     {% for tech_stack in tech_stacks %}
                         <div class="stack-skill" data-level="{{ tech_stack.percent }}">
                             <div class="stack-skill__meta mono">
-                                <strong data-en="{{ tech_stack.title }}" data-fa="{{ tech_stack.title_fa|default:tech_stack.title }}">{{ tech_stack.title }}</strong>
+                                <strong data-en="{{ tech_stack.title }}" data-fa="{{ tech_stack.title_fa_display }}">{{ tech_stack.title }}</strong>
                                 <span data-en="{{ tech_stack.percent }}%" data-fa="{{ tech_stack.percent }}٪">{{ tech_stack.percent }}%</span>
                             </div>
                             <div class="stack-skill__track" role="progressbar" aria-label="{{ tech_stack.title }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ tech_stack.percent }}">
@@ -132,16 +132,16 @@
                             {% else %}
                                 <div class="work-card__placeholder mono" aria-hidden="true" data-en="PROJECT PREVIEW" data-fa="پیش‌نمایش پروژه">PROJECT PREVIEW</div>
                             {% endif %}
-                            <span class="work-card__status mono"><i aria-hidden="true"></i><span data-en="{{ project.status }}" data-fa="{{ project.status_fa|default:project.status }}">{{ project.status }}</span></span>
+                            <span class="work-card__status mono"><i aria-hidden="true"></i><span data-en="{{ project.status }}" data-fa="{{ project.status_fa_display }}">{{ project.status }}</span></span>
                         </a>
                         <div class="work-card__body">
-                            <p class="work-card__role mono" data-en="{{ project.cilend_or_role|default:'WEB PRODUCT' }}" data-fa="{{ project.cilend_or_role_fa|default:project.cilend_or_role|default:'محصول وب' }}">{{ project.cilend_or_role|default:"WEB PRODUCT" }}</p>
-                            <h3 class="inter"><a href="{% url 'project:project_detail' project.id %}" data-en="{{ project.title }}" data-fa="{{ project.title_fa|default:project.title }}">{{ project.title }}</a></h3>
-                            <p class="work-card__description inter" data-en="{{ project.description|truncatewords:30 }}" data-fa="{{ project.description_fa|default:project.description|truncatewords:30 }}">{{ project.description|truncatewords:30 }}</p>
+                            <p class="work-card__role mono" data-en="{{ project.cilend_or_role|default:'WEB PRODUCT' }}" data-fa="{{ project.cilend_or_role_fa_display|default:'محصول وب' }}">{{ project.cilend_or_role|default:"WEB PRODUCT" }}</p>
+                            <h3 class="inter"><a href="{% url 'project:project_detail' project.id %}" data-en="{{ project.title }}" data-fa="{{ project.title_fa_display }}">{{ project.title }}</a></h3>
+                            <p class="work-card__description inter" data-en="{{ project.description|truncatewords:30 }}" data-fa="{{ project.description_fa_display|truncatewords:30 }}">{{ project.description|truncatewords:30 }}</p>
 
                             <div class="work-card__tags mono">
                                 {% for technology in project.tech_stacks.all|slice:":4" %}
-                                    <span data-en="{{ technology.title }}" data-fa="{{ technology.title_fa|default:technology.title }}">{{ technology.title }}</span>
+                                    <span data-en="{{ technology.title }}" data-fa="{{ technology.title_fa_display }}">{{ technology.title }}</span>
                                 {% empty %}
                                     <span data-en="PROJECT" data-fa="پروژه">PROJECT</span>
                                 {% endfor %}
@@ -193,7 +193,7 @@
             </div>
 
             <div class="v2-footer mono">
-                <span>© <span data-current-year></span> YOUNES</span>
+                <span>© <span data-current-year></span> <span data-en="YOUNES" data-fa="یونس">YOUNES</span></span>
                 <nav aria-label="Footer navigation">
                     <a href="#about" data-en="ABOUT" data-fa="درباره من">ABOUT</a>
                     <a href="#expertise" data-en="EXPERTISE" data-fa="تخصص‌ها">EXPERTISE</a>

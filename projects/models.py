@@ -3,6 +3,14 @@ from urllib.parse import quote
 from django.core.exceptions import ValidationError
 from django.db import models
 
+from portofilo.persian_content import (
+    CATEGORY_TRANSLATIONS,
+    COMMON_TEXT_TRANSLATIONS,
+    FEATURE_TRANSLATIONS,
+    IMAGE_TRANSLATIONS,
+    PROJECT_TRANSLATIONS,
+    translated_value,
+)
 from tech_stack.models import TechStack
 
 
@@ -17,6 +25,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def name_fa_display(self):
+        return translated_value(self.name_fa, self.name, CATEGORY_TRANSLATIONS)
 
 
 class Project(models.Model):
@@ -82,6 +94,28 @@ class Project(models.Model):
         message = f'من پروژه {self.title} را می‌خوام خریداری کنم'
         return f'https://t.me/{self.TELEGRAM_BOT_USERNAME}?text={quote(message)}'
 
+    def _persian_value(self, field_name, source_value):
+        explicit_value = getattr(self, field_name)
+        fallback = PROJECT_TRANSLATIONS.get(self.title, {}).get(field_name)
+        generic_fallback = COMMON_TEXT_TRANSLATIONS.get(source_value)
+        return explicit_value or fallback or generic_fallback or source_value or ''
+
+    @property
+    def title_fa_display(self):
+        return self._persian_value('title_fa', self.title)
+
+    @property
+    def status_fa_display(self):
+        return self._persian_value('status_fa', self.status)
+
+    @property
+    def description_fa_display(self):
+        return self._persian_value('description_fa', self.description)
+
+    @property
+    def cilend_or_role_fa_display(self):
+        return self._persian_value('cilend_or_role_fa', self.cilend_or_role)
+
     def __str__(self):
         return self.title
 
@@ -100,8 +134,16 @@ class ProjectImage(models.Model):
     image_name_fa = models.CharField(max_length=255, null=True, blank=True, verbose_name='نام فارسی تصویر')
     number_sort = models.IntegerField(default=0)
 
+    @property
+    def image_name_fa_display(self):
+        return translated_value(self.image_name_fa, self.image_name, IMAGE_TRANSLATIONS)
+
 
 class ProjectFeature(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='features')
     feature = models.TextField()
     feature_fa = models.TextField(blank=True, verbose_name='ویژگی به فارسی')
+
+    @property
+    def feature_fa_display(self):
+        return translated_value(self.feature_fa, self.feature, FEATURE_TRANSLATIONS)

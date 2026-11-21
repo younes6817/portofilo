@@ -29,7 +29,7 @@
             </a>
             {% for category in categories %}
             <a href="?category={{ category.id }}" class="shrink-0 pb-1 transition-colors duration-300 {% if active_category == category.id|stringformat:'s' %}text-purple-400 border-b border-purple-500{% else %}text-gray-500 hover:text-gray-300{% endif %}">
-                ./<span data-en="{{ category.name }}" data-fa="{{ category.name_fa|default:category.name }}">{{ category.name }}</span>
+                ./<span data-en="{{ category.name }}" data-fa="{{ category.name_fa_display }}">{{ category.name }}</span>
             </a>
             {% endfor %}
         </nav>
@@ -62,17 +62,17 @@
                         
                         <!-- Title -->
                         <h2 class="text-2xl font-bold text-gray-100 mb-3 group-hover:text-purple-400 transition-colors drop-shadow-md">
-                            <span data-en="{{ project.title }}" data-fa="{{ project.title_fa|default:project.title }}">{{ project.title }}</span>
+                            <span data-en="{{ project.title }}" data-fa="{{ project.title_fa_display }}">{{ project.title }}</span>
                         </h2>
 
                         <!-- Terminal Status Display -->
                         <div class="font-mono text-xs text-gray-400 mb-4 bg-black/40 border border-white/5 rounded p-2 flex items-center">
                             <span class="text-purple-500 mr-2">➜</span><span data-en="status:" data-fa="وضعیت:">status:</span>
-                            <span class="text-gray-200 ml-1" data-en="{{ project.status }}" data-fa="{{ project.status_fa|default:project.status }}">{{ project.status }}</span>
+                            <span class="text-gray-200 ml-1" data-en="{{ project.status }}" data-fa="{{ project.status_fa_display }}">{{ project.status }}</span>
                         </div>
 
                         <!-- Description (Truncated to 3 lines) -->
-                        <p class="text-sm text-gray-500 line-clamp-3 mb-6 font-sans leading-relaxed" data-en="{{ project.description }}" data-fa="{{ project.description_fa|default:project.description }}">
+                        <p class="text-sm text-gray-500 line-clamp-3 mb-6 font-sans leading-relaxed" data-en="{{ project.description }}" data-fa="{{ project.description_fa_display }}">
                             {{ project.description }}
                         </p>
 

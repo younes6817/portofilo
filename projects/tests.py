@@ -77,3 +77,49 @@ class ProjectDetailFallbackTests(TestCase):
         self.assertContains(detail_response, 'data-fa="احراز هویت"')
         self.assertContains(detail_response, 'data-fa="صفحه ورود"')
         self.assertContains(detail_response, 'data-fa="توسعه‌دهنده بک‌اند"')
+
+    def test_common_statuses_translate_without_project_specific_mapping(self):
+        project = self.create_project(
+            title='test',
+            title_fa='',
+            status='Done',
+            status_fa='',
+        )
+
+        response = self.client.get(reverse('project:project_detail', args=[project.id]))
+
+        self.assertContains(response, 'data-fa="تست"')
+        self.assertContains(response, 'data-fa="تکمیل‌شده"')
+
+    def test_known_database_values_have_runtime_persian_fallbacks(self):
+        project = self.create_project(
+            title='Digital Menu',
+            title_fa='',
+            status='Demo',
+            status_fa='',
+            description='English fixture description',
+            description_fa='',
+            cilend_or_role='freelance',
+            cilend_or_role_fa='',
+        )
+        category = Category.objects.create(name='Backend')
+        stack = TechStack.objects.create(title='Django', percent=90, color='#a855f7')
+        project.categories.add(category)
+        project.tech_stacks.add(stack)
+        ProjectFeature.objects.create(project=project, feature='Admin Panel')
+        ProjectImage.objects.create(
+            project=project,
+            type='mobile',
+            image='projects/mobile.webp',
+            image_name='Login Page',
+        )
+
+        list_response = self.client.get(reverse('project:projects'))
+        detail_response = self.client.get(reverse('project:project_detail', args=[project.id]))
+
+        self.assertContains(list_response, 'data-fa="منوی دیجیتال"')
+        self.assertContains(list_response, 'data-fa="بک‌اند"')
+        self.assertContains(detail_response, 'data-fa="نسخه دمو"')
+        self.assertContains(detail_response, 'data-fa="جنگو"')
+        self.assertContains(detail_response, 'data-fa="پنل مدیریت"')
+        self.assertContains(detail_response, 'data-fa="صفحه ورود"')

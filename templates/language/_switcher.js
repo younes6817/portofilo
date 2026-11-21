@@ -50,6 +50,7 @@
         document.querySelectorAll('[data-en][data-fa]').forEach((element) => {
             const value = translatedValue(element, language);
             if (value !== null) element.textContent = value;
+            element.dir = isPersian ? 'auto' : 'ltr';
         });
 
         document.querySelectorAll('[data-en-html][data-fa-html]').forEach((element) => {
